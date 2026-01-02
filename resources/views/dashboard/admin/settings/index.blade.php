@@ -123,12 +123,7 @@
                                            type="text" col="col-xl-6" placeholder="phone"
                             />
 
-
-
-                            <x-admin.input :value="globalSetting('different_gold_price')" required="true" name="different_gold_price"
-                                           label="different_gold_price"
-                                           type="number" col="col-xl-6" placeholder="different_gold_price"
-                            />
+ 
                         </div>
                     </div>
                     <!-- Media Tab -->
@@ -251,25 +246,7 @@
                             />
                         </div>
                     </div> 
-                    <div class="row g-4">
-                        <div class="col-xl-6">
-                            <input type="hidden" id="egrates-gold-url" value="{{ route('admin.egrates.cache-gold') }}">
-                            <input type="hidden" id="egrates-csrf" value="{{ csrf_token() }}">
-                            <button type="button" id="egrates-gold-btn" class="btn btn-primary modern-btn">
-                                <i class="ti ti-coin"></i> @lang('trans.egrates.update_gold')
-                            </button>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="mb-2">
-                                <label class="form-label">@lang('trans.egrates.currencies_placeholder')</label>
-                                <input type="text" id="egrates-codes" class="form-control" placeholder="USD,EUR,GBP,AED">
-                                <input type="hidden" id="egrates-currencies-url" value="{{ route('admin.egrates.cache-currencies') }}">
-                            </div>
-                            <button type="button" id="egrates-currencies-btn" class="btn btn-primary modern-btn">
-                                <i class="ti ti-currency"></i> @lang('trans.egrates.update_currencies')
-                            </button>
-                        </div>
-                    </div>
+             
                 </div>
                 </div>
                 <div class="pt-4 d-flex justify-content-center mt-3 gap-3">
