@@ -94,11 +94,6 @@
                         <i class="ti ti-toggle-left"></i> @lang('trans.settings.switches')
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="egrates-tab" data-bs-toggle="tab" data-bs-target="#egrates" type="button" role="tab" aria-controls="egrates" aria-selected="false">
-                        <i class="ti ti-currency-dollar"></i> @lang('trans.egrates.tab')
-                    </button>
-                </li>
             </ul>
             <form class="card-body form validated-form" method="POST"
                   action="{{route('admin.settings.update')}}" novalidate enctype="multipart/form-data">
@@ -255,8 +250,7 @@
                                 col="col-xl-6"
                             />
                         </div>
-                    </div>
-                <div class="tab-pane fade" id="egrates" role="tabpanel" aria-labelledby="egrates-tab">
+                    </div> 
                     <div class="row g-4">
                         <div class="col-xl-6">
                             <input type="hidden" id="egrates-gold-url" value="{{ route('admin.egrates.cache-gold') }}">
