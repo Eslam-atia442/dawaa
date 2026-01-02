@@ -126,18 +126,6 @@ return [
 
 ## Available APIs
 
-### Egrates API
-The Egrates API provides access to cached currency exchange rates, gold prices, and banking information from the Egrates external API. All data is automatically cached for 1 hour to improve performance and reduce external API calls.
-
-**Features:**
-- Real-time currency exchange rates (USD)
-- Gold prices in various karats
-- Banking information and rates
-- Automatic caching with metadata
-- Cache refresh capabilities
-
-**Cache Information:**
-Each response includes detailed cache metadata including timestamps, expiration times, and TTL information.
 
 ',
 
