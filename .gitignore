@@ -21,3 +21,5 @@ yarn-error.log
 /public/vendor/scribe
 /.scribe
 composer.lock
+/app/Console/Commands/MakeCommands/
+/stubs/

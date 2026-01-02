@@ -1,0 +1,96 @@
+ .upload-box {
+    position: relative;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.dark-style .upload-box {
+    border: 2px dashed #434968;
+    background-color: #2f3349;
+}
+
+.upload-box input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.upload-box label {
+    font-size: 16px;
+    color: #a0a0a0;
+    cursor: pointer;
+}
+
+.dark-style .upload-box label {
+    color: #b6bee3;
+}
+
+.preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.preview img,
+.preview video {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+    object-fit: cover;
+}
+
+.preview .file-icon {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    text-align: center;
+    line-height: 100px;
+    font-size: 50px;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.file-container {
+    position: relative;
+    display: inline-block;
+}
+
+.delete-btn,
+.download-btn {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+.download-btn {
+    right: 5px;
+    top: auto;
+    bottom: 5px;
+}
+
+.delete-btn:hover,
+.download-btn:hover {
+    background-color: #f0f0f0;
+}
+
