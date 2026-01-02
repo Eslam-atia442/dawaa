@@ -30,6 +30,9 @@ use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
 |
 */
 
+Route::group(['prefix' => 'devices'], function () {
+    Route::post('/fcm-token', [DeviceController::class, 'manageFCMToken']);
+});
 Route::group(['middleware' => 'guest:sanctum'], function () {
     Route::post('login', LoginController::class);
     Route::post('register', RegisterController::class);
@@ -56,21 +59,5 @@ Route::get('home', [HomeController::class, 'index']);
 
 Route::get('countries', [CountryController::class, 'index']);
 Route::get('settings', [SettingController::class, 'index']);
+ 
 
-Route::prefix('egrates')->group(function () {
-    Route::get('usd-prices', [App\Http\Controllers\Api\V1\EgratesController::class, 'getUsdPrices']);
-    Route::get('eur-prices', [App\Http\Controllers\Api\V1\EgratesController::class, 'getEurPrices']);
-    Route::get('gbp-prices', [App\Http\Controllers\Api\V1\EgratesController::class, 'getGbpPrices']);
-    Route::get('aed-prices', [App\Http\Controllers\Api\V1\EgratesController::class, 'getAedPrices']);
-    Route::get('gold-prices', [App\Http\Controllers\Api\V1\EgratesController::class, 'getGoldPrices']);
-    Route::get('banks', [App\Http\Controllers\Api\V1\EgratesController::class, 'getBanks']);
-});
-
-Route::prefix('goldpricez')->group(function () {
-    Route::get('gold', [GoldpricezController::class, 'getGoldRates']);
-    Route::get('silver', [GoldpricezController::class, 'getSilverRates']);
-});
-
-Route::group(['prefix' => 'devices'], function () {
-    Route::post('/fcm-token', [DeviceController::class, 'manageFCMToken']);
-});
