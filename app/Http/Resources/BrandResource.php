@@ -17,15 +17,17 @@ class BrandResource extends BaseResource
     {
         $this->micro = [
             'id' => $this->id,
+            'name' => $this->name,
         ];
         $this->mini = [
+            'id' => $this->id,
+            'name' => $this->name,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
         $this->full = [
+            'image' => $this->getfirstMediaUrl('image'),
             'is_active' => $this->is_active,
-            'active_class' => $this->active_class,
-            'active_status' => $this->active_status
         ];
         //$this->relationLoaded()
         $this->relations = [

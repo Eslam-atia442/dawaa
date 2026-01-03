@@ -21,7 +21,7 @@ class CategoryResource extends BaseResource
         ];
 
         $this->full = [
-            'logo' => $this->getfirstMediaUrl('logo'),
+            'image' => $this->getfirstMediaUrl('image'),
         ];
 
         //$this->relationLoaded()
