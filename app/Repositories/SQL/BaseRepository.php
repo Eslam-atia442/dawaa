@@ -837,7 +837,7 @@ abstract class BaseRepository implements BaseContract
     public function search(array $filters = [], array $relations = [], array $data = []): mixed
     {
         $query = $this->baseSearch($this->query, $filters, $relations, $data);
-        return $this->getQueryResult($query, $data);
+        return $this->getQueryResult($query, $filters);
     }
 
     /**

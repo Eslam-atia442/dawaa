@@ -126,6 +126,12 @@ return [
 
 ## Available APIs
 
+parameters:
+use page -> 0 and limit -> 0 to get all data not paginated
+use scope (micro, mini, full) to get size of data with or without relations
+use limit -> 10 to get 10 data per page
+use keyword -> to search by name in any language
+
 
 ',
 

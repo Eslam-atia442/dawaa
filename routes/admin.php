@@ -24,7 +24,11 @@ use App\Http\Controllers\Dashboard\Admin\ExportController;
 
 use App\Http\Controllers\Dashboard\Admin\FCMNotificationController;
 use App\Http\Controllers\Dashboard\Admin\FCMNotificationsController;
+    use App\Http\Controllers\Dashboard\Admin\CategoryController;
+    use App\Http\Controllers\Dashboard\Admin\BrandController;
     #new_comand_routes_path_here
+    
+    
     
 
 
@@ -126,7 +130,21 @@ Route::group(['as' => 'admin.'], function (){
             Route::get('stats', [FCMNotificationsController::class, 'getStats'])->name('stats');
         });
 
+    
+    // categories
+    Route::resource('categories', CategoryController::class);
+    Route::post('categories/multiple', [CategoryController::class, 'destroyMultiple'])->name('categories.destroy-multiple');
+    Route::post('categories/toggle-status/{category}/{key}', [CategoryController::class, 'toggleField'])->name('category-toggle');
+    Route::post('categories/export', [CategoryController::class, 'export'])->name('category-export');
+    
+    // brands
+    Route::resource('brands', BrandController::class);
+    Route::post('brands/multiple', [BrandController::class, 'destroyMultiple'])->name('brands.destroy-multiple');
+    Route::post('brands/toggle-status/{brand}/{key}', [BrandController::class, 'toggleField'])->name('brand-toggle');
+    Route::post('brands/export', [BrandController::class, 'export'])->name('brand-export');
     #new_comand_routes_here
+
+
 
         Route::prefix('egrates')->name('egrates.')->group(function () {
             Route::post('cache-gold', [AdminSettingController::class, 'cacheEgratesGold'])->name('cache-gold');

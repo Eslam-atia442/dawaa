@@ -1192,7 +1192,37 @@ return [
     'read_all_export' => 'عرض كل التصديرات',
     'delete_export' => 'حذف تصدير',
     'exporting' => 'يتم التصدير...',
-    #new_comand_translations_here
+    
+        'category' => [
+         'index' => 'اقسام',
+         'create_page' => 'صفحة اضافة قسم',
+         'create' => 'اضافة قسم',
+         'edit_page' => 'صفحة تعديل قسم',
+         'edit' => 'صفحة تعديل قسم',
+         'show' => 'صفحة عرض قسم',
+         'delete' => 'حذف قسم',
+         'delete_all' => 'حذف العديد  من اقسام',
+        'update' => 'تعديل قسم',
+        'read' => 'عرض قسم',
+        'read-all' => 'عرض كل اقسام',
+        ],
+        
+        'brand' => [
+         'index' => 'ماركات',
+         'create_page' => 'صفحة اضافة ماركة',
+         'create' => 'اضافة ماركة',
+         'edit_page' => 'صفحة تعديل ماركة',
+         'edit' => 'صفحة تعديل ماركة',
+         'show' => 'صفحة عرض ماركة',
+         'delete' => 'حذف ماركة',
+         'delete_all' => 'حذف العديد  من ماركات',
+        'update' => 'تعديل ماركة',
+        'read' => 'عرض ماركة',
+        'read-all' => 'عرض كل ماركات',
+        ],
+        #new_comand_translations_here
+        
+        
 
 
 

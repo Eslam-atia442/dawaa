@@ -1159,7 +1159,37 @@ return [
     'not_verified' => 'Not Verified',
     'select_value' => 'Select Value',
     'export_management' => 'Export Management',
-    #new_comand_translations_here
+    
+        'category' => [
+         'index' => 'categories',
+         'create_page' => 'category Create Page',
+         'create' => 'Create category',
+         'edit_page' => 'category Edit Page',
+         'edit' => 'Edit category',
+         'show' => 'category Show',
+         'delete' => 'Delete category',
+         'delete_all' => 'Delete All categories',
+         'update' => 'Update category',
+        'read' => 'Read category',
+        'read-all' => 'Read All categories',
+        ],
+        
+        'brand' => [
+         'index' => 'brands',
+         'create_page' => 'brand Create Page',
+         'create' => 'Create brand',
+         'edit_page' => 'brand Edit Page',
+         'edit' => 'Edit brand',
+         'show' => 'brand Show',
+         'delete' => 'Delete brand',
+         'delete_all' => 'Delete All brands',
+         'update' => 'Update brand',
+        'read' => 'Read brand',
+        'read-all' => 'Read All brands',
+        ],
+        #new_comand_translations_here
+        
+        
 
     'errors.cannot_delete_model_with_relations' => 'Cannot delete this :model, it has :relation please remove them first',
     'rate_out_of_10' => 'Rate out of 10',

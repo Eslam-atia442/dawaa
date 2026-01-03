@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\HomeController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
+use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\BrandController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -59,5 +61,13 @@ Route::get('home', [HomeController::class, 'index']);
 
 Route::get('countries', [CountryController::class, 'index']);
 Route::get('settings', [SettingController::class, 'index']);
- 
 
+Route::group(['prefix' => 'categories'], function () {
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
+});
+
+Route::group(['prefix' => 'brands'], function () {
+    Route::get('/', [BrandController::class, 'index']);
+    Route::get('/{id}', [BrandController::class, 'show']);
+});

@@ -56,12 +56,27 @@
 
 
 
+
+@can('read-all-category')
+    <li class="menu-item @if(Route::currentRouteName() == 'admin.categories.index') active @endif">
+        <a href="{{route('admin.categories.index')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti  ti-category-2"></i>
+            <div data-i18n="@lang('trans.categories')">@lang('trans.category.index')</div>
+        </a>
+    </li>
+@endcan
+
+
+@can('read-all-brand')
+    <li class="menu-item @if(Route::currentRouteName() == 'admin.brands.index') active @endif">
+        <a href="{{route('admin.brands.index')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti  ti-brand-4chan"></i>
+            <div data-i18n="@lang('trans.brands')">@lang('trans.brand.index')</div>
+        </a>
+    </li>
+@endcan
+
 {{--#new_comand_side_bar_element_here--}}
-
-
-
-
-
 
 
 
