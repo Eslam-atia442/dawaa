@@ -31,7 +31,7 @@ class BrandController extends BaseApiController
      */
     public function index(): mixed
     {
-        request()->merge(['page' => false, 'limit' => false, 'active' => true]);
+      
         $models = $this->service->search(request()->all(), $this->relations);
         return $this->respondWithCollection($models);
     }
