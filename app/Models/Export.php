@@ -36,7 +36,7 @@ class Export extends Model
     ];
 
     public const ADDITIONAL_PERMISSIONS = [];
-    public const DISABLE_PERMISSIONS = false;
+    public const DISABLE_PERMISSIONS = true;
     public const DISABLE_LOG = false;
 
     // Relationships

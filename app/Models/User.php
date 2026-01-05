@@ -34,7 +34,7 @@ class User extends Authenticatable implements HasMedia
     public array $restrictedRelations = [];
     public array $cascadedRelations = [];
     public array $filesToUpload = ['license', 'tax_card', 'front_card_image', 'back_card_image'];
-    public const ADDITIONAL_PERMISSIONS = [];
+    public const ADDITIONAL_PERMISSIONS = ['accept-user-account'];
     const        DISABLE_PERMISSIONS    = false;
     const        DISABLE_LOG            = false;
 
