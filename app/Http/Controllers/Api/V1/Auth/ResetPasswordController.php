@@ -60,7 +60,11 @@ class ResetPasswordController extends BaseApiController
                 return $this->errorWrongArgs(__('api.phone_not_found'));
             }
 
-            if ($user->code !== $data['otp']) {
+            // Convert both to string and pad with leading zeros for comparison
+            $userCode = str_pad((string)$user->code, 4, '0', STR_PAD_LEFT);
+            $inputCode = str_pad((string)$data['otp'], 4, '0', STR_PAD_LEFT);
+            
+            if ($userCode !== $inputCode) {
                 return $this->errorWrongArgs(__('api.invalid_otp'));
             }
 

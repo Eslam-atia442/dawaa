@@ -1009,6 +1009,11 @@ return [
     'edit'                                                  => 'Edit',
     'enter'                                                 => 'Enter',
     'choose'                                                => 'Choose',
+    'doctor'                                                => 'Doctor',
+    'pharmacy'                                              => 'Pharmacy',
+    'type'                                                  => 'Type',
+    'doctor_name'                                           => 'Doctor Name',
+    'pharmacy_name'                                         => 'Pharmacy Name',
     'this_field_is_required'                                => 'This field is required',
     'min_length'                                            => 'Minimum length is :number',
     'max_length'                                            => 'Maximum length is :number',
@@ -1046,6 +1051,13 @@ return [
 
     'select_all_permissions' => 'Select All Permissions',
     'value'                           => 'Value',
+
+    // Activation Code Email
+    'activation_code_email_subject' => 'Activation Code',
+    'activation_code_email_message' => 'Thank you for registering! Please use the following code to activate your account:',
+    'activation_code_email_footer' => 'Please enter this code in the app to activate your account.',
+    'activation_code_email_note' => 'Note: This code is valid for a limited time. If you did not request this code, please ignore this email.',
+    'welcome' => 'Welcome',
 
 
     // Dashboard translations
@@ -1157,6 +1169,10 @@ return [
     'send_fcm_notifications' => 'Send FCM Notifications',
     'phone_verified' => 'Phone Verified',
     'not_verified' => 'Not Verified',
+    'email_verified' => 'Email Verified',
+    'attachments' => 'Attachments',
+    'dob' => 'Date of Birth',
+    'social_type' => 'Social Login Type',
     'select_value' => 'Select Value',
     'export_management' => 'Export Management',
     
@@ -1187,7 +1203,22 @@ return [
         'read' => 'Read brand',
         'read-all' => 'Read All brands',
         ],
-        #new_comand_translations_here
+        
+        'intro' => [
+         'index' => 'intros',
+         'create_page' => 'intro Create Page',
+         'create' => 'Create intro',
+         'edit_page' => 'intro Edit Page',
+         'edit' => 'Edit intro',
+         'show' => 'intro Show',
+         'delete' => 'Delete intro',
+         'delete_all' => 'Delete All intros',
+         'update' => 'Update intro',
+        'read' => 'Read intro',
+        'read-all' => 'Read All intros',
+        ],
+    
+        
         
         
 
@@ -1203,6 +1234,30 @@ return [
     'export_not_ready' => 'Export not ready for download',
     'file_not_found' => 'File not found',
     'exporting' => 'Exporting...',
+
+    'license'                                               => 'License',
+    'tax_card'                                              => 'Tax Card',
+    'front_card_image'                                      => 'Front Card Image',
+    'back_card_image'                                       => 'Back Card Image',
+    'accept_account'                                        => 'Accept Account',
+    'accept_account_confirmation'                           => 'Are you sure you want to accept this account? A random password will be generated and sent to the user\'s email.',
+    'yes_accept_it'                                         => 'Yes, Accept It',
+    'account_accepted_successfully'                         => 'Account accepted successfully',
+    'account_already_accepted'                              => 'This account has already been accepted',
+    'user_email_required'                                   => 'User email is required to accept the account',
+    'account_accepted_email_subject'                        => 'Your Account Has Been Accepted',
+    'account_accepted_email_message'                        => 'Congratulations :name! Your account has been accepted by the administrator.',
+    'account_accepted_email_footer'                         => 'You can now log in using your email and the password provided below.',
+    'account_accepted_email_note'                           => 'Please keep this password secure and change it after your first login.',
+    'account_accepted_password_note'                        => 'Please change your password after logging in for security purposes.',
+    'your_password'                                         => 'Your Password',
+    'important'                                             => 'Important',
+    'processing'                                             => 'Processing',
+    'accepted'                                              => 'Accepted',
+    'not_accepted'                                          => 'Not Accepted',
+    'acceptance_status'                                      => 'Acceptance Status',
+
+        #new_comand_translations_here
     #!!!!!!!!!!!!!!!!!! don't delete the previous comment !!!!!!!!!!!!!!!!!
 
 ];

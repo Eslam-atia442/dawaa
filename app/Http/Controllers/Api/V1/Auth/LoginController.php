@@ -28,8 +28,7 @@ class LoginController extends BaseApiController
 
     /**
      * Login.
-     * @bodyParam country_id int required example: 66
-     * @bodyParam phone string required example: 01000933972
+     * @bodyParam email string required example: user@example.com
      * @bodyParam password string required example: 123456
      *
      * @param Request $request
@@ -37,7 +36,7 @@ class LoginController extends BaseApiController
      */
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        $credentials = $request->only('phone', 'password', 'country_id');
+        $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $user->tokens()->delete();

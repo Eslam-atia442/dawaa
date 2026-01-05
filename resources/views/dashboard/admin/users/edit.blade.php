@@ -27,25 +27,94 @@
     </nav>
 
     <div class="card mb-4 mt-4">
-        <form class="card-body form validated-form" method="POST" action="{{route('admin.users.update' , ['user' => $row->id])}}" novalidate>
+        <form class="card-body form validated-form" method="POST" action="{{route('admin.users.update' , ['user' => $row->id])}}" novalidate enctype="multipart/form-data">
             @csrf
             <div class="row g-3">
-                <x-admin.input :value="$row->name" required="true"  name="name" label="name"
-                               type="text" col="col-xl-6" placeholder="name"
+                <x-admin.input 
+                    :value="$row->type?->value" 
+                    required="true" 
+                    name="type" 
+                    label="type" 
+                    type="select" 
+                    col="col-xl-6" 
+                    placeholder="type" 
+                    :options="$userTypes"
                 />
-                <x-admin.input :value="$row->phone" required="true"  name="phone" label="phone"
-                               type="text" col="col-xl-6" placeholder="phone"
+                
+                <x-admin.input 
+                    :value="$row->name" 
+                    required="true" 
+                    name="name" 
+                    label="name" 
+                    type="text" 
+                    col="col-xl-6" 
+                    placeholder="name"
                 />
-                <x-admin.input :value="$row->email" required="true"  name="email" label="email"
-                               type="email" col="col-xl-6" placeholder="email"
+                
+                <x-admin.input 
+                    :value="$row->phone" 
+                    name="phone" 
+                    label="phone"
+                    type="text" 
+                    col="col-xl-6" 
+                    placeholder="phone"
                 />
-                <x-admin.input   name="password" label="password"
-                               type="password" col="col-xl-6" placeholder="password"
+                <x-admin.input 
+                    :value="$row->email" 
+                    name="email" 
+                    label="email"
+                    type="email" 
+                    col="col-xl-6" 
+                    placeholder="email"
                 />
-                <x-admin.input   name="password_confirmation" label="password_confirmation"
-                               type="password" col="col-xl-6" placeholder="password_confirmation"
+                <x-admin.input 
+                    name="password" 
+                    label="password"
+                    type="password" 
+                    col="col-xl-6" 
+                    placeholder="password"
                 />
-
+                <x-admin.input 
+                    name="password_confirmation" 
+                    label="password_confirmation"
+                    type="password" 
+                    col="col-xl-6" 
+                    placeholder="password_confirmation"
+                />
+                <div class="row g-3">   
+                    <x-admin.file
+                        name="license"
+                        label="license"
+                        type="file"
+                        col="col-6"
+                        placeholder="license"
+                        :files="$row->getMedia('license')"
+                    />
+                    <x-admin.file
+                        name="tax_card"
+                        label="tax_card"
+                        type="file"
+                        col="col-6"
+                        placeholder="tax_card"
+                        :files="$row->getMedia('tax_card')"
+                    />
+                    <x-admin.file
+                        name="front_card_image"
+                        label="front_card_image"
+                        type="file"
+                        col="col-6"
+                        placeholder="front_card_image"
+                        :files="$row->getMedia('front_card_image')"
+                    />
+                    <x-admin.file
+                        name="back_card_image"
+                        label="back_card_image"
+                        type="file"
+                        col="col-6"
+                        placeholder="back_card_image"
+                        :files="$row->getMedia('back_card_image')"
+                    />
+                </div>
             </div>
             <div class="pt-4 d-flex justify-content-center mt-3">
                 <button type="submit"
@@ -53,7 +122,6 @@
                 <a class="btn btn-label-dribbble waves-effect" href="{{ url()->previous()}}">@lang('trans.back')</a>
             </div>
         </form>
-    </div>
     </div>
 
 @endsection

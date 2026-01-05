@@ -26,7 +26,9 @@ use App\Http\Controllers\Dashboard\Admin\FCMNotificationController;
 use App\Http\Controllers\Dashboard\Admin\FCMNotificationsController;
     use App\Http\Controllers\Dashboard\Admin\CategoryController;
     use App\Http\Controllers\Dashboard\Admin\BrandController;
+    use App\Http\Controllers\Dashboard\Admin\IntroController;
     #new_comand_routes_path_here
+    
     
     
     
@@ -92,6 +94,7 @@ Route::group(['as' => 'admin.'], function (){
         Route::post('users/multiple', [UserController::class, 'destroyMultiple'])->name('users.destroy-multiple');
         Route::post('users/toggle-status/{user}/{key}', [UserController::class, 'toggleField'])->name('user-toggle');
         Route::post('users/export', [UserController::class, 'export'])->name('user-export');
+        Route::post('users/{user}/accept', [UserController::class, 'acceptAccount'])->name('users.accept');
         Route::resource('users', UserController::Class);
 
 
@@ -142,7 +145,14 @@ Route::group(['as' => 'admin.'], function (){
     Route::post('brands/multiple', [BrandController::class, 'destroyMultiple'])->name('brands.destroy-multiple');
     Route::post('brands/toggle-status/{brand}/{key}', [BrandController::class, 'toggleField'])->name('brand-toggle');
     Route::post('brands/export', [BrandController::class, 'export'])->name('brand-export');
+    
+    // intros
+    Route::resource('intros', IntroController::class);
+    Route::post('intros/multiple', [IntroController::class, 'destroyMultiple'])->name('intros.destroy-multiple');
+    Route::post('intros/toggle-status/{intro}/{key}', [IntroController::class, 'toggleField'])->name('intro-toggle');
+    Route::post('intros/export', [IntroController::class, 'export'])->name('intro-export');
     #new_comand_routes_here
+
 
 
 

@@ -21,6 +21,8 @@ use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\BrandController;
+use App\Http\Controllers\Api\V1\IntroController;
+use App\Http\Controllers\Api\V1\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,16 +46,16 @@ Route::group(['middleware' => 'guest:sanctum'], function () {
     Route::post('reset-password', ResetPasswordController::class);
     Route::post('resend-code', ResendCodeController::class);
     Route::post('check-otp', CheckOtpController::class);
+    Route::post('verify', VerifyController::class);
+
 });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', LogoutController::class);
     Route::post('refresh-token', RefreshTokenController::class);
-    Route::post('verify', VerifyController::class);
-    Route::post('profile/update', [ProfileController::class, 'update']);
+    // Route::post('profile/update', [ProfileController::class, 'update']);
     Route::post('profile/change-password', [ChangePasswordController::class, 'update']);
     Route::post('profile/delete', [ProfileController::class, 'delete']);
-
 });
 
 Route::get('home', [HomeController::class, 'index']);
@@ -70,4 +72,14 @@ Route::group(['prefix' => 'categories'], function () {
 Route::group(['prefix' => 'brands'], function () {
     Route::get('/', [BrandController::class, 'index']);
     Route::get('/{id}', [BrandController::class, 'show']);
+});
+
+Route::group(['prefix' => 'intros'], function () {
+    Route::get('/', [IntroController::class, 'index']);
+    Route::get('/{id}', [IntroController::class, 'show']);
+});
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::get('/{id}', [UserController::class, 'show']);
 });

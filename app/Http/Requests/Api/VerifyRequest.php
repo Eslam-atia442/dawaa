@@ -13,16 +13,11 @@ class VerifyRequest extends FormRequest
     {
         return true;
     }
-    protected function prepareForValidation() {
-        $this->merge([
-            'phone' => fixPhone($this->phone),
-        ]);
-    }
+ 
     public function rules(): array
     {
         return [
-            'country_id' => ['required', 'exists:countries,id'],
-            'phone'      => ['required', 'numeric', 'exists:users,phone'],
+            'email'      => ['required', 'email', 'exists:users,email'],
             'code'       => ['required', 'numeric'],
         ];
     }

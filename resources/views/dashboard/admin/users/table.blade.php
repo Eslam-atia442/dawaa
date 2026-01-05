@@ -5,12 +5,11 @@
         <th class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input" id="checkedAll">
         </th>
 
+        <th>{{ __('trans.type') }}</th>
         <th>{{ __('trans.name') }}</th>
         <th>{{ __('trans.active') }}</th>
         <th>{{ __('trans.block') }}</th>
         <th>{{ __('trans.otp') }}</th>
-        <th>{{ __('trans.code_expires_at') }}</th>
-        <th>{{ __('trans.phone_verified') }}</th>
         <th>{{ __('trans.actions') }}</th>
     </tr>
     </thead>
@@ -21,7 +20,14 @@
                                                   id="{{ $row->id }}"></td>
 
             <td>
-                <span class="text-truncate d-flex align-items-center">{{ $row->name}}</span>
+                <span class="badge bg-label-{{ $row->type?->value == \App\Enums\UserTypeEnum::DOCTOR->value ? 'primary' : 'success' }}">
+                    {{ $row->type?->label() ?? '-' }}
+                </span>
+            </td>
+            <td>
+                <span class="text-truncate d-flex align-items-center">
+                    {{ $row->name ?? '-' }}
+                </span>
             </td>
             <td>
                 <x-admin.toggle
@@ -39,12 +45,7 @@
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->code}}</span>
             </td>
-            <td>
-                <span class="text-truncate d-flex align-items-center">{{ $row->code_expires_at}}</span>
-            </td>
-            <td>
-                <span class="text-truncate d-flex align-items-center {{ $row->phone_verified_at ? 'text-success' : 'text-danger' }}">{{ $row->phone_verified_at ? __('trans.phone_verified') : __('trans.not_verified') }}</span>
-            </td>
+
             <td> 
                 <div class="d-inline-block text-nowrap">
                     @can('update-user')

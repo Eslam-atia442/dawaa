@@ -227,6 +227,13 @@ return [
         'rate'                                => 'التقييم',
         'description.ar'                      => 'الوصف بالعربيه',
         'description.en'                      => 'الوصف بالانجليزيه',
+        'doctor_name'                         => 'اسم الطبيب',
+        'pharmacy_name'                       => 'اسم الصيدلية',
+        'license'                             => 'الرخصة',
+        'tax_card'                             => 'بطاقة الضرائب',
+        'front_card_image'                     => 'صورة البطاقة الامامية',
+        'back_card_image'                      => 'صورة البطاقة الخلفية',
+        'type'                                 => 'النوع',
     ],
 
 

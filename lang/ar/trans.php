@@ -1026,6 +1026,11 @@ return [
     'edit'                                                  => 'تعديل',
     'enter'                                                 => 'أدخل',
     'choose'                                                => 'اختر',
+    'doctor'                                                => 'طبيب',
+    'pharmacy'                                              => 'صيدلية',
+    'type'                                                  => 'النوع',
+    'doctor_name'                                           => 'اسم الطبيب',
+    'pharmacy_name'                                         => 'اسم الصيدلية',
     'this_field_is_required'                                => 'هذا الحقل مطلوب',
     'min_length'                                            => 'الحد الأدنى للطول هو :number',
     'max_length'                                            => 'الحد الأقصى للطول هو :number',
@@ -1185,47 +1190,94 @@ return [
     'errors.cannot_delete_model_with_relations2' => 'لا يمكن حذف هذه البيانات، يحتوي على بيانات مرتبطة بها يرجى إزالتهم أولاً',
     'rate_out_of_10' => 'التقييم من 10',
     'phone_verified' => 'هاتف موثوق به',
-    'not_verified' => 'هاتف غير موثوق به',
+    'not_verified' => 'غير موثوق به',
+    'email_verified' => 'البريد الإلكتروني موثوق به',
+    'attachments' => 'المرفقات',
+    'dob' => 'تاريخ الميلاد',
+    'social_type' => 'نوع التسجيل الاجتماعي',
     'select_value' => 'اختر قيمة',
     'export_management' => 'إدارة التصدير',
     'create_export' => 'إنشاء تصدير',
     'read_all_export' => 'عرض كل التصديرات',
     'delete_export' => 'حذف تصدير',
     'exporting' => 'يتم التصدير...',
-    
-        'category' => [
-         'index' => 'اقسام',
-         'create_page' => 'صفحة اضافة قسم',
-         'create' => 'اضافة قسم',
-         'edit_page' => 'صفحة تعديل قسم',
-         'edit' => 'صفحة تعديل قسم',
-         'show' => 'صفحة عرض قسم',
-         'delete' => 'حذف قسم',
-         'delete_all' => 'حذف العديد  من اقسام',
+
+    'category' => [
+        'index' => 'اقسام',
+        'create_page' => 'صفحة اضافة قسم',
+        'create' => 'اضافة قسم',
+        'edit_page' => 'صفحة تعديل قسم',
+        'edit' => 'صفحة تعديل قسم',
+        'show' => 'صفحة عرض قسم',
+        'delete' => 'حذف قسم',
+        'delete_all' => 'حذف العديد  من اقسام',
         'update' => 'تعديل قسم',
         'read' => 'عرض قسم',
         'read-all' => 'عرض كل اقسام',
-        ],
-        
-        'brand' => [
-         'index' => 'ماركات',
-         'create_page' => 'صفحة اضافة ماركة',
-         'create' => 'اضافة ماركة',
-         'edit_page' => 'صفحة تعديل ماركة',
-         'edit' => 'صفحة تعديل ماركة',
-         'show' => 'صفحة عرض ماركة',
-         'delete' => 'حذف ماركة',
-         'delete_all' => 'حذف العديد  من ماركات',
+    ],
+
+    'brand' => [
+        'index' => 'ماركات',
+        'create_page' => 'صفحة اضافة ماركة',
+        'create' => 'اضافة ماركة',
+        'edit_page' => 'صفحة تعديل ماركة',
+        'edit' => 'صفحة تعديل ماركة',
+        'show' => 'صفحة عرض ماركة',
+        'delete' => 'حذف ماركة',
+        'delete_all' => 'حذف العديد  من ماركات',
         'update' => 'تعديل ماركة',
         'read' => 'عرض ماركة',
         'read-all' => 'عرض كل ماركات',
-        ],
-        #new_comand_translations_here
-        
-        
+    ],
+
+    'intro' => [
+        'index' => 'صفحات ترحبيه',
+        'create_page' => 'صفحة اضافة صفحه ترحبيه',
+        'create' => 'اضافة صفحه ترحبيه',
+        'edit_page' => 'صفحة تعديل صفحه ترحبيه',
+        'edit' => 'صفحة تعديل صفحه ترحبيه',
+        'show' => 'صفحة عرض صفحه ترحبيه',
+        'delete' => 'حذف صفحه ترحبيه',
+        'delete_all' => 'حذف العديد من صفحات ترحبيه',
+        'update' => 'تعديل صفحه ترحبيه',
+        'read' => 'عرض صفحه ترحبيه',
+        'read-all' => 'عرض كل صفحات ترحبيه',
+    ],
+    'license'                                               => 'الرخصة',
+    'tax_card'                                              => 'بطاقة الضرائب',
+    'front_card_image'                                      => 'صورة البطاقة الامامية',
+    'back_card_image'                                       => 'صورة البطاقة الخلفية',
+    'accept_account'                                        => 'قبول الحساب',
+    'accept_account_confirmation'                           => 'هل أنت متأكد من قبول هذا الحساب؟ سيتم إنشاء كلمة مرور عشوائية وإرسالها إلى بريد المستخدم الإلكتروني.',
+    'yes_accept_it'                                         => 'نعم، قم بقبوله',
+    'account_accepted_successfully'                         => 'تم قبول الحساب بنجاح',
+    'account_already_accepted'                              => 'تم قبول هذا الحساب مسبقاً',
+    'user_email_required'                                   => 'يجب أن يكون للمستخدم بريد إلكتروني لقبول الحساب',
+    'account_accepted_email_subject'                        => 'تم قبول حسابك',
+    'account_accepted_email_message'                        => 'تهانينا :name! تم قبول حسابك من قبل المسؤول.',
+    'account_accepted_email_footer'                         => 'يمكنك الآن تسجيل الدخول باستخدام بريدك الإلكتروني وكلمة المرور المقدمة أدناه.',
+    'account_accepted_email_note'                           => 'يرجى الاحتفاظ بكلمة المرور هذه بشكل آمن وتغييرها بعد أول تسجيل دخول.',
+    'account_accepted_password_note'                         => 'يرجى تغيير كلمة المرور بعد تسجيل الدخول لأغراض الأمان.',
+    'your_password'                                         => 'كلمة المرور الخاصة بك',
+    'important'                                             => 'مهم',
+    'processing'                                             => 'جاري المعالجة...',
+    'accepted'                                              => 'مقبول',
+    'not_accepted'                                          => 'غير مقبول',
+    'acceptance_status'                                      => 'حالة القبول',
+    #new_comand_translations_here
+
+
+
 
 
 
     #!!!!!!!!!!!!!!!!!! don't delete the previous comment !!!!!!!!!!!!!!!!!
+
+    // Activation Code Email
+    'activation_code_email_subject' => 'كود التفعيل',
+    'activation_code_email_message' => 'شكراً لك على التسجيل! يرجى استخدام الكود التالي لتفعيل حسابك:',
+    'activation_code_email_footer' => 'يرجى إدخال هذا الكود في التطبيق لتفعيل حسابك.',
+    'activation_code_email_note' => 'ملاحظة: هذا الكود صالح لمدة محدودة. إذا لم تطلب هذا الكود، يرجى تجاهل هذا البريد الإلكتروني.',
+    'welcome' => 'مرحباً',
 
 ];

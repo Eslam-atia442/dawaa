@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\GenderEnum;
+use App\Enums\UserTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->tinyInteger('type')->default(UserTypeEnum::DOCTOR->value);
+            $table->string('name')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('phone')->unique()->nullable();
             $table->string('password')->nullable();
-            $table->tinyInteger('gender')->nullable()->default(GenderEnum::MALE->value);
-            $table->integer('code')->nullable();
+            $table->string('code', 10)->nullable();
+            $table->timestamp('code_expires_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->boolean('is_active')->default(true);

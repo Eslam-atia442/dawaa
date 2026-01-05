@@ -14,16 +14,11 @@ class LoginRequest extends FormRequest
     {
         return true;
     }
-    protected function prepareForValidation() {
-        $this->merge([
-            'phone' => fixPhone($this->phone),
-        ]);
-    }
+
     public function rules(): array
     {
         return [
-            'country_id'  => ['required', Rule::exists('countries', 'id')],
-            'phone'    => ['required', 'numeric', 'digits_between:10,15'],
+            'email'    => ['required', 'email', 'exists:users,email'],
             'password' => ['required'],
         ];
     }

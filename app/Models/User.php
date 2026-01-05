@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserTypeEnum;
 use App\Traits\ModelTrait;
 use App\Traits\SearchTrait;
 use App\Traits\FCMNotificationTrait;
@@ -15,22 +16,24 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Translatable\HasTranslations;
 use App\Traits\HasMediaConversionsTrait;
 use Spatie\MediaLibrary\HasMedia;
+
 class User extends Authenticatable implements HasMedia
 {
-    use SoftDeletes, Notifiable, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasApiTokens, FCMNotificationTrait , HasMediaConversionsTrait;
+    use SoftDeletes, Notifiable, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasApiTokens, FCMNotificationTrait, HasMediaConversionsTrait;
 
     protected $guarded = ['id'];
     protected $hidden = ['password', 'remember_token',];
     protected $casts = [
         'email_verified_at' => 'datetime',
         'code_expires_at' => 'datetime',
+        'type' => UserTypeEnum::class,
     ];
-    protected array $filters = ['keyword','createdAtMin', 'createdAtMax','login'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'login'];
     public array $searchable = ['name', 'email', 'phone'];
     public array $translatable = [];
     public array $restrictedRelations = [];
     public array $cascadedRelations = [];
-    public array $filesToUpload = ['avatar'];
+    public array $filesToUpload = ['license', 'tax_card', 'front_card_image', 'back_card_image'];
     public const ADDITIONAL_PERMISSIONS = [];
     const        DISABLE_PERMISSIONS    = false;
     const        DISABLE_LOG            = false;
@@ -105,6 +108,16 @@ class User extends Authenticatable implements HasMedia
     {
         if ($input) {
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
+        }
+    }
+
+    public function setCodeAttribute($value): void
+    {
+        if ($value !== null) {
+            // Ensure code is always stored as a 4-digit string with leading zeros
+            $this->attributes['code'] = str_pad((string)$value, 4, '0', STR_PAD_LEFT);
+        } else {
+            $this->attributes['code'] = null;
         }
     }
     // ----------------------- Scopes -----------------------

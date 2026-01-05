@@ -234,6 +234,13 @@ return [
         'data' => 'Data',
         'description.ar' => 'Description (Arabic)',
         'description.en' => 'Description (English)',
+        'doctor_name' => 'Doctor Name',
+        'pharmacy_name' => 'Pharmacy Name',
+        'license' => 'License',
+        'tax_card' => 'Tax Card',
+        'front_card_image' => 'Front Card Image',
+        'back_card_image' => 'Back Card Image',
+        'type' => 'Type',
     ],
 
     /*

@@ -28,18 +28,31 @@ class VerifyController extends BaseApiController
     /**
      * Verify.
      *
+     * @bodyParam email string required The email address. Example: eslam@gmail.com
+     * @bodyParam code string required The 4-digit OTP. Example: 1234
+     *
+     * @response 200 {
+     *   "status": 200,
+     *   "data": {
+     *     "message": "OTP verified successfully"
+     *   }
+     * }
+     *
      * @param VerifyRequest $request
      */
     public function __invoke(VerifyRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $user = $this->service->findBy('phone', $data['phone']);
-        if ($user->code != $data['code']) {
-            return $this->errorWrongArgs('Wrong code');
+        $user = $this->service->findBy('email', $data['email']);
+        $userCode = str_pad((string)$user->code, 4, '0', STR_PAD_LEFT);
+        $inputCode = str_pad((string)$data['code'], 4, '0', STR_PAD_LEFT);
+        
+        if ($userCode !== $inputCode) {
+            return $this->errorWrongArgs(__('api.invalid_otp'));
         } else {
             $user->code              = null;
             $user->code_expires_at   = null;
-            $user->phone_verified_at = now();
+            $user->email_verified_at = now();
             $user->save();
         }
         return $this->respondWithModel($user);

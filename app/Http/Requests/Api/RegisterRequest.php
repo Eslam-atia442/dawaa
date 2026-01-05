@@ -6,6 +6,7 @@ use App\Enums\GenderEnum;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Enums\UserTypeEnum;
 
 class RegisterRequest extends FormRequest
 {
@@ -27,14 +28,15 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                  => ['required', 'string', 'min:3', 'max:255'],
+            'type'                  => ['required', 'integer', 'in:' . implode(',', UserTypeEnum::values())],
+            'name'                  => ['required', 'string', 'max:255'],
+            'license'               => ['required', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
+            'tax_card'              => ['required', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
+            'front_card_image'      => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
+            'back_card_image'       => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
             'email'                 => ['nullable', 'email', 'unique:users'],
             'phone'                 => ['required', 'numeric', 'unique:users', 'digits_between:10,15'],
-            'gender'                => ['nullable', 'string', Rule::in(GenderEnum::values())],
-            'dob'                   => ['nullable', 'date', 'date_format:Y-m-d'],
             'country_id'            => ['required', Rule::exists('countries', 'id')->where('is_active', 1)],
-            'password'              => ['required', 'min:6'],
-            'password_confirmation' => ['required', 'same:password'],
         ];
     }
 }
