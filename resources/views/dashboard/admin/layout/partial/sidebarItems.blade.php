@@ -85,7 +85,29 @@
 @endcan
 
 
+
+@can('read-all-store')
+    <li class="menu-item @if(Route::currentRouteName() == 'admin.stores.index') active @endif">
+        <a href="{{route('admin.stores.index')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti  ti-building-store"></i>
+            <div data-i18n="@lang('trans.stores')">@lang('trans.store.index')</div>
+        </a>
+    </li>
+@endcan
+
+
+@can('read-all-product')
+    <li class="menu-item @if(Route::currentRouteName() == 'admin.products.index' || Route::currentRouteName() == 'admin.child-products.index') active @endif">
+        <a href="{{route('admin.products.index')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti  ti-medicine-syrup"></i>
+            <div data-i18n="@lang('trans.products')">@lang('trans.product.index')</div>
+        </a>
+    </li>
+@endcan
+
 {{--#new_comand_side_bar_element_here--}}
+
+
 
 
 
@@ -94,7 +116,7 @@
 
 <li class="menu-header small text-uppercase">
     <span class="menu-header-text">@lang('trans.setting.index')</span>
-</li>
+</li>c
 @can('fcm-setting')
 <li class="menu-item @if(Route::currentRouteName() == 'admin.fcm-notifications.index') active @endif">
     <a href="{{route('admin.fcm-notifications.index')}}" class="menu-link">

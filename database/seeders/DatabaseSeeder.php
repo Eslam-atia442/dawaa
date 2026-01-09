@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             CountryTableSeeder::class,
             RegionTableSeeder::class,
             CityTableSeeder::class,
+            StoreTableSeeder::class,
+            CategoryTableSeeder::class,
+            BrandTableSeeder::class,
         ]);
     }
 }

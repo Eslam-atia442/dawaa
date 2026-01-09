@@ -24,17 +24,22 @@ use App\Http\Controllers\Dashboard\Admin\ExportController;
 
 use App\Http\Controllers\Dashboard\Admin\FCMNotificationController;
 use App\Http\Controllers\Dashboard\Admin\FCMNotificationsController;
-    use App\Http\Controllers\Dashboard\Admin\CategoryController;
-    use App\Http\Controllers\Dashboard\Admin\BrandController;
-    use App\Http\Controllers\Dashboard\Admin\IntroController;
-    #new_comand_routes_path_here
-    
-    
-    
-    
+use App\Http\Controllers\Dashboard\Admin\CategoryController;
+use App\Http\Controllers\Dashboard\Admin\BrandController;
+use App\Http\Controllers\Dashboard\Admin\IntroController;
+use App\Http\Controllers\Dashboard\Admin\StoreController;
+use App\Http\Controllers\Dashboard\Admin\ProductController;
+use App\Http\Controllers\Dashboard\Admin\ChildProductController;
+#new_comand_routes_path_here
 
 
-Broadcast::channel('App.Models.Admin.{id}', function ($admin, $id){
+
+
+
+
+
+
+Broadcast::channel('App.Models.Admin.{id}', function ($admin, $id) {
     return (int)$admin->id === (int)$id;
 });
 
@@ -43,9 +48,9 @@ Route::post('login', [AuthController::class, 'auth'])->name('login');
 Route::get('login', [AuthController::class, 'login'])->middleware('guest:admin');
 
 
-Route::group(['as' => 'admin.'], function (){
+Route::group(['as' => 'admin.'], function () {
 
-    Route::group(['middleware' => ['auth:admin', 'check.admin.status']], function (){
+    Route::group(['middleware' => ['auth:admin', 'check.admin.status']], function () {
         broadcast::routes(['middleware' => 'auth:admin']);
 
         // notifications
@@ -133,35 +138,47 @@ Route::group(['as' => 'admin.'], function (){
             Route::get('stats', [FCMNotificationsController::class, 'getStats'])->name('stats');
         });
 
-    
-    // categories
-    Route::resource('categories', CategoryController::class);
-    Route::post('categories/multiple', [CategoryController::class, 'destroyMultiple'])->name('categories.destroy-multiple');
-    Route::post('categories/toggle-status/{category}/{key}', [CategoryController::class, 'toggleField'])->name('category-toggle');
-    Route::post('categories/export', [CategoryController::class, 'export'])->name('category-export');
-    
-    // brands
-    Route::resource('brands', BrandController::class);
-    Route::post('brands/multiple', [BrandController::class, 'destroyMultiple'])->name('brands.destroy-multiple');
-    Route::post('brands/toggle-status/{brand}/{key}', [BrandController::class, 'toggleField'])->name('brand-toggle');
-    Route::post('brands/export', [BrandController::class, 'export'])->name('brand-export');
-    
-    // intros
-    Route::resource('intros', IntroController::class);
-    Route::post('intros/multiple', [IntroController::class, 'destroyMultiple'])->name('intros.destroy-multiple');
-    Route::post('intros/toggle-status/{intro}/{key}', [IntroController::class, 'toggleField'])->name('intro-toggle');
-    Route::post('intros/export', [IntroController::class, 'export'])->name('intro-export');
-    #new_comand_routes_here
 
+        // categories
+        Route::resource('categories', CategoryController::class);
+        Route::post('categories/multiple', [CategoryController::class, 'destroyMultiple'])->name('categories.destroy-multiple');
+        Route::post('categories/toggle-status/{category}/{key}', [CategoryController::class, 'toggleField'])->name('category-toggle');
+        Route::post('categories/export', [CategoryController::class, 'export'])->name('category-export');
 
+        // brands
+        Route::resource('brands', BrandController::class);
+        Route::post('brands/multiple', [BrandController::class, 'destroyMultiple'])->name('brands.destroy-multiple');
+        Route::post('brands/toggle-status/{brand}/{key}', [BrandController::class, 'toggleField'])->name('brand-toggle');
+        Route::post('brands/export', [BrandController::class, 'export'])->name('brand-export');
 
+        // intros
+        Route::resource('intros', IntroController::class);
+        Route::post('intros/multiple', [IntroController::class, 'destroyMultiple'])->name('intros.destroy-multiple');
+        Route::post('intros/toggle-status/{intro}/{key}', [IntroController::class, 'toggleField'])->name('intro-toggle');
+        Route::post('intros/export', [IntroController::class, 'export'])->name('intro-export');
 
-        Route::prefix('egrates')->name('egrates.')->group(function () {
-            Route::post('cache-gold', [AdminSettingController::class, 'cacheEgratesGold'])->name('cache-gold');
-            Route::post('cache-currencies', [AdminSettingController::class, 'cacheEgratesCurrencies'])->name('cache-currencies');
-        });
+        // stores
+        Route::resource('stores', StoreController::class);
+        Route::post('stores/multiple', [StoreController::class, 'destroyMultiple'])->name('stores.destroy-multiple');
+        Route::post('stores/toggle-status/{store}/{key}', [StoreController::class, 'toggleField'])->name('store-toggle');
+        Route::post('stores/export', [StoreController::class, 'export'])->name('store-export');
+
+        // products
+        Route::get('products/get-regions-by-country', [ProductController::class, 'getRegionsByCountry'])->name('products.get-regions-by-country');
+        Route::get('products/get-cities-by-region', [ProductController::class, 'getCitiesByRegion'])->name('products.get-cities-by-region');
+        Route::resource('products', ProductController::class);
+        Route::post('products/multiple', [ProductController::class, 'destroyMultiple'])->name('products.destroy-multiple');
+        Route::post('products/toggle-status/{product}/{key}', [ProductController::class, 'toggleField'])->name('product-toggle');
+        Route::post('products/export', [ProductController::class, 'export'])->name('product-export');
+
+        // child-products
+        Route::resource('child-products', ChildProductController::class);
+        Route::post('child-products/multiple', [ChildProductController::class, 'destroyMultiple'])->name('child-products.destroy-multiple');
+        Route::post('child-products/toggle-status/{childProduct}/{key}', [ChildProductController::class, 'toggleField'])->name('child-product-toggle');
+        Route::post('child-products/export', [ChildProductController::class, 'export'])->name('child-product-export');
+        #new_comand_routes_here
+
 
 
     });
-
 });

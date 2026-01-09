@@ -109,9 +109,11 @@
     </div>
 @elseif ($type == 'checkbox')
     <div class="mb-3 form-group {{$col}}">
-        <div class="form-check">
+        <label class="form-label">{{__('trans.'.$label)}}@if($required) <span class="text-danger">*</span> @endif</label>
+        <div class="form-check form-switch">
+            <input type="hidden" name="{{$name}}" value="0">
             <input class="form-check-input" type="checkbox" name="{{$name}}" id="{{$name}}" 
-            @if ($value == 1 || $value === true || $value === '1')
+            @if ($value == 1 || $value === true || $value === '1' || $checked)
                 checked
             @endif
             @if ($required)
@@ -119,7 +121,7 @@
             @endif
             value="1">
             <label class="form-check-label" for="{{$name}}">
-                {{__('trans.'.$label)}}@if($required) <span class="text-danger">*</span> @endif
+                {{__('trans.activate')}}
             </label>
         </div>
     </div>

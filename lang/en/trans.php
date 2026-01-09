@@ -1257,7 +1257,61 @@ return [
     'not_accepted'                                          => 'Not Accepted',
     'acceptance_status'                                      => 'Acceptance Status',
 
+        
+        'store' => [
+         'index' => 'stores',
+         'create_page' => 'store Create Page',
+         'create' => 'Create store',
+         'edit_page' => 'store Edit Page',
+         'edit' => 'Edit store',
+         'show' => 'store Show',
+         'delete' => 'Delete store',
+         'delete_all' => 'Delete All stores',
+         'update' => 'Update store',
+        'read' => 'Read store',
+        'read-all' => 'Read All stores',
+        ],
+        
+        'product' => [
+         'index' => 'Products',
+         'create_page' => 'Product Create Page',
+         'create' => 'Create Product',
+         'edit_page' => 'Product Edit Page',
+         'edit' => 'Edit Product',
+         'show' => 'Product Show',
+         'delete' => 'Delete Product',
+         'delete_all' => 'Delete All Products',
+         'update' => 'Update Product',
+        'read' => 'Read Product',
+        'read-all' => 'Read All Products',
+        'details' => 'Product Details',
+        ],
+        
+        'child-product' => [
+         'index' => 'Child Products',
+         'create_page' => 'Child Product Create Page',
+         'create' => 'Create Child Product',
+         'edit_page' => 'Child Product Edit Page',
+         'edit' => 'Edit Child Product',
+         'show' => 'Child Product Show',
+         'delete' => 'Delete Child Product',
+         'delete_all' => 'Delete All Child Products',
+         'update' => 'Update Child Product',
+        'read' => 'Read Child Product',
+        'read-all' => 'Read All Child Products',
+        'details' => 'Child Product Details',
+        'manage' => 'Manage Child Products',
+        ],
+        
+        'quantity' => 'Quantity',
+        'production_line_number' => 'Production Line Number',
+        'is_active' => 'Is Active',
+        'view_parent_product' => 'View Parent Product',
+        'no_child_products' => 'No child products found',
+        'updated_at' => 'Updated At',
         #new_comand_translations_here
+        
+        
     #!!!!!!!!!!!!!!!!!! don't delete the previous comment !!!!!!!!!!!!!!!!!
 
 ];

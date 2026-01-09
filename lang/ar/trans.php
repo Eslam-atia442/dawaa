@@ -1264,7 +1264,61 @@ return [
     'accepted'                                              => 'مقبول',
     'not_accepted'                                          => 'غير مقبول',
     'acceptance_status'                                      => 'حالة القبول',
-    #new_comand_translations_here
+    
+        'store' => [
+         'index' => 'فروع',
+         'create_page' => 'صفحة اضافة فرع',
+         'create' => 'اضافة فرع',
+         'edit_page' => 'صفحة تعديل فرع',
+         'edit' => 'صفحة تعديل فرع',
+         'show' => 'صفحة عرض فرع',
+         'delete' => 'حذف فرع',
+         'delete_all' => 'حذف العديد  من فروع',
+        'update' => 'تعديل فرع',
+        'read' => 'عرض فرع',
+        'read-all' => 'عرض كل فروع',
+        ],
+        
+        'product' => [
+         'index' => 'المنتجات',
+         'create_page' => 'صفحة اضافة منتج',
+         'create' => 'اضافة منتج',
+         'edit_page' => 'صفحة تعديل منتج',
+         'edit' => 'صفحة تعديل منتج',
+         'show' => 'صفحة عرض منتج',
+         'delete' => 'حذف منتج',
+         'delete_all' => 'حذف العديد  من منتجات',
+        'update' => 'تعديل منتج',
+        'read' => 'عرض منتج',
+        'read-all' => 'عرض كل منتجات',
+        'details' => 'تفاصيل المنتج',
+        ],
+        
+        'child-product' => [
+         'index' => 'منتجات فرعية',
+         'create_page' => 'صفحة اضافة منتج فرعي',
+         'create' => 'اضافة منتج فرعي',
+         'edit_page' => 'صفحة تعديل منتج فرعي',
+         'edit' => 'صفحة تعديل منتج فرعي',
+         'show' => 'صفحة عرض منتج فرعي',
+         'delete' => 'حذف منتج فرعي',
+         'delete_all' => 'حذف العديد  من منتجات فرعية',
+        'update' => 'تعديل منتج فرعي',
+        'read' => 'عرض منتج فرعي',
+        'read-all' => 'عرض كل منتجات فرعية',
+        'details' => 'تفاصيل المنتج الفرعي',
+        'manage' => 'إدارة المنتجات الفرعية',
+        ],
+        
+        'quantity' => 'الكمية',
+        'production_line_number' => 'رقم خط الإنتاج',
+        'is_active' => 'نشط',
+        'view_parent_product' => 'عرض المنتج الرئيسي',
+        'no_child_products' => 'لا توجد منتجات فرعية',
+        'updated_at' => 'تاريخ التحديث',
+        #new_comand_translations_here
+        
+        
 
 
 

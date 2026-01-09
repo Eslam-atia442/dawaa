@@ -23,6 +23,8 @@ use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\BrandController;
 use App\Http\Controllers\Api\V1\IntroController;
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\StoreController;
+use App\Http\Controllers\Api\V1\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -82,4 +84,14 @@ Route::group(['prefix' => 'intros'], function () {
 Route::group(['prefix' => 'users'], function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/{id}', [UserController::class, 'show']);
+});
+
+Route::group(['prefix' => 'stores'], function () {
+    Route::get('/', [StoreController::class, 'index']);
+    Route::get('/{id}', [StoreController::class, 'show']);
+});
+
+Route::group(['prefix' => 'products'], function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/{id}', [ProductController::class, 'show']);
 });

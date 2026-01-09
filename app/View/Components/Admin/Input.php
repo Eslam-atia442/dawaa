@@ -25,11 +25,13 @@ class Input extends Component
     public $lng;
     public $map_desc;
     public $multiple;
+    public $checked;
 
     public function __construct(
         $type = 'text', $name = null, $value = null, $placeholder = null, $col = 'col-md-6',
         $label = null, $required = false, $required_message = null, $disabled = false,
-        $class = null,   $multiple = false, $minLength = null, $maxLength = null, $rows = null, $options = null, $lat = null, $lng = null, $map_desc = null
+        $class = null, $multiple = false, $minLength = null, $maxLength = null, $rows = null, 
+        $options = null, $lat = null, $lng = null, $map_desc = null, $checked = false
     )
     {
         $this->type             = $type;
@@ -50,6 +52,7 @@ class Input extends Component
         $this->lng              = $lng;
         $this->map_desc         = $map_desc;
         $this->multiple         = $multiple;
+        $this->checked          = $checked;
     }
 
     /**
