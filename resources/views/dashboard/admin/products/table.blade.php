@@ -43,7 +43,7 @@
             <td>
                 <div class="d-inline-block text-nowrap">
                     @can('read-child-product')
-                    <a href="{{ route('admin.child-products.index', ['parent_id' => $row->id]) }}" 
+                    <a href="{{ route('admin.products.child-products.index', $row) }}" 
                        class="btn btn-sm btn-outline-success position-relative me-1" 
                        data-bs-toggle="tooltip" 
                        data-bs-placement="top" 

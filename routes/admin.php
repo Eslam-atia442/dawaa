@@ -171,11 +171,13 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('products/toggle-status/{product}/{key}', [ProductController::class, 'toggleField'])->name('product-toggle');
         Route::post('products/export', [ProductController::class, 'export'])->name('product-export');
 
-        // child-products
-        Route::resource('child-products', ChildProductController::class);
-        Route::post('child-products/multiple', [ChildProductController::class, 'destroyMultiple'])->name('child-products.destroy-multiple');
-        Route::post('child-products/toggle-status/{childProduct}/{key}', [ChildProductController::class, 'toggleField'])->name('child-product-toggle');
-        Route::post('child-products/export', [ChildProductController::class, 'export'])->name('child-product-export');
+        // child-products (nested under products)
+        Route::resource('products.child-products', ChildProductController::class)->parameters([
+            'child-products' => 'childProduct'
+        ]);
+        Route::post('products/{product}/child-products/multiple', [ChildProductController::class, 'destroyMultiple'])->name('products.child-products.destroy-multiple');
+        Route::post('products/{product}/child-products/toggle-status/{childProduct}/{key}', [ChildProductController::class, 'toggleField'])->name('child-product-toggle');
+        Route::post('products/child-products/export', [ChildProductController::class, 'export'])->name('child-product-export');
         #new_comand_routes_here
 
 

@@ -17,8 +17,12 @@
                  <a href="{{route('admin.home')}}">@lang('trans.home')</a>
             </li>
             <li class="breadcrumb-item">
+                 <i class="ti ti-medicine-syrup me-2"></i>
+                <a href="{{route('admin.products.index')}}">@lang('trans.product.index')</a>
+            </li>
+            <li class="breadcrumb-item">
                  <i class="ti ti-package me-2"></i>
-                <a href="{{route('admin.child-products.index')}}">@lang('trans.child-product.index')</a>
+                <a href="{{route('admin.products.child-products.index', $product)}}">@lang('trans.child-product.index')</a>
             </li>
             <li class="breadcrumb-item active">  <i class="ti ti-file-plus me-2"></i> {{$title}}</li>
         </ol>
@@ -38,20 +42,20 @@
             </div>
             <div class="col-md-9">
                 <div class="card-body p-4">
-                    <form class="form validated-form" method="POST" action="{{route('admin.child-products.store')}}" novalidate enctype="multipart/form-data">
+                    <form class="form validated-form" method="POST" action="{{route('admin.products.child-products.store', $product)}}" novalidate enctype="multipart/form-data">
                         @csrf
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab" tabindex="0">
                                 <div class="row g-3">
-                                    <x-admin.input
-                                        required="true"
-                                        name="parent_id"
-                                        label="product.index"
-                                        type="select"
-                                        col="col-xl-6"
-                                        :value="request('parent_id')"
-                                        :options="$products->map(function($product) { return ['id' => $product->id, 'name' => $product->name]; })->toArray()"
-                                    />
+                                    {{-- Display parent product info --}}
+                                    <div class="col-xl-12 mb-3">
+                                        <div class="alert alert-primary d-flex align-items-center" role="alert">
+                                            <i class="ti ti-medicine-syrup me-2"></i>
+                                            <div>
+                                                <strong>@lang('trans.product.index'):</strong> {{ $product->name }}
+                                            </div>
+                                        </div>
+                                    </div>
                                     <x-admin.input
                                         required="true"
                                         name="price"
@@ -110,7 +114,7 @@
                         </div>
                         <div class="pt-4 d-flex justify-content-center mt-3">
                             <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light submit-button">{{__('trans.add')}}</button>
-                            <a class="btn btn-label-dribbble waves-effect" href="{{ url()->previous()}}">{{__('trans.back')}}</a>
+                            <a class="btn btn-label-dribbble waves-effect" href="{{ route('admin.products.child-products.index', $product) }}">{{__('trans.back')}}</a>
                         </div>
                     </form>
                 </div>

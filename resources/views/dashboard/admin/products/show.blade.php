@@ -29,7 +29,7 @@
     <div class="card mb-4 mt-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">@lang('trans.product.details')</h5>
-            <a href="{{ route('admin.child-products.index', ['parent_id' => $row->id]) }}" class="btn btn-primary">
+            <a href="{{ route('admin.products.child-products.index', $row) }}" class="btn btn-primary">
                 <i class="ti ti-package me-1"></i> @lang('trans.child-product.manage')
             </a>
         </div>
@@ -100,7 +100,7 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0"><i class="ti ti-package me-2"></i>@lang('trans.child-product.index') ({{ $row->childProducts->count() }})</h5>
-            <a href="{{ route('admin.child-products.create', ['parent_id' => $row->id]) }}" class="btn btn-sm btn-success">
+            <a href="{{ route('admin.products.child-products.create', $row) }}" class="btn btn-sm btn-success">
                 <i class="ti ti-plus me-1"></i> @lang('trans.add')
             </a>
         </div>
@@ -135,14 +135,14 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.child-products.edit', $child->id) }}" class="btn btn-sm btn-icon">
+                                        <a href="{{ route('admin.products.child-products.edit', ['product' => $row->id, 'childProduct' => $child->id]) }}" class="btn btn-sm btn-icon">
                                             <i class="text-primary ti ti-edit"></i>
                                         </a>
-                                        <a href="{{ route('admin.child-products.show', $child->id) }}" class="btn btn-sm btn-icon">
+                                        <a href="{{ route('admin.products.child-products.show', ['product' => $row->id, 'childProduct' => $child->id]) }}" class="btn btn-sm btn-icon">
                                             <i class="text-info ti ti-eye-check"></i>
                                         </a>
                                         <a class="btn btn-sm btn-icon delete-child-product" 
-                                           data-url="{{ route('admin.child-products.destroy', $child->id) }}">
+                                           data-url="{{ route('admin.products.child-products.destroy', ['product' => $row->id, 'childProduct' => $child->id]) }}">
                                             <i class="text-danger ti ti-trash-x"></i>
                                         </a>
                                     </td>

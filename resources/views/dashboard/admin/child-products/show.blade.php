@@ -16,10 +16,13 @@
                 <i class="ti ti-home-bolt me-2"></i>
                  <a href="{{route('admin.home')}}">@lang('trans.home')</a>
             </li>
-
+            <li class="breadcrumb-item">
+                 <i class="ti ti-medicine-syrup me-2"></i>
+                <a href="{{route('admin.products.index')}}">@lang('trans.product.index')</a>
+            </li>
             <li class="breadcrumb-item">
                 <i class="ti ti-package me-2"></i>
-                <a href="{{route('admin.child-products.index')}}">@lang('trans.child-product.index')</a>
+                <a href="{{route('admin.products.child-products.index', $product)}}">@lang('trans.child-product.index')</a>
             </li>
 
             <li class="breadcrumb-item active"> <i class="ti ti-file-database"></i> {{$title}}</li>
@@ -29,11 +32,9 @@
     <div class="card mb-4 mt-4">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">@lang('trans.child-product.details')</h5>
-            @if($row->parent)
-                <a href="{{ route('admin.products.show', $row->parent_id) }}" class="btn btn-outline-primary">
-                    <i class="ti ti-medicine-syrup me-1"></i> @lang('trans.view_parent_product')
-                </a>
-            @endif
+            <a href="{{ route('admin.products.show', $product) }}" class="btn btn-outline-primary">
+                <i class="ti ti-medicine-syrup me-1"></i> @lang('trans.view_parent_product')
+            </a>
         </div>
         <div class="card-body">
             <div class="row g-3">
@@ -41,11 +42,7 @@
                 <div class="col-xl-6">
                     <label class="form-label fw-bold">@lang('trans.product.index')</label>
                     <p class="form-control-plaintext">
-                        @if($row->parent)
-                            <a href="{{ route('admin.products.show', $row->parent_id) }}">{{ $row->parent->name }}</a>
-                        @else
-                            -
-                        @endif
+                        <a href="{{ route('admin.products.show', $product) }}">{{ $product->name }}</a>
                     </p>
                 </div>
 
@@ -101,7 +98,6 @@
     </div>
 
     {{-- Parent Product Details --}}
-    @if($row->parent)
     <div class="card mb-4">
         <div class="card-header">
             <h5 class="mb-0"><i class="ti ti-medicine-syrup me-2"></i>@lang('trans.product.details')</h5>
@@ -110,27 +106,26 @@
             <div class="row g-3">
                 <div class="col-xl-6">
                     <label class="form-label fw-bold">@lang('trans.name')</label>
-                    <p class="form-control-plaintext">{{ $row->parent->name }}</p>
+                    <p class="form-control-plaintext">{{ $product->name }}</p>
                 </div>
                 <div class="col-xl-6">
                     <label class="form-label fw-bold">@lang('trans.store.index')</label>
-                    <p class="form-control-plaintext">{{ $row->parent->store->name ?? '-' }}</p>
+                    <p class="form-control-plaintext">{{ $product->store->name ?? '-' }}</p>
                 </div>
                 <div class="col-xl-6">
                     <label class="form-label fw-bold">@lang('trans.category.index')</label>
-                    <p class="form-control-plaintext">{{ $row->parent->category->name ?? '-' }}</p>
+                    <p class="form-control-plaintext">{{ $product->category->name ?? '-' }}</p>
                 </div>
                 <div class="col-xl-6">
                     <label class="form-label fw-bold">@lang('trans.brand.index')</label>
-                    <p class="form-control-plaintext">{{ $row->parent->brand->name ?? '-' }}</p>
+                    <p class="form-control-plaintext">{{ $product->brand->name ?? '-' }}</p>
                 </div>
             </div>
         </div>
     </div>
-    @endif
 
     <div class="pt-2 d-flex justify-content-center">
-        <a class="btn btn-label-dribbble waves-effect" href="{{ route('admin.child-products.index') }}">@lang('trans.back')</a>
+        <a class="btn btn-label-dribbble waves-effect" href="{{ route('admin.products.child-products.index', $product) }}">@lang('trans.back')</a>
     </div>
 
 @endsection

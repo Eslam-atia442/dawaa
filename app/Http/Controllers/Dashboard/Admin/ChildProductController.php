@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard\Admin;
 
-use App\Http\Controllers\BaseWebController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ChildProduct\CreateRequest;
 use App\Http\Requests\Admin\ChildProduct\UpdateRequest;
 use App\Models\Product;
@@ -17,99 +17,125 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 
-class ChildProductController extends BaseWebController
+class ChildProductController extends Controller
 {
-    public object $service;
-    public object $productService;
-    public string $table;
-    public string $guard;
-    public array $relations;
+    public object           $service;
+    public object           $productService;
+    public string           $table;
+    public string           $guard;
+    public array            $relations;
     protected ExportService $exportService;
 
     public function __construct(
         ChildProductService $service,
-        ProductService $productService,
-        ExportService $exportService,
-        $table = 'child-products',
-        $guard = 'admin'
-    ) {
-        $this->service = $service;
+        ProductService      $productService,
+        ExportService       $exportService,
+                            $table = 'child-products',
+                            $guard = 'admin'
+    )
+    {
+        $this->service        = $service;
         $this->productService = $productService;
-        $this->exportService = $exportService;
-        $this->table = $table;
-        $this->guard = $guard;
-        $this->relations = ['parent', 'parent.store', 'parent.city', 'parent.category', 'parent.brand'];
-        parent::__construct($this->service, $this->table, $this->guard, $this->relations, 'child-product');
+        $this->exportService  = $exportService;
+        $this->table          = $table;
+        $this->guard          = $guard;
+        $this->relations      = ['parent', 'parent.store', 'parent.city', 'parent.category', 'parent.brand'];
+        
+        // Apply permissions
+        $this->middleware('permission:read-all-child-product')->only(['index']);
+        $this->middleware('permission:read-child-product')->only(['show']);
+        $this->middleware('permission:create-child-product')->only(['create', 'store']);
+        $this->middleware('permission:update-child-product')->only(['edit', 'update']);
+        $this->middleware('permission:delete-child-product')->only(['destroy', 'destroyMultiple']);
     }
 
-    public function index(): View|JsonResponse
+    public function index(Product $product): View|JsonResponse
     {
         if (request()->ajax()) {
-            // Only show child products (where parent_id is not null)
-            $filters = array_merge(request()->all(), ['parentId' => 'not_null']);
-            $rows = $this->service->search($filters, $this->relations);
-            $html = view('dashboard.' . $this->guard . '.' . $this->table . '.table', compact('rows'))->render();
+            // Only show child products for this parent
+            $filters = array_merge(request()->all(), ['parentId' => $product->id]);
+            $rows    = $this->service->search($filters, $this->relations);
+            $html    = view('dashboard.' . $this->guard . '.' . $this->table . '.table', compact('rows', 'product'))->render();
             return response()->json(['html' => $html]);
         }
-        // Get parent products for filter dropdown
-        $products = $this->productService->search(['parentId' => null], [], ['limit' => false, 'page' => false]);
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.index', compact('products'));
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.index', compact('product'));
     }
 
-    public function create(): View
+    public function create(Product $product): View
     {
-        // Get all parent products for dropdown
-        $products = $this->productService->search(['parentId' => null], [], ['limit' => false, 'page' => false]);
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.create', compact('products'));
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.create', compact('product'));
     }
 
-    public function show($id): View
+    public function show(Product $product, Product $childProduct): View
     {
-        $row = $this->service->find((int) $id, $this->relations);
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.show', compact('row'));
+        $row = $this->service->find($childProduct->id, $this->relations);
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.show', compact('row', 'product'));
     }
 
-    public function edit($id): View
+    public function edit(Product $product, Product $childProduct): View
     {
-        $row = $this->service->find((int) $id, $this->relations);
-        // Get all parent products for dropdown
-        $products = $this->productService->search(['parentId' => null], [], ['limit' => false, 'page' => false]);
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.edit', compact('row', 'products'));
+        $row = $this->service->find($childProduct->id, $this->relations);
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.edit', compact('row', 'product'));
     }
 
-    public function store(CreateRequest $request): JsonResponse
+    public function store(CreateRequest $request, Product $product): JsonResponse
     {
         try {
             $data = $request->validated();
+            $data['parent_id'] = $product->id;
             $this->service->create($data);
-            return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
+            return response()->json(['url' => route('admin.products.child-products.index', $product)]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 
-    public function update(UpdateRequest $request, Product $child_product): JsonResponse
+    public function update(UpdateRequest $request, Product $product, Product $childProduct): JsonResponse
     {
         try {
-            $this->service->update($child_product, $request->validated());
-            return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
+            $data = $request->validated();
+            $data['parent_id'] = $product->id;
+            $this->service->update($childProduct, $data);
+            return response()->json(['url' => route('admin.products.child-products.index', $product)]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 
-    public function toggleField(Request $request, $childProduct, $key)
+    public function destroy(Product $product, Product $childProduct): JsonResponse
+    {
+        try {
+            $this->service->delete($childProduct);
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    public function toggleField(Request $request, Product $product, $childProduct, $key)
     {
         return $this->service->toggleField($childProduct, $key);
     }
 
-    public function destroyMultiple(Request $request)
+    public function destroyMultiple(Request $request, Product $product)
     {
         $request->validate([
-            'data' => 'required|json'
-        ]);
+                               'data' => 'required|json'
+                           ]);
 
-        return $this->destroy($request->input('data'));
+        $ids = json_decode($request->input('data'), true);
+        
+        try {
+            foreach ($ids as $id) {
+                $childProduct = $this->service->find($id);
+                if ($childProduct && $childProduct->parent_id == $product->id) {
+                    $this->service->delete($childProduct);
+                }
+            }
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     public function export(Request $request): JsonResponse
@@ -134,22 +160,22 @@ class ChildProductController extends BaseWebController
             $filters['parentId'] = 'not_null';
 
             $export = $this->exportService->createExport(
-                name: __('trans.child-product.index') . ' ' . __('trans.export_excel') . ' - ' . now()->format('Y-m-d H:i:s'),
-                model: 'ChildProduct',
+                name      : __('trans.child-product.index') . ' ' . __('trans.export_excel') . ' - ' . now()->format('Y-m-d H:i:s'),
+                model     : 'ChildProduct',
                 parameters: $filters
             );
 
             ExportJob::dispatch(
-                export: $export,
+                export     : $export,
                 exportClass: ChildProductExport::class,
-                filters: $filters
+                filters    : $filters
             );
 
             return response()->json([
-                'success' => true,
-                'message' => __('trans.export_queued'),
-                'export_id' => $export->id
-            ]);
+                                        'success'   => true,
+                                        'message'   => __('trans.export_queued'),
+                                        'export_id' => $export->id
+                                    ]);
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);

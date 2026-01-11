@@ -5,7 +5,6 @@
     <tr>
         <th class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input" id="checkedAll"></th>
 
-        <th>{{ __('trans.product.index') }}</th>
         <th>{{ __('trans.price') }}</th>
         <th>{{ __('trans.quantity') }}</th>
         <th>{{ __('trans.expiry_date') }}</th>
@@ -18,15 +17,6 @@
     @foreach ($rows as $row)
         <tr class="delete_row">
             <td class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes checkSingle form-check-input" id="{{ $row->id }}"></td>
-            <td>
-                <span class="text-truncate d-flex align-items-center">
-                    @if($row->parent)
-                        <a href="{{ route('admin.products.show', $row->parent_id) }}">{{ $row->parent->name }}</a>
-                    @else
-                        -
-                    @endif
-                </span>
-            </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ number_format($row->price, 2) }}</span>
             </td>
@@ -42,18 +32,18 @@
              <td>
                 <x-admin.toggle
                     checked="{{$row->is_active}}"
-                    url="{{ route('admin.child-product-toggle',['childProduct' => $row->id ,'key' => 'is_active']) }}">
+                    url="{{ route('admin.child-product-toggle',['product' => $product->id, 'childProduct' => $row->id ,'key' => 'is_active']) }}">
                 </x-admin.toggle>
             </td>
 
             <td>
                 <div class="d-inline-block text-nowrap">
                    @can('update-child-product')
-                    <a href="{{ route('admin.child-products.edit', ['child_product' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
+                    <a href="{{ route('admin.products.child-products.edit', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
                    @endcan
-                    <a href="{{ route('admin.child-products.show' , ['child_product' => $row->id])  }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
+                    <a href="{{ route('admin.products.child-products.show', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
                    @can('delete-child-product')
-                    <a class="btn btn-sm btn-icon delete-row" data-url="{{ route('admin.child-products.destroy', $row->id)  }}"><i class="text-danger ti ti-trash-x"></i></a>
+                    <a class="btn btn-sm btn-icon delete-row" data-url="{{ route('admin.products.child-products.destroy', ['product' => $product->id, 'childProduct' => $row->id]) }}"><i class="text-danger ti ti-trash-x"></i></a>
                    @endcan
                 </div>
             </td>

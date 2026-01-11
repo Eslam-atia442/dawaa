@@ -97,7 +97,7 @@
 
 
 @can('read-all-product')
-    <li class="menu-item @if(Route::currentRouteName() == 'admin.products.index' || Route::currentRouteName() == 'admin.child-products.index') active @endif">
+    <li class="menu-item @if(str_starts_with(Route::currentRouteName(), 'admin.products.')) active @endif">
         <a href="{{route('admin.products.index')}}" class="menu-link">
             <i class="menu-icon tf-icons ti  ti-medicine-syrup"></i>
             <div data-i18n="@lang('trans.products')">@lang('trans.product.index')</div>

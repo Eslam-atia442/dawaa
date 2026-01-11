@@ -16,9 +16,33 @@
                 <i class="ti ti-home-bolt me-2"></i>
                  <a href="{{route('admin.home')}}">@lang('trans.home')</a>
             </li>
+            <li class="breadcrumb-item">
+                 <i class="ti ti-medicine-syrup me-2"></i>
+                <a href="{{route('admin.products.index')}}">@lang('trans.product.index')</a>
+            </li>
             <li class="breadcrumb-item active"> <i class="ti ti-package me-2"></i> {{$title}}</li>
         </ol>
     </nav>
+
+    {{-- Parent Product Info --}}
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="mb-1"><i class="ti ti-medicine-syrup me-2"></i>@lang('trans.product.index'): {{ $product->name }}</h5>
+                    @if($product->category)
+                        <span class="badge bg-label-primary me-2">{{ $product->category->name }}</span>
+                    @endif
+                    @if($product->brand)
+                        <span class="badge bg-label-info">{{ $product->brand->name }}</span>
+                    @endif
+                </div>
+                <a href="{{ route('admin.products.show', $product) }}" class="btn btn-outline-primary">
+                    <i class="ti ti-eye me-1"></i> @lang('trans.view_details')
+                </a>
+            </div>
+        </div>
+    </div>
 
     <div class="card">
         <div class="card-header">
@@ -26,9 +50,9 @@
             <x-admin.buttons
                 extrabuttons="true"
                  createPermission="create-child-product"
-                :addbutton="route('admin.child-products.create')"
+                :addbutton="route('admin.products.child-products.create', $product)"
                  deletePermission="delete-child-product"
-                 :deletebutton="route('admin.child-products.destroy-multiple')"
+                 :deletebutton="route('admin.products.child-products.destroy-multiple', $product)"
             >
                 <x-slot name="extrabuttonsdiv">
                     @can('create-export')
@@ -65,5 +89,5 @@
 
     @include('dashboard.shared.deleteAll')
     @include('dashboard.shared.deleteOne')
-    @include('dashboard.shared.filter_js' , [ 'index_route' => route('admin.child-products.index') ])
+    @include('dashboard.shared.filter_js' , [ 'index_route' => route('admin.products.child-products.index', $product) ])
 @endpush

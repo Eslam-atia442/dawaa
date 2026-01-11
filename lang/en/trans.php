@@ -1175,52 +1175,52 @@ return [
     'social_type' => 'Social Login Type',
     'select_value' => 'Select Value',
     'export_management' => 'Export Management',
-    
-        'category' => [
-         'index' => 'categories',
-         'create_page' => 'category Create Page',
-         'create' => 'Create category',
-         'edit_page' => 'category Edit Page',
-         'edit' => 'Edit category',
-         'show' => 'category Show',
-         'delete' => 'Delete category',
-         'delete_all' => 'Delete All categories',
-         'update' => 'Update category',
+
+    'category' => [
+        'index' => 'categories',
+        'create_page' => 'category Create Page',
+        'create' => 'Create category',
+        'edit_page' => 'category Edit Page',
+        'edit' => 'Edit category',
+        'show' => 'category Show',
+        'delete' => 'Delete category',
+        'delete_all' => 'Delete All categories',
+        'update' => 'Update category',
         'read' => 'Read category',
         'read-all' => 'Read All categories',
-        ],
-        
-        'brand' => [
-         'index' => 'brands',
-         'create_page' => 'brand Create Page',
-         'create' => 'Create brand',
-         'edit_page' => 'brand Edit Page',
-         'edit' => 'Edit brand',
-         'show' => 'brand Show',
-         'delete' => 'Delete brand',
-         'delete_all' => 'Delete All brands',
-         'update' => 'Update brand',
+    ],
+
+    'brand' => [
+        'index' => 'brands',
+        'create_page' => 'brand Create Page',
+        'create' => 'Create brand',
+        'edit_page' => 'brand Edit Page',
+        'edit' => 'Edit brand',
+        'show' => 'brand Show',
+        'delete' => 'Delete brand',
+        'delete_all' => 'Delete All brands',
+        'update' => 'Update brand',
         'read' => 'Read brand',
         'read-all' => 'Read All brands',
-        ],
-        
-        'intro' => [
-         'index' => 'intros',
-         'create_page' => 'intro Create Page',
-         'create' => 'Create intro',
-         'edit_page' => 'intro Edit Page',
-         'edit' => 'Edit intro',
-         'show' => 'intro Show',
-         'delete' => 'Delete intro',
-         'delete_all' => 'Delete All intros',
-         'update' => 'Update intro',
+    ],
+
+    'intro' => [
+        'index' => 'intros',
+        'create_page' => 'intro Create Page',
+        'create' => 'Create intro',
+        'edit_page' => 'intro Edit Page',
+        'edit' => 'Edit intro',
+        'show' => 'intro Show',
+        'delete' => 'Delete intro',
+        'delete_all' => 'Delete All intros',
+        'update' => 'Update intro',
         'read' => 'Read intro',
         'read-all' => 'Read All intros',
-        ],
-    
-        
-        
-        
+    ],
+
+
+
+
 
     'errors.cannot_delete_model_with_relations' => 'Cannot delete this :model, it has :relation please remove them first',
     'rate_out_of_10' => 'Rate out of 10',
@@ -1257,61 +1257,62 @@ return [
     'not_accepted'                                          => 'Not Accepted',
     'acceptance_status'                                      => 'Acceptance Status',
 
-        
-        'store' => [
-         'index' => 'stores',
-         'create_page' => 'store Create Page',
-         'create' => 'Create store',
-         'edit_page' => 'store Edit Page',
-         'edit' => 'Edit store',
-         'show' => 'store Show',
-         'delete' => 'Delete store',
-         'delete_all' => 'Delete All stores',
-         'update' => 'Update store',
+
+    'store' => [
+        'index' => 'stores',
+        'create_page' => 'store Create Page',
+        'create' => 'Create store',
+        'edit_page' => 'store Edit Page',
+        'edit' => 'Edit store',
+        'show' => 'store Show',
+        'delete' => 'Delete store',
+        'delete_all' => 'Delete All stores',
+        'update' => 'Update store',
         'read' => 'Read store',
         'read-all' => 'Read All stores',
-        ],
-        
-        'product' => [
-         'index' => 'Products',
-         'create_page' => 'Product Create Page',
-         'create' => 'Create Product',
-         'edit_page' => 'Product Edit Page',
-         'edit' => 'Edit Product',
-         'show' => 'Product Show',
-         'delete' => 'Delete Product',
-         'delete_all' => 'Delete All Products',
-         'update' => 'Update Product',
+    ],
+
+    'product' => [
+        'index' => 'Products',
+        'create_page' => 'Product Create Page',
+        'create' => 'Create Product',
+        'edit_page' => 'Product Edit Page',
+        'edit' => 'Edit Product',
+        'show' => 'Product Show',
+        'delete' => 'Delete Product',
+        'delete_all' => 'Delete All Products',
+        'update' => 'Update Product',
         'read' => 'Read Product',
         'read-all' => 'Read All Products',
         'details' => 'Product Details',
-        ],
-        
-        'child-product' => [
-         'index' => 'Child Products',
-         'create_page' => 'Child Product Create Page',
-         'create' => 'Create Child Product',
-         'edit_page' => 'Child Product Edit Page',
-         'edit' => 'Edit Child Product',
-         'show' => 'Child Product Show',
-         'delete' => 'Delete Child Product',
-         'delete_all' => 'Delete All Child Products',
-         'update' => 'Update Child Product',
+    ],
+
+    'child-product' => [
+        'index' => 'Child Products',
+        'create_page' => 'Child Product Create Page',
+        'create' => 'Create Child Product',
+        'edit_page' => 'Child Product Edit Page',
+        'edit' => 'Edit Child Product',
+        'show' => 'Child Product Show',
+        'delete' => 'Delete Child Product',
+        'delete_all' => 'Delete All Child Products',
+        'update' => 'Update Child Product',
         'read' => 'Read Child Product',
         'read-all' => 'Read All Child Products',
         'details' => 'Child Product Details',
         'manage' => 'Manage Child Products',
-        ],
-        
-        'quantity' => 'Quantity',
-        'production_line_number' => 'Production Line Number',
-        'is_active' => 'Is Active',
-        'view_parent_product' => 'View Parent Product',
-        'no_child_products' => 'No child products found',
-        'updated_at' => 'Updated At',
-        #new_comand_translations_here
-        
-        
+    ],
+
+    'quantity' => 'Quantity',
+    'production_line_number' => 'Production Line Number',
+    'is_active' => 'Is Active',
+    'view_parent_product' => 'View Parent Product',
+    'no_child_products' => 'No child products found',
+    'updated_at' => 'Updated At',
+    'view_details' => 'View Details',
+    #new_comand_translations_here
+
+
     #!!!!!!!!!!!!!!!!!! don't delete the previous comment !!!!!!!!!!!!!!!!!
 
 ];

@@ -15,7 +15,6 @@ class CreateRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'parent_id' => ['required', 'exists:products,id'],
             'price' => ['required', 'numeric', 'min:0'],
             'quantity' => ['required', 'integer', 'min:0'],
             'expiry_date' => ['nullable', 'date'],
