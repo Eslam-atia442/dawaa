@@ -1316,6 +1316,65 @@ return [
     'view_parent_product' => 'عرض المنتج الرئيسي',
     'no_child_products' => 'لا توجد منتجات فرعية',
     'updated_at' => 'تاريخ التحديث',
+    
+    // Order Status
+    'pending' => 'قيد الانتظار',
+    'shipped' => 'تم الشحن',
+    'delivered' => 'تم التسليم',
+    'cancelled' => 'ملغي',
+    
+    // Payment Type
+    'online' => 'عبر الإنترنت',
+    
+    // Transaction Types
+    'wallet_deposit' => 'إيداع المحفظة',
+    'wallet_refund' => 'استرداد المحفظة',
+    'cash_deposit' => 'إيداع نقدي',
+    'cash_refund' => 'استرداد نقدي',
+    'online_deposit' => 'إيداع عبر الإنترنت',
+    'online_refund' => 'استرداد عبر الإنترنت',
+    
+    // Transaction Status
+    'completed' => 'مكتمل',
+    'failed' => 'فشل',
+    'refunded' => 'تم الاسترداد',
+    
+    // Cart Messages
+    'item_added_to_cart' => 'تم إضافة العنصر إلى السلة بنجاح',
+    'item_removed_from_cart' => 'تم حذف العنصر من السلة',
+    'quantity_reduced' => 'تم تقليل الكمية بنجاح',
+    'cart_emptied' => 'تم تفريغ السلة بنجاح',
+    'cart_retrieved' => 'تم جلب السلة بنجاح',
+    'product_not_available' => 'المنتج غير متاح',
+    'child_product_not_available' => 'المنتج الفرعي غير متاح',
+    'invalid_child_product' => 'منتج فرعي غير صالح',
+    'please_select_child_product' => 'يرجى اختيار منتج فرعي',
+    'insufficient_quantity' => 'الكمية المتاحة غير كافية',
+    'product_id_required' => 'معرف المنتج مطلوب',
+    'product_not_found' => 'المنتج غير موجود',
+    'child_product_id_required' => 'معرف المنتج الفرعي مطلوب',
+    'child_product_not_found' => 'المنتج الفرعي غير موجود',
+    'quantity_min' => 'يجب أن تكون الكمية على الأقل 1',
+    'note_max' => 'يجب ألا تتجاوز الملاحظة 500 حرف',
+    'cart_item' => 'عنصر السلة',
+    'cart_item_id_required' => 'معرف عنصر السلة مطلوب',
+    'cart_item_not_found' => 'عنصر السلة غير موجود',
+    'note' => 'ملاحظة',
+    
+    // User Status Messages
+    'unauthenticated' => 'غير مصادق عليه',
+    'email_not_verified' => 'عنوان البريد الإلكتروني غير مفعّل. يرجى تفعيل بريدك الإلكتروني للمتابعة.',
+    'account_not_accepted' => 'حسابك قيد الموافقة. يرجى انتظار موافقة المسؤول.',
+    
+    // Order Messages
+    'order_created_successfully' => 'تم إنشاء الطلب بنجاح',
+    'cart_is_empty' => 'السلة فارغة',
+    'child_product_not_found' => 'المنتج الفرعي غير موجود',
+    'payment_type' => 'نوع الدفع',
+    'payment_type_required' => 'نوع الدفع مطلوب',
+    'invalid_payment_type' => 'نوع الدفع غير صالح',
+    'cash_payment_for_order' => 'دفع نقدي للطلب رقم :order_id',
+    'online_payment_for_order' => 'دفع إلكتروني للطلب رقم :order_id',
 
 
     // Activation Code Email

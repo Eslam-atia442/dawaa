@@ -25,6 +25,8 @@ use App\Http\Controllers\Api\V1\IntroController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\StoreController;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\CartController;
+use App\Http\Controllers\Api\V1\OrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,7 +51,6 @@ Route::group(['middleware' => 'guest:sanctum'], function () {
     Route::post('resend-code', ResendCodeController::class);
     Route::post('check-otp', CheckOtpController::class);
     Route::post('verify', VerifyController::class);
-
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -94,4 +95,17 @@ Route::group(['prefix' => 'stores'], function () {
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
+});
+
+Route::middleware(['auth:sanctum', 'accepted.user'])->group(function () {
+    Route::group(['prefix' => 'cart'], function () {
+        Route::get('/', [CartController::class, 'index']);
+        Route::post('/add', [CartController::class, 'addToCart']);
+        Route::post('/remove', [CartController::class, 'removeFromCart']);
+        Route::delete('/empty', [CartController::class, 'emptyCart']);
+    });
+    
+    Route::group(['prefix' => 'orders'], function () {
+        Route::post('/', [OrderController::class, 'createOrder']);
+    });
 });

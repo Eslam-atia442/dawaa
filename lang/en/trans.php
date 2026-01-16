@@ -1310,6 +1310,66 @@ return [
     'no_child_products' => 'No child products found',
     'updated_at' => 'Updated At',
     'view_details' => 'View Details',
+    
+    // Order Status
+    'pending' => 'Pending',
+    'shipped' => 'Shipped',
+    'delivered' => 'Delivered',
+    'cancelled' => 'Cancelled',
+    
+    // Payment Type
+    'online' => 'Online',
+    
+    // Transaction Types
+    'wallet_deposit' => 'Wallet Deposit',
+    'wallet_refund' => 'Wallet Refund',
+    'cash_deposit' => 'Cash Deposit',
+    'cash_refund' => 'Cash Refund',
+    'online_deposit' => 'Online Deposit',
+    'online_refund' => 'Online Refund',
+    
+    // Transaction Status
+    'completed' => 'Completed',
+    'failed' => 'Failed',
+    'refunded' => 'Refunded',
+    
+    // Cart Messages
+    'item_added_to_cart' => 'Item added to cart successfully',
+    'item_removed_from_cart' => 'Item removed from cart',
+    'quantity_reduced' => 'Quantity reduced successfully',
+    'cart_emptied' => 'Cart emptied successfully',
+    'cart_retrieved' => 'Cart retrieved successfully',
+    'product_not_available' => 'Product is not available',
+    'child_product_not_available' => 'Child product is not available',
+    'invalid_child_product' => 'Invalid child product',
+    'please_select_child_product' => 'Please select a child product',
+    'insufficient_quantity' => 'Insufficient quantity available',
+    'product_id_required' => 'Product ID is required',
+    'product_not_found' => 'Product not found',
+    'child_product_id_required' => 'Child product ID is required',
+    'child_product_not_found' => 'Child product not found',
+    'quantity_min' => 'Quantity must be at least 1',
+    'note_max' => 'Note must not exceed 500 characters',
+    'cart_item' => 'Cart Item',
+    'cart_item_id_required' => 'Cart item ID is required',
+    'cart_item_not_found' => 'Cart item not found',
+    'note' => 'Note',
+    
+    // User Status Messages
+    'unauthenticated' => 'Unauthenticated',
+    'email_not_verified' => 'Email address is not verified. Please verify your email to continue.',
+    'account_not_accepted' => 'Your account is pending approval. Please wait for admin approval.',
+    
+    // Order Messages
+    'order_created_successfully' => 'Order created successfully',
+    'cart_is_empty' => 'Cart is empty',
+    'child_product_not_found' => 'Child product not found',
+    'payment_type' => 'Payment Type',
+    'payment_type_required' => 'Payment type is required',
+    'invalid_payment_type' => 'Invalid payment type',
+    'cash_payment_for_order' => 'Cash payment for order #:order_id',
+    'online_payment_for_order' => 'Online payment for order #:order_id',
+    
     #new_comand_translations_here
 
 

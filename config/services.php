@@ -102,8 +102,8 @@ return [
         'currencies' => explode(',', env('EGRATES_CURRENCIES', 'USD,EUR,GBP,AED,SAR,JPY,CHF,CAD,AUD,CNY,KWD,BHD,OMR,QAR')),
     ],
     'exchangerates' => [
-        'currencies' =>  ['USD', 'EUR', 'GBP', 'AED','SAR','JPY','CHF','CAD','AUD','CNY','KWD','BHD','OMR','QAR'],
-        'token'      => env('EXCHANGERATES_TOKEN','HOj28lSGsuAhJnBYj9alfubaVHnBce0S'),
+        'currencies' =>  ['USD', 'EUR', 'GBP', 'AED', 'SAR', 'JPY', 'CHF', 'CAD', 'AUD', 'CNY', 'KWD', 'BHD', 'OMR', 'QAR'],
+        'token'      => env('EXCHANGERATES_TOKEN', 'HOj28lSGsuAhJnBYj9alfubaVHnBce0S'),
     ],
 
     'firebase' => [
@@ -122,5 +122,17 @@ return [
     'goldpricez' => [
         'api_key'  => env('GOLDPRICEZ_API_KEY', '157a30cc5b78fbb2583023d79e81e07a157a30cc'),
         'base_url' => env('GOLDPRICEZ_BASE_URL', 'http://goldpricez.com/api/rates'),
+    ],
+
+    'paymob' => [
+        'mode' => env('PAYMOB_MODE', 'test'),
+        'api_key' => env('PAYMOB_API_KEY', default: ''),
+        'secret_key' => env('PAYMOB_SECRET_KEY', ''),
+        'public_key' => env('PAYMOB_PUBLIC_KEY', ''),
+        'integration_id' => env('PAYMOB_INTEGRATION_ID', [123, 786]),
+        'base_url' => env('PAYMOB_BASE_URL', 'https://accept.paymob.com'),
+        'currency' => env('PAYMOB_CURRENCY', 'EGP'),
+        'notification_url' => env('PAYMOB_NOTIFICATION_URL', ''),
+        'redirection_url' => env('PAYMOB_REDIRECTION_URL', ''),
     ],
 ];
