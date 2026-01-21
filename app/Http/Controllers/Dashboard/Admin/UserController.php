@@ -18,6 +18,7 @@ use App\Services\CountryService;
 use App\Mail\User\AccountAcceptedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends BaseWebController
 {
@@ -154,6 +155,7 @@ class UserController extends BaseWebController
     public function acceptAccount(User $user): JsonResponse
     {
         try {
+            DB::beginTransaction();
             if ($user->is_accepted) {
                 return response()->json([
                     'success' => false,
@@ -176,13 +178,14 @@ class UserController extends BaseWebController
             ]);
 
             Mail::to($user->email)->send(new AccountAcceptedMail($user, $password));
-
+            DB::commit();
             return response()->json([
                 'success' => true,
                 'message' => __('trans.account_accepted_successfully')
             ]);
 
         } catch (Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
