@@ -29,6 +29,10 @@ class Product extends Model implements HasMedia
 
     //--------------------- casting  -------------------------------------
 
+    protected $casts = [
+        'expiry_date' => 'date',
+    ];
+
     //--------------------- relations -------------------------------------
 
     public function parent()
