@@ -273,8 +273,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 button.prop('disabled', true);
-                button.html('<i class="ti ti-loader me-2"></i>{{ __('
-                    trans.processing ') }}...');
+                button.html('<i class="ti ti-loader me-2"></i>{{ __('trans.processing') }}...');
 
                 $.ajax({
                     headers: {
@@ -286,8 +285,7 @@
                         Swal.fire({
                             icon: 'success',
                             position: 'top-center',
-                            title: response.message || '{{ __('
-                            trans.account_accepted_successfully ') }}',
+                            title: response.message || '{{ __('trans.account_accepted_successfully') }}',
                             showConfirmButton: false,
                             timer: 2000
                         });
@@ -297,13 +295,11 @@
                     },
                     error: (jqXHR, textStatus, errorThrown) => {
                         button.prop('disabled', false);
-                        button.html('<i class="ti ti-check me-2"></i>{{ __('
-                            trans.accept_account ') }}');
+                        button.html('<i class="ti ti-check me-2"></i>{{ __('trans.accept_account') }}');
                         Swal.fire({
                             icon: 'error',
                             position: 'top-center',
-                            title: jqXHR.responseJSON?.message || '{{ __('
-                            trans.error_occurred_during_operation ') }}',
+                            title: jqXHR.responseJSON?.message || '{{ __('trans.error_occurred_during_operation') }}',
                             showConfirmButton: false,
                             timer: 2000
                         });
