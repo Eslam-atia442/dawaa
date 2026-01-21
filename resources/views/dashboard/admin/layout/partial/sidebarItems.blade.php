@@ -116,7 +116,7 @@
 
 <li class="menu-header small text-uppercase">
     <span class="menu-header-text">@lang('trans.setting.index')</span>
-</li>c
+</li>
 @can('fcm-setting')
 <li class="menu-item @if(Route::currentRouteName() == 'admin.fcm-notifications.index') active @endif">
     <a href="{{route('admin.fcm-notifications.index')}}" class="menu-link">
