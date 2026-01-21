@@ -92,6 +92,7 @@ Route::group(['prefix' => 'stores'], function () {
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
+    Route::get('/{product}/child-products', [ChildProductController::class, 'getByProduct']);
 });
 
 Route::group(['prefix' => 'child-products'], function () {

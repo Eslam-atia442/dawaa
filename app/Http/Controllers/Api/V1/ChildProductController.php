@@ -26,12 +26,32 @@ class ChildProductController extends BaseApiController
 
     /**
      * Child Product list.
+     * @queryParam parent_id Filter by parent product ID.
      * param Keyword for search.
      *
      */
     public function index(): mixed
     {
-        request()->merge(['page' => false, 'limit' => false, 'active' => true]);
+        $filters = request()->all();
+        $filters = array_merge($filters, ['page' => false, 'limit' => false, 'active' => true]);
+
+        // If parent_id is provided in query params, filter by it
+        if (request()->has('parent_id')) {
+            $filters['parent'] = request('parent_id');
+        }
+
+        $models = $this->service->search($filters, $this->relations);
+        return $this->respondWithCollection($models);
+    }
+
+    /**
+     * Get child products by parent product ID.
+     * @urlParam product required The ID of the parent product.
+     *
+     */
+    public function getByProduct($productId): mixed
+    {
+        request()->merge(['page' => false, 'limit' => false, 'active' => true, 'parent' => $productId]);
         $models = $this->service->search(request()->all(), $this->relations);
         return $this->respondWithCollection($models);
     }
