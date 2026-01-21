@@ -101,9 +101,15 @@ class Product extends Model implements HasMedia
         }
     }
 
-    public function scopeOfParent($query)
+    public function scopeOfParent($query , $value)
     {
-        return $query->whereNull('parent_id');
+        if ($value === null || $value === 'null') {
+            return $query->whereNull('parent_id');
+        } elseif ($value === 'not_null') {
+            return $query->whereNotNull('parent_id');
+        } else {
+            return $query->where('parent_id', $value);
+        }
     }
 
 }
