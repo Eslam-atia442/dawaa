@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Resources;
+
+
+use \Illuminate\Http\Request;
+
+class ChildProductResource extends BaseResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function toArray(Request $request) : array
+    {
+        $this->micro = [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
+        $this->mini = [
+            'name' => $this->name,
+            'description' => $this->description,
+            'price' => $this->price,
+            'quantity' => $this->quantity,
+            'image' => $this->getFirstMediaUrl('image'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+        ];
+        $this->full = [
+            'is_active' => $this->is_active,
+        ];
+        //$this->relationLoaded()
+        $this->relations = [
+            'parent' =>  $this->relationLoaded('parent') ? new ProductResource($this->parent) : null,
+        ];
+        return $this->getResource();
+    }
+}

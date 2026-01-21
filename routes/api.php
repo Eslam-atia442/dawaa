@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\V1\IntroController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\StoreController;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\ChildProductController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\OrderController;
 /*
@@ -91,6 +92,11 @@ Route::group(['prefix' => 'stores'], function () {
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
+});
+
+Route::group(['prefix' => 'child-products'], function () {
+    Route::get('/', [ChildProductController::class, 'index']);
+    Route::get('/{id}', [ChildProductController::class, 'show']);
 });
 
 Route::middleware(['auth:sanctum', 'accepted.user'])->group(function () {
