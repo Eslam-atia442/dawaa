@@ -19,6 +19,7 @@ class CityResource extends BaseResource
             'id' => $this->id,
         ];
         $this->mini = [
+            'name' => $this->name,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];

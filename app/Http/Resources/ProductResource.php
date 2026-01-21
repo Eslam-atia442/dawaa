@@ -20,6 +20,8 @@ class ProductResource extends BaseResource
         ];
         $this->mini = [
             'name' => $this->name,
+            'description' => $this->description,
+            
             'image' => $this->getFirstMediaUrl('image'),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
@@ -31,6 +33,10 @@ class ProductResource extends BaseResource
         ];
         //$this->relationLoaded()
         $this->relations = [
+            'store' =>  $this->relationLoaded('store') ? new StoreResource($this->store) : null,
+            'category' =>  $this->relationLoaded('category') ? new CategoryResource($this->category) : null,
+            'brand' =>  $this->relationLoaded('brand') ? new BrandResource($this->brand) : null,
+            'city' =>  $this->relationLoaded('city') ? new CityResource($this->city) : null,
         ];
         return $this->getResource();
     }

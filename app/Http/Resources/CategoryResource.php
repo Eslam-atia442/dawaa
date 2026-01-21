@@ -20,6 +20,13 @@ class CategoryResource extends BaseResource
             'name' => $this->name,
         ];
 
+        $this->mini = [
+            'name' => $this->name,
+            'image' => $this->getFirstMediaUrl('image'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+        ];
+
         $this->full = [
             'image' => $this->getfirstMediaUrl('image'),
         ];
