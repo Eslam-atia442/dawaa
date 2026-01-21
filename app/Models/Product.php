@@ -107,7 +107,7 @@ class Product extends Model implements HasMedia
 
     public function scopeOfParent($query , $value)
     {
-        if ($value === null || $value === 'null') {
+        if ($value === null || $value === 'null' ||$value === true ) {
             return $query->whereNull('parent_id');
         } elseif ($value === 'not_null') {
             return $query->whereNotNull('parent_id');
