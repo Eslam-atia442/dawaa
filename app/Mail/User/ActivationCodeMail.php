@@ -10,9 +10,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ActivationCodeMail extends Mailable implements ShouldQueue
+class ActivationCodeMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use SerializesModels;
 
     public User $user;
     public string $code;

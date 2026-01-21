@@ -13,10 +13,8 @@ use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Auth\ResendCodeController;
 use App\Http\Controllers\Api\V1\Auth\CheckOtpController;
-use App\Http\Controllers\Api\V1\GoldpricezController;
 use App\Http\Controllers\Api\DeviceController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\HomeController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
 use App\Http\Controllers\Api\V1\CategoryController;
@@ -60,8 +58,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('profile/change-password', [ChangePasswordController::class, 'update']);
     Route::post('profile/delete', [ProfileController::class, 'delete']);
 });
-
-Route::get('home', [HomeController::class, 'index']);
 
 
 Route::get('countries', [CountryController::class, 'index']);
