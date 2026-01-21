@@ -120,14 +120,14 @@
                             <div class="tab-pane fade" id="v-pills-media" role="tabpanel" aria-labelledby="v-pills-media-tab" tabindex="0">
                                 <div class="row g-3">
                                     {{-- Example file input, uncomment and adjust as needed --}}
-                                    {{--
+                              
                                     <x-admin.file
                                         name="image"
                                         class="col-6"
                                         :multiple="false"
                                         accept="image/*"
                                     />
-                                    --}}
+                                   
                                 </div>
                             </div>
                         </div>
