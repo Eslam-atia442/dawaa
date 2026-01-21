@@ -25,6 +25,8 @@ class ChildProductResource extends BaseResource
             'price' => $this->price,
             'quantity' => $this->quantity,
             'image' => $this->getFirstMediaUrl('image'),
+            'expiry_date' => $this->expiry_date?->format('Y-m-d H:i:s'),
+            'production_line_number' => $this->production_line_number,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
