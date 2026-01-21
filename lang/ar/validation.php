@@ -234,6 +234,12 @@ return [
         'front_card_image'                     => 'صورة البطاقة الامامية',
         'back_card_image'                      => 'صورة البطاقة الخلفية',
         'type'                                 => 'النوع',
+        'city_id'                              => 'المدينة',
+        'store_id'                             => 'المتجر',
+        'category_id'                          => 'الفئة',
+        'brand_id'                             => 'العلامة التجارية',
+        'expiry_date'                          => 'تاريخ الانتهاء',
+        'production_line_number'               => 'رقم خط الإنتاج',
     ],
 
 
