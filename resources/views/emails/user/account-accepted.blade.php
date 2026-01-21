@@ -1,9 +1,8 @@
 @php
-    $locale = $locale ?? app()->getLocale();
-    app()->setLocale($locale);
+    app()->setLocale(app()->getLocale());
 @endphp
 <!DOCTYPE html>
-<html lang="{{ $locale }}" dir="{{ $locale === 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8"/>
     <title>{{ __('trans.account_accepted_email_subject') }}</title>
