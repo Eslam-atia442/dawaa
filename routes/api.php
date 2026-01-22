@@ -46,7 +46,7 @@ Route::group(['middleware' => 'guest:sanctum'], function () {
     Route::post('social-login', SocialLoginController::class);
     Route::post('social-register', SocialRegisterController::class);
     Route::post('forgot-password', ForgotPasswordController::class);
-    Route::post('reset-password', ResetPasswordController::class);
+    // Route::post('reset-password', ResetPasswordController::class);
     Route::post('resend-code', ResendCodeController::class);
     Route::post('check-otp', CheckOtpController::class);
     Route::post('verify', VerifyController::class);

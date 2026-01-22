@@ -18,4 +18,7 @@ return [
     'failed_verify_otp' => 'Failed to verify OTP. Please try again.',
     'otp_required' => 'OTP is required.',
     'otp_must_be_numeric' => 'OTP must be numeric.',
+    'email_not_found' => 'Email not found in our records.',
+    'password_reset_code_sent' => 'Password reset code sent successfully',
+    'failed_send_email' => 'Failed to send email. Please try again.',
 ]; 

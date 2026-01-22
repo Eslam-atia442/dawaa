@@ -15,25 +15,18 @@ class ForgotPasswordRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation() {
-        $this->merge([
-            'phone' => fixPhone($this->phone),
-        ]);
-    }
-
     public function rules(): array
     {
         return [
-            'country_id' => ['required', Rule::exists('countries', 'id')],
-            'phone'      => ['required', 'numeric', 'exists:users,phone'],
+            'email' => ['required', 'email', 'exists:users,email'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'phone.exists' => __('api.phone_not_found'),
-            'country_id.exists' => __('api.invalid_country'),
+            'email.exists' => __('api.email_not_found'),
+            'email.email' => __('api.invalid_email'),
         ];
     }
 } 

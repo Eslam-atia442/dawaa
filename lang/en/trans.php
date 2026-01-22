@@ -1059,6 +1059,13 @@ return [
     'activation_code_email_note' => 'Note: This code is valid for a limited time. If you did not request this code, please ignore this email.',
     'welcome' => 'Welcome',
 
+    // Password Reset Email
+    'password_reset_email_subject' => 'Password Reset Code',
+    'password_reset' => 'Password Reset',
+    'password_reset_email_message' => 'You have requested to reset your password. Please use the following code to reset your password:',
+    'password_reset_email_footer' => 'Please enter this code in the app to reset your password.',
+    'password_reset_email_note' => 'Note: This code is valid for 15 minutes. If you did not request this code, please ignore this email.',
+
 
     // Dashboard translations
     'stocks'                          => 'Stocks',

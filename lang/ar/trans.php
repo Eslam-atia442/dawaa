@@ -1384,6 +1384,13 @@ return [
     'activation_code_email_note' => 'ملاحظة: هذا الكود صالح لمدة محدودة. إذا لم تطلب هذا الكود، يرجى تجاهل هذا البريد الإلكتروني.',
     'welcome' => 'مرحباً',
 
+    // Password Reset Email
+    'password_reset_email_subject' => 'كود إعادة تعيين كلمة المرور',
+    'password_reset' => 'إعادة تعيين كلمة المرور',
+    'password_reset_email_message' => 'لقد طلبت إعادة تعيين كلمة المرور الخاصة بك. يرجى استخدام الكود التالي لإعادة تعيين كلمة المرور:',
+    'password_reset_email_footer' => 'يرجى إدخال هذا الكود في التطبيق لإعادة تعيين كلمة المرور.',
+    'password_reset_email_note' => 'ملاحظة: هذا الكود صالح لمدة 15 دقيقة. إذا لم تطلب هذا الكود، يرجى تجاهل هذا البريد الإلكتروني.',
+
     'view_details' => 'عرض التفاصيل',
     #new_comand_translations_here
 

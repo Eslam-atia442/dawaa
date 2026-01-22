@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\Api\ForgotPasswordRequest;
 use App\Http\Resources\UserResource;
+use App\Mail\User\PasswordResetMail;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 /**
  * @group Api
  * @subgroup Authentication
@@ -22,24 +24,22 @@ class ForgotPasswordController extends BaseApiController
     }
 
     /**
-     * Forgot Password - Send OTP.
+     * Forgot Password - Send Reset Code.
      *
-     * Send a 4-digit OTP to the user's phone number for password reset.
+     * Send a password reset code to the user's email address.
      *
-     * @bodyParam country_id integer required The country ID. Example: 1
-     * @bodyParam phone string required The phone number. Example: 966501234567
+     * @bodyParam email string required The email address. Example: user@example.com
      *
      * @response 200 {
      *   "status": 200,
      *   "data": {
-     *     "message": "OTP sent successfully",
-     *     "otp": "1234"
+     *     "message": "Password reset code sent successfully"
      *   }
      * }
      *
      * @response 422 {
      *   "status": 422,
-     *   "message": "Phone number not found in our records."
+     *   "message": "Email not found in our records."
      * }
      *
      * @param ForgotPasswordRequest $request
@@ -52,30 +52,27 @@ class ForgotPasswordController extends BaseApiController
         try {
             DB::beginTransaction();
 
-            $user = $this->service->findBy('phone', $data['phone']);
+            $user = $this->service->findBy('email', $data['email']);
 
             if (!$user) {
-                return $this->errorWrongArgs(__('api.phone_not_found'));
+                return $this->errorWrongArgs(__('api.email_not_found'));
             }
 
-            $otp = generateRandomCode();
-
+                $password = Str::random(12);
             $user->update([
-                'code_expires_at' => now()->addMinutes(5),
+                'password' => $password,
             ]);
-
+            Mail::to($user->email)->send(new PasswordResetMail($user, $password));
             DB::commit();
 
+            
             return $this->respondWithArray([
-                'status' => 200,
-                'data' => [
-                    'message' => __('api.otp_sent_successfully'),
-                ]
+                'success' => true,
+                'message' => __('trans.password_reset_successfully'),
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->errorInternalError(__('api.failed_send_otp'));
+            return $this->errorInternalError(__('api.failed_send_email'));
         }
     }
 }
