@@ -26,9 +26,7 @@ trait ActivityLogTrait
 
     public function customLogOnUpdateFields($filtered, $model)
     {
-        // Get the current database values (before update)
-        // getOriginal() might be empty if the model wasn't properly synced
-        // so we fallback to getAttributes() which contains current values before update
+
         $old = !empty($model->getOriginal()) ? $model->getOriginal() : $model->getAttributes();
         $old = collect($old)->map(function ($value) {
             if (is_array($value))
@@ -41,8 +39,21 @@ trait ActivityLogTrait
                 $value = json_encode($value);
             return $value;
         })->toArray();
+        
         $changes = array_diff_uassoc($filtered, $old, function ($a, $b) {
+            if (is_string($a) && is_string($b) && empty($a) && empty($b)) {
+                return 0;
+            }
+            // if a and b is string and not empty return 1
+            if (is_string($a) && is_string($b) && !empty($a) && !empty($b)) {
+                return 1;
+            }
+            // if a and b is not string return 1
+            if (!is_string($a) && !is_string($b)) {
+                return 1;
+            }
             return $a == $b ? 0 : 1;
+            
         });
 
         if (count($changes) && (!defined("$model::DISABLE_LOG") || !$model::DISABLE_LOG)) {
