@@ -26,8 +26,8 @@ class UpdateRequest extends BaseRequest
         return [
             'type' => ['required', 'integer', 'in:' . implode(',', UserTypeEnum::values())],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('users','email')->ignore($this->user->id)],
-            'phone' => ['nullable', 'string', 'max:255', Rule::unique('users','phone')->ignore($this->user->id)],
+            'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user->id)],
+            'phone' => ['nullable', 'string', 'max:255', Rule::unique('users', 'phone')->ignore($this->user->id)],
             'password' => [
                 'nullable',
                 'confirmed',
@@ -38,15 +38,18 @@ class UpdateRequest extends BaseRequest
             'tax_card' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:10240'],
             'front_card_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
             'back_card_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
+            'lat' => ['nullable', 'numeric'],
+            'long' => ['nullable', 'numeric'],
+            'map_description' => ['nullable', 'string', 'max:500'],
+            'note' => ['nullable', 'string', 'max:1000'],
         ];
-
     }
 
     /**
      * Customizing input names displayed for user
      * @return array
      */
-    public function attributes() : array
+    public function attributes(): array
     {
         return [];
     }
@@ -54,7 +57,7 @@ class UpdateRequest extends BaseRequest
     /**
      * @return array
      */
-    public function messages() : array
+    public function messages(): array
     {
         return [];
     }

@@ -25,13 +25,16 @@ class ProfileController extends BaseApiController
     /**
      * Update Profile.
      * @authenticated
-     * @bodyParam name string optional
-     * @bodyParam email string optional
-     * @bodyParam phone string optional
-     * @bodyParam gender string optional
-     * @bodyParam dob date optional Format: Y-m-d
-     * @bodyParam country_id int optional
-     * @bodyParam avatar file optional Image file (jpeg,png,jpg,gif)
+     * @bodyParam name string required example: Doctor Name or Pharmacy Name
+     * @bodyParam license file nullable example: PDF or image file
+     * @bodyParam tax_card file nullable example: PDF or image file
+     * @bodyParam front_card_image image nullable example: image file
+     * @bodyParam back_card_image image nullable example: image file
+     * @bodyParam email string required example: eslam@gmail.com
+     * @bodyParam phone string required example: 01000000000
+     * @bodyParam country_id int required example: 1
+     *
+     * @param Request $request
      * @return JsonResponse
      */
     public function update(UpdateProfileRequest $request): JsonResponse
@@ -63,5 +66,15 @@ class ProfileController extends BaseApiController
             trans('trans.messages.account_deleted_successfully')
         );
     }
-}
 
+    /**
+     * Get User Profile.
+     * @authenticated
+     * @return JsonResponse
+     */
+    public function show(Request $request): JsonResponse
+    {
+        $user = auth('sanctum')->user();
+        return $this->respondWithModel($user);
+    }   
+}

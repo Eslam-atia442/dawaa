@@ -22,6 +22,10 @@ class UserTableSeeder extends Seeder
             'email' => 'doctor@example.com',
             'phone' => '01234567890',
             'password' => Hash::make('password'),
+            'lat' => 30.044420,
+            'long' => 31.235712,
+            'map_description' => 'Cairo, Egypt',
+            'note' => null,
             'is_active' => true,
             'is_blocked' => false,
         ]);
@@ -33,9 +37,12 @@ class UserTableSeeder extends Seeder
             'email' => 'pharmacy@example.com',
             'phone' => '01234567891',
             'password' => Hash::make('password'),
+            'lat' => 31.200091,
+            'long' => 29.918739,
+            'map_description' => 'Alexandria, Egypt',
+            'note' => 'Main pharmacy location',
             'is_active' => true,
             'is_blocked' => false,
         ]);
     }
-
 }

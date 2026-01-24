@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Product;
 
 use App\Http\Requests\BaseRequest;
+
 class CreateRequest extends BaseRequest
 {
 
@@ -25,13 +26,16 @@ class CreateRequest extends BaseRequest
             'category_id' => ['required', 'exists:categories,id'],
             'brand_id' => ['required', 'exists:brands,id'],
             'is_active' => ['required', 'boolean'],
+            'image' => ['required', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
+            'gallery' => ['required', 'array'],
+            'gallery.*' => ['required', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
         ];
     }
     /**
      * Customizing input names displayed for user
      * @return array
      */
-    public function attributes() : array
+    public function attributes(): array
     {
         return [];
     }
@@ -39,7 +43,7 @@ class CreateRequest extends BaseRequest
     /**
      * @return array
      */
-    public function messages() : array
+    public function messages(): array
     {
         return [];
     }

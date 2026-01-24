@@ -17,7 +17,7 @@ class CreateRequest extends BaseRequest
             'name.*'  => ['required', 'array'],
             'name.ar' => ['required', 'string', 'min:3', 'max:255'],
             'name.en' => ['required', 'string', 'min:3', 'max:255'],
-             'image'   => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+             'image'   => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
     }
     /**

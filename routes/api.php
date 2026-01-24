@@ -44,7 +44,7 @@ Route::group(['middleware' => 'guest:sanctum'], function () {
     Route::post('login', LoginController::class);
     Route::post('register', RegisterController::class);
     Route::post('social-login', SocialLoginController::class);
-    Route::post('social-register', SocialRegisterController::class);
+    // Route::post('social-register', SocialRegisterController::class);
     Route::post('forgot-password', ForgotPasswordController::class);
     // Route::post('reset-password', ResetPasswordController::class);
     Route::post('resend-code', ResendCodeController::class);
@@ -55,13 +55,17 @@ Route::group(['middleware' => 'guest:sanctum'], function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', LogoutController::class);
     Route::post('refresh-token', RefreshTokenController::class);
-    // Route::post('profile/update', [ProfileController::class, 'update']);
+    Route::get('profile', [ProfileController::class, 'show']);
+    Route::post('profile/update', [ProfileController::class, 'update']);
     Route::post('profile/change-password', [ChangePasswordController::class, 'update']);
     Route::post('profile/delete', [ProfileController::class, 'delete']);
 });
 
 
 Route::get('countries', [CountryController::class, 'index']);
+
+
+
 Route::get('settings', [SettingController::class, 'index']);
 
 Route::group(['prefix' => 'categories'], function () {

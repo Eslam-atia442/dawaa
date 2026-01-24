@@ -6,6 +6,15 @@
 
 @push('css_files')
 <link rel="stylesheet" href="{{asset('assets/validation/form-validation.css')}}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -29,6 +38,11 @@
 <div class="card mb-4 mt-4">
     <form class="card-body form validated-form" method="POST" action="{{route('admin.users.store')}}" novalidate enctype="multipart/form-data">
         @csrf
+        
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="long" id="long">
+        <input type="hidden" name="map_description" id="map_description">
+
         <div class="row g-3">
             <x-admin.input
                 required="true"
@@ -97,7 +111,30 @@
                     col="col-6"
                     placeholder="back_card_image" />
             </div>
+
+            <x-admin.input
+                name="map_description"
+                label="map_description"
+                type="text"
+                col="col-12"
+                placeholder="map_description" />
+
+            <x-admin.textarea
+                name="note"
+                label="note"
+                col="col-12"
+                placeholder="note" />
         </div>
+
+        
+        <div class="row g-3 mt-4">
+            <div class="col-12">
+                <h5 class="mb-3">{{ __('trans.location') }}</h5>
+                <div id="map"></div>
+                <div class="form-text text-muted">{{ __('trans.click_to_select_location') }}</div>
+            </div>
+        </div>
+
         <div class="pt-4 d-flex justify-content-center mt-3">
             <button type="submit"
                 class="btn btn-primary me-sm-3 me-1 waves-effect waves-light submit-button">{{__('trans.add')}}</button>
@@ -111,4 +148,49 @@
 @push('js_files')
 @include('dashboard.shared.submitAddForm')
 @include('dashboard.shared.addImage')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof L === 'undefined') {
+            console.error('Leaflet is not loaded');
+            return;
+        }
+
+        // Default to Cairo or a central location
+        var lat = 30.0444;
+        var lng = 31.2357;
+        
+        var map = L.map('map').setView([lat, lng], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var marker;
+
+        // Map click event
+        map.on('click', function(e) {
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng, {draggable: true}).addTo(map);
+                marker.on('dragend', function(e) {
+                    var position = marker.getLatLng();
+                    updateInputs(position.lat, position.lng);
+                });
+            }
+            updateInputs(e.latlng.lat, e.latlng.lng);
+        });
+
+        function updateInputs(lat, lng) {
+            document.getElementById('lat').value = lat;
+            document.getElementById('long').value = lng;
+        }
+        
+        // Force resize after load
+        setTimeout(function() {
+            map.invalidateSize();
+        }, 500);
+    });
+</script>
 @endpush

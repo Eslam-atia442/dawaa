@@ -63,6 +63,7 @@ return [
     'activation_status'           => 'Activation Status',
     'join_date'                   => 'Join Date',
     'location'                    => 'Location',
+    'no_location_data'            => 'No location data for this user',
     'complete_info'               => 'Complete Information',
     'completed'                   => 'Completed',
     'uncompleted'                 => 'Uncompleted',
@@ -1009,10 +1010,10 @@ return [
     'edit'                                                  => 'Edit',
     'enter'                                                 => 'Enter',
     'choose'                                                => 'Choose',
-    'doctor'                                                => 'Doctor',
+    'doctor'                                                => 'Warehouse',
     'pharmacy'                                              => 'Pharmacy',
     'type'                                                  => 'Type',
-    'doctor_name'                                           => 'Doctor Name',
+    'doctor_name'                                           => 'Warehouse Name',
     'pharmacy_name'                                         => 'Pharmacy Name',
     'this_field_is_required'                                => 'This field is required',
     'min_length'                                            => 'Minimum length is :number',
@@ -1317,16 +1318,16 @@ return [
     'no_child_products' => 'No child products found',
     'updated_at' => 'Updated At',
     'view_details' => 'View Details',
-    
+
     // Order Status
     'pending' => 'Pending',
     'shipped' => 'Shipped',
     'delivered' => 'Delivered',
     'cancelled' => 'Cancelled',
-    
+
     // Payment Type
     'online' => 'Online',
-    
+
     // Transaction Types
     'wallet_deposit' => 'Wallet Deposit',
     'wallet_refund' => 'Wallet Refund',
@@ -1334,12 +1335,12 @@ return [
     'cash_refund' => 'Cash Refund',
     'online_deposit' => 'Online Deposit',
     'online_refund' => 'Online Refund',
-    
+
     // Transaction Status
     'completed' => 'Completed',
     'failed' => 'Failed',
     'refunded' => 'Refunded',
-    
+
     // Cart Messages
     'item_added_to_cart' => 'Item added to cart successfully',
     'item_removed_from_cart' => 'Item removed from cart',
@@ -1361,12 +1362,12 @@ return [
     'cart_item_id_required' => 'Cart item ID is required',
     'cart_item_not_found' => 'Cart item not found',
     'note' => 'Note',
-    
+
     // User Status Messages
     'unauthenticated' => 'Unauthenticated',
     'email_not_verified' => 'Email address is not verified. Please verify your email to continue.',
     'account_not_accepted' => 'Your account is pending approval. Please wait for admin approval.',
-    
+
     // Order Messages
     'order_created_successfully' => 'Order created successfully',
     'cart_is_empty' => 'Cart is empty',
@@ -1376,7 +1377,7 @@ return [
     'invalid_payment_type' => 'Invalid payment type',
     'cash_payment_for_order' => 'Cash payment for order #:order_id',
     'online_payment_for_order' => 'Online payment for order #:order_id',
-    
+
     #new_comand_translations_here
 
 

@@ -136,6 +136,13 @@
                                         :multiple="false"
                                         accept="image/*"
                                     />
+                                    <x-admin.file
+                                        :files="$row->getMedia('gallery')"
+                                        name="gallery"
+                                        class="col-6"
+                                        :multiple="true"
+                                        accept="image/*"
+                                    />
                                      
                                 </div>
                             </div>

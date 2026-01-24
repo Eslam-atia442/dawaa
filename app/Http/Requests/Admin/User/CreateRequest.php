@@ -39,6 +39,10 @@ class CreateRequest extends BaseRequest
             'tax_card' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:10240'],
             'front_card_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
             'back_card_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
+            'lat' => ['nullable', 'numeric'],
+            'long' => ['nullable', 'numeric'],
+            'map_description' => ['nullable', 'string', 'max:500'],
+            'note' => ['nullable', 'string', 'max:1000'],
         ];
     }
 
@@ -46,7 +50,7 @@ class CreateRequest extends BaseRequest
      * Customizing input names displayed for user
      * @return array
      */
-    public function attributes() : array
+    public function attributes(): array
     {
         return [];
     }
@@ -54,7 +58,7 @@ class CreateRequest extends BaseRequest
     /**
      * @return array
      */
-    public function messages() : array
+    public function messages(): array
     {
         return [];
     }

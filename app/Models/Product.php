@@ -22,7 +22,7 @@ class Product extends Model implements HasMedia
     public array $translatable = ['name', 'description'];
     public array $restrictedRelations = [];
     public array $cascadedRelations = [];
-    public array $filesToUpload = ['image'];
+    public array $filesToUpload = ['image','gallery'];
     public const ADDITIONAL_PERMISSIONS = [];
     public const DISABLE_PERMISSIONS    = false;
     public const DISABLE_LOG            = false;
@@ -43,6 +43,11 @@ class Product extends Model implements HasMedia
     public function childProducts()
     {
         return $this->hasMany(Product::class, 'parent_id');
+    }
+
+    public function oldestChildProduct()
+    {
+        return $this->hasOne(Product::class, 'parent_id')->where('is_active', 1)->where('quantity', '>', 0)->orderBy('id', 'asc');
     }
 
     public function store()

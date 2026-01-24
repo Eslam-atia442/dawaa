@@ -27,26 +27,19 @@ class UpdateProfileRequest extends FormRequest
         $userId = auth()->id();
 
         return [
-            'name'        => ['sometimes', 'string', 'min:3', 'max:255'],
-            'email'       => ['nullable', 'email', Rule::unique('users', 'email')->ignore($userId)],
-            'phone'       => ['sometimes', 'numeric', Rule::unique('users', 'phone')->ignore($userId)],
-            'gender'      => ['sometimes', 'string', Rule::in(GenderEnum::values())],
-            'dob'         => ['sometimes', 'date', 'date_format:Y-m-d'],
-            'country_id'  => ['sometimes', Rule::exists('countries', 'id')->where('is_active', 1)],
-            'avatar'      => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-        ];
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'name'       => trans('trans.admin.name'),
-            'email'      => trans('trans.admin.email'),
-            'phone'      => trans('trans.admin.phone'),
-            'gender'     => trans('trans.admin.gender'),
-            'dob'        => trans('trans.admin.dob'),
-            'country_id' => trans('trans.admin.country'),
-            'avatar'     => trans('trans.admin.profile'),
+            // 'type'                  => ['required', 'integer', 'in:' . implode(',', UserTypeEnum::values())],
+            'name'                  => ['required', 'string', 'max:255'],
+            'license'               => ['nullable', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
+            'tax_card'              => ['nullable', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
+            'front_card_image'      => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
+            'back_card_image'       => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
+            'email'                 => ['required', 'email', 'unique:users'],
+            'phone'                 => ['required', 'numeric', 'unique:users', 'digits_between:10,15'],
+            'lat'                   => ['required', 'numeric', 'between:-90,90'],
+            'long'                  => ['required', 'numeric', 'between:-180,180'],
+            'map_description'       => ['required', 'string'],
+            'note'                  => ['nullable', 'string'],
+            'country_id'            => ['required', Rule::exists('countries', 'id')->where('is_active', 1)],
         ];
     }
 }

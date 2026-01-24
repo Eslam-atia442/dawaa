@@ -74,6 +74,7 @@ return [
     'activation_status'           => 'حالة التفعيل ',
     'join_date'                   => 'تاريخ الانضمام ',
     'location'                    => 'تحديد الموقع',
+    'no_location_data'            => 'لا توجد بيانات موقع لهذا المستخدم',
     'complete_info'               => 'استكمال البيانات',
     'completed'                   => 'مكتملة',
     'uncompleted'                 => 'غير مكتملة',
@@ -1026,10 +1027,10 @@ return [
     'edit'                                                  => 'تعديل',
     'enter'                                                 => 'أدخل',
     'choose'                                                => 'اختر',
-    'doctor'                                                => 'طبيب',
+    'doctor'                                                => 'مخزن',
     'pharmacy'                                              => 'صيدلية',
     'type'                                                  => 'النوع',
-    'doctor_name'                                           => 'اسم الطبيب',
+    'doctor_name'                                           => 'اسم المخزن',
     'pharmacy_name'                                         => 'اسم الصيدلية',
     'this_field_is_required'                                => 'هذا الحقل مطلوب',
     'min_length'                                            => 'الحد الأدنى للطول هو :number',
@@ -1316,16 +1317,16 @@ return [
     'view_parent_product' => 'عرض المنتج الرئيسي',
     'no_child_products' => 'لا توجد منتجات فرعية',
     'updated_at' => 'تاريخ التحديث',
-    
+
     // Order Status
     'pending' => 'قيد الانتظار',
     'shipped' => 'تم الشحن',
     'delivered' => 'تم التسليم',
     'cancelled' => 'ملغي',
-    
+
     // Payment Type
     'online' => 'عبر الإنترنت',
-    
+
     // Transaction Types
     'wallet_deposit' => 'إيداع المحفظة',
     'wallet_refund' => 'استرداد المحفظة',
@@ -1333,12 +1334,12 @@ return [
     'cash_refund' => 'استرداد نقدي',
     'online_deposit' => 'إيداع عبر الإنترنت',
     'online_refund' => 'استرداد عبر الإنترنت',
-    
+
     // Transaction Status
     'completed' => 'مكتمل',
     'failed' => 'فشل',
     'refunded' => 'تم الاسترداد',
-    
+
     // Cart Messages
     'item_added_to_cart' => 'تم إضافة العنصر إلى السلة بنجاح',
     'item_removed_from_cart' => 'تم حذف العنصر من السلة',
@@ -1360,12 +1361,12 @@ return [
     'cart_item_id_required' => 'معرف عنصر السلة مطلوب',
     'cart_item_not_found' => 'عنصر السلة غير موجود',
     'note' => 'ملاحظة',
-    
+
     // User Status Messages
     'unauthenticated' => 'غير مصادق عليه',
     'email_not_verified' => 'عنوان البريد الإلكتروني غير مفعّل. يرجى تفعيل بريدك الإلكتروني للمتابعة.',
     'account_not_accepted' => 'حسابك قيد الموافقة. يرجى انتظار موافقة المسؤول.',
-    
+
     // Order Messages
     'order_created_successfully' => 'تم إنشاء الطلب بنجاح',
     'cart_is_empty' => 'السلة فارغة',

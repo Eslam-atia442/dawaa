@@ -6,6 +6,15 @@
 
 @push('css_files')
 <link rel="stylesheet" href="{{asset('assets/validation/form-validation.css')}}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -179,6 +188,30 @@
                 col="col-xl-6"
                 placeholder="updated_at"
                 disabled="true" />
+
+            <x-admin.input
+                :value="$row->map_description"
+                name="map_description"
+                label="map_description"
+                type="text"
+                col="col-12"
+                placeholder="map_description"
+                disabled="true" />
+
+            <x-admin.textarea
+                :value="$row->note"
+                name="note"
+                label="note"
+                col="col-12"
+                placeholder="note"
+                disabled="true" />
+        </div>
+        
+        <div class="row g-3 mt-4">
+            <div class="col-12">
+                <h5 class="mb-3">{{ __('trans.location') }}</h5>
+                <div id="map"></div>
+            </div>
         </div>
 
         <div class="row g-3 mt-3">
@@ -250,6 +283,46 @@
 @endsection
 
 @push('js_files')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof L === 'undefined') {
+                console.error('Leaflet is not loaded');
+                return;
+            }
+
+            var lat = parseFloat(@json($row->lat));
+            var lng = parseFloat(@json($row->long));
+            var mapDesc = @json($row->map_description ?? '');
+
+            if (!isNaN(lat) && !isNaN(lng)) {
+                try {
+                    var map = L.map('map').setView([lat, lng], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+                    
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup(mapDesc)
+                        .openPopup();
+
+                    // Force resize after load to fix gray tiles issue
+                    setTimeout(function() {
+                        map.invalidateSize();
+                    }, 500);
+                } catch (e) {
+                    console.error('Error initializing map:', e);
+                }
+            } else {
+                var mapContainer = document.getElementById('map');
+                if (mapContainer) {
+                    mapContainer.style.height = 'auto';
+                    var noDataMsg = @json(__('trans.no_location_data'));
+                    mapContainer.innerHTML = '<div class="alert alert-warning m-0">' + noDataMsg + '</div>';
+                }
+            }
+        });
+    </script>
 @include('dashboard.shared.submitAddForm')
 @include('dashboard.shared.addImage')
 @can('accept-user-account-user')

@@ -127,6 +127,12 @@
                                         :multiple="false"
                                         accept="image/*"
                                     />
+                                    <x-admin.file
+                                        name="gallery"
+                                        class="col-6"
+                                        :multiple="true"
+                                        accept="image/*"
+                                    />
                                    
                                 </div>
                             </div>

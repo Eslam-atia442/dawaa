@@ -37,6 +37,7 @@ class ProductResource extends BaseResource
             'category' =>  $this->relationLoaded('category') ? new CategoryResource($this->category) : null,
             'brand' =>  $this->relationLoaded('brand') ? new BrandResource($this->brand) : null,
             'city' =>  $this->relationLoaded('city') ? new CityResource($this->city) : null,
+            'oldest_child_product' =>  $this->relationLoaded('oldestChildProduct') ? new ChildProductResource($this->oldestChildProduct) : null,
         ];
         return $this->getResource();
     }

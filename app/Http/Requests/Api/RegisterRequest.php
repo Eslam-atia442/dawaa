@@ -34,8 +34,12 @@ class RegisterRequest extends FormRequest
             'tax_card'              => ['required', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
             'front_card_image'      => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
             'back_card_image'       => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
-            'email'                 => ['nullable', 'email', 'unique:users'],
+            'email'                 => ['required', 'email', 'unique:users'],
             'phone'                 => ['required', 'numeric', 'unique:users', 'digits_between:10,15'],
+            'lat'                   => ['required', 'numeric', 'between:-90,90'],
+            'long'                  => ['required', 'numeric', 'between:-180,180'],
+            'map_description'       => ['required', 'string'],
+            'note'                  => ['nullable', 'string'],
             'country_id'            => ['required', Rule::exists('countries', 'id')->where('is_active', 1)],
         ];
     }

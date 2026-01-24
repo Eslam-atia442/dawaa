@@ -32,7 +32,7 @@ class ProductController extends BaseApiController
     public function index(): mixed
     {
         request()->merge(['page' => false, 'limit' => false, 'active' => true, 'parent' => true]);
-        $models = $this->service->search(request()->all(), $this->relations);
+        $models = $this->service->search(request()->all(), ['store', 'category', 'brand', 'city' ,'oldestChildProduct']);
         return $this->respondWithCollection($models);
     }
 
