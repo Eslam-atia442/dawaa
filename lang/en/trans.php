@@ -1378,7 +1378,22 @@ return [
     'cash_payment_for_order' => 'Cash payment for order #:order_id',
     'online_payment_for_order' => 'Online payment for order #:order_id',
 
-    #new_comand_translations_here
+    
+        'slider' => [
+         'index' => 'sliders',
+         'create_page' => 'slider Create Page',
+         'create' => 'Create slider',
+         'edit_page' => 'slider Edit Page',
+         'edit' => 'Edit slider',
+         'show' => 'slider Show',
+         'delete' => 'Delete slider',
+         'delete_all' => 'Delete All sliders',
+         'update' => 'Update slider',
+        'read' => 'Read slider',
+        'read-all' => 'Read All sliders',
+        ],
+        #new_comand_translations_here
+        
 
 
     #!!!!!!!!!!!!!!!!!! don't delete the previous comment !!!!!!!!!!!!!!!!!

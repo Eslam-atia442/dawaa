@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\ChildProductController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\OrderController;
+use App\Http\Controllers\Api\V1\SliderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -115,4 +116,9 @@ Route::middleware(['auth:sanctum', 'accepted.user'])->group(function () {
     Route::group(['prefix' => 'orders'], function () {
         Route::post('/', [OrderController::class, 'createOrder']);
     });
+});
+
+Route::group(['prefix' => 'sliders'], function () {
+    Route::get('/', [SliderController::class, 'index']);
+    Route::get('/{id}', [SliderController::class, 'show']);
 });

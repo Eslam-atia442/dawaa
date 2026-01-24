@@ -105,7 +105,18 @@
     </li>
 @endcan
 
+
+@can('read-all-slider')
+    <li class="menu-item @if(Route::currentRouteName() == 'admin.sliders.index') active @endif">
+        <a href="{{route('admin.sliders.index')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti  ti-contrast-2"></i>
+            <div data-i18n="@lang('trans.sliders')">@lang('trans.slider.index')</div>
+        </a>
+    </li>
+@endcan
+
 {{--#new_comand_side_bar_element_here--}}
+
 
 
 
