@@ -26,7 +26,12 @@ class ProductController extends BaseApiController
 
     /**
      * Product list.
-     * param Keyword for search.
+     * @queryParam keyword Filter by keyword.
+     * @queryParam parent Filter by parent ID.
+     * @queryParam store Filter by store ID.
+     * @queryParam city Filter by city ID.
+     * @queryParam category Filter by category ID.
+     * @queryParam brand Filter by brand ID.
      *
      */
     public function index(): mixed
