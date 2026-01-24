@@ -30,7 +30,6 @@
                    @can('update-brand')
                     <a href="{{ route('admin.brands.edit', ['brand' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
                    @endcan
-                    <a href="{{ route('admin.brands.show' , ['brand' => $row->id])  }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
                    @can('delete-brand')
                     <a class="btn btn-sm btn-icon delete-row" data-url="{{ route('admin.brands.destroy', $row->id)  }}"><i class="text-danger ti ti-trash-x"></i></a>
                    @endcan

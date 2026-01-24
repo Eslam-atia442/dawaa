@@ -30,7 +30,6 @@
                    @can('update-category')
                     <a href="{{ route('admin.categories.edit', ['category' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
                    @endcan
-                    <a href="{{ route('admin.categories.show' , ['category' => $row->id])  }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
                    @can('delete-category')
                     <a class="btn btn-sm btn-icon delete-row" data-url="{{ route('admin.categories.destroy', $row->id)  }}"><i class="text-danger ti ti-trash-x"></i></a>
                    @endcan
