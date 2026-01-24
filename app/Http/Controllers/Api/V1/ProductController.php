@@ -32,11 +32,12 @@ class ProductController extends BaseApiController
      * @queryParam city Filter by city ID.
      * @queryParam category Filter by category ID.
      * @queryParam brand Filter by brand ID.
-     *
+     * @queryParam from_price Filter by from price.
+     * @queryParam to_price Filter by to price.
      */
     public function index(): mixed
     {
-        request()->merge(['page' => false, 'limit' => false, 'active' => true, 'parent' => true]);
+        request()->merge(['page' => false, 'limit' => false, 'active' => true, 'parent' => true, 'hasChildren' => true]);
         $models = $this->service->search(request()->all(), ['store', 'category', 'brand', 'city' ,'oldestChildProduct']);
         return $this->respondWithCollection($models);
     }

@@ -16,7 +16,8 @@ class Product extends Model implements HasMedia
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
     protected $guarded = [];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'parentId' , 'parent', 'store', 'city', 'category', 'brand'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax',
+     'parentId' , 'parent', 'store', 'city', 'category', 'brand', 'hasChildren', 'fromPrice', 'toPrice'];
     protected array $searchable = ['name'];
     protected array $dates = ['expiry_date'];
     public array $translatable = ['name', 'description'];
@@ -137,6 +138,22 @@ class Product extends Model implements HasMedia
     public function scopeOfBrand($query, $value)
     {
         return $query->where('brand_id', $value);
+    }
+
+    public function scopeOfHasChildren($query)
+    {
+        return $query->whereHas('childProducts', function ($query) {
+            $query->where('is_active', 1)->where('quantity', '>', 0);
+        });
+    }
+
+    public function scopeOfFromPrice($query, $value)
+    {
+        return $query->where('price', '>=', $value);
+    }
+    public function scopeOfToPrice($query, $value)
+    {
+        return $query->where('price', '<=', $value);
     }
 
 }

@@ -24,7 +24,7 @@ class UpdateProfileRequest extends FormRequest
 
     public function rules(): array
     {
-        $userId = auth()->id();
+        $userId = auth('sanctum')->user()->id;
 
         return [
             // 'type'                  => ['required', 'integer', 'in:' . implode(',', UserTypeEnum::values())],
@@ -33,8 +33,8 @@ class UpdateProfileRequest extends FormRequest
             'tax_card'              => ['nullable', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
             'front_card_image'      => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
             'back_card_image'       => ['nullable', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
-            'email'                 => ['required', 'email', 'unique:users'],
-            'phone'                 => ['required', 'numeric', 'unique:users', 'digits_between:10,15'],
+            'email'                 => ['required', 'email', Rule::unique('users', 'email')->ignore($userId)],
+            'phone'                 => ['required', 'numeric', Rule::unique('users', 'phone')->ignore($userId), 'digits_between:10,15'],
             'lat'                   => ['required', 'numeric', 'between:-90,90'],
             'long'                  => ['required', 'numeric', 'between:-180,180'],
             'map_description'       => ['required', 'string'],
