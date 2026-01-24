@@ -149,11 +149,15 @@ class Product extends Model implements HasMedia
 
     public function scopeOfFromPrice($query, $value)
     {
-        return $query->where('price', '>=', $value);
+        return $query->whereHas('childProducts', function ($query) use ($value) {
+            $query->where('price', '>=', $value);
+        });
     }
     public function scopeOfToPrice($query, $value)
     {
-        return $query->where('price', '<=', $value);
+        return $query->whereHas('childProducts', function ($query) use ($value) {
+            $query->where('price', '<=', $value);
+        });
     }
 
 }
