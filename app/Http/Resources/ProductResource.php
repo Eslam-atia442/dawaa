@@ -28,8 +28,12 @@ class ProductResource extends BaseResource
         ];
         $this->full = [
             'is_active' => $this->is_active,
-            'active_class' => $this->active_class,
-            'active_status' => $this->active_status
+            'gallery' => $this->getMedia('gallery')->map(function ($media) {
+                return [
+                    'id' => $media->id,
+                    'url' => $media->getUrl(),
+                ];
+            })->toArray(),
         ];
         //$this->relationLoaded()
         $this->relations = [
