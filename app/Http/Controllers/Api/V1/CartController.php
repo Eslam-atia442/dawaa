@@ -7,6 +7,7 @@ use App\Http\Requests\Api\AddToCartRequest;
 use App\Http\Requests\Api\RemoveFromCartRequest;
 use App\Http\Resources\CartItemResource;
 use App\Http\Resources\CartResource;
+use App\Http\Resources\ChildProductResource;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Traits\BaseApiResponseTrait;
@@ -171,7 +172,7 @@ class CartController extends Controller
             $itemsCount = $cartItems->count();
 
             $cartData = [
-                'items' => $cartItems,
+                'items' => CartItemResource::collection($cartItems),
                 'items_count' => $itemsCount,
                 'total_price' => $total,
             ];

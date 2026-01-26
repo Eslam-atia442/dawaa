@@ -49,6 +49,11 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Country::class);
     }
 
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
     /**
      * Get active devices with FCM tokens
      */

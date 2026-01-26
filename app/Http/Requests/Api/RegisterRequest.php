@@ -41,6 +41,7 @@ class RegisterRequest extends FormRequest
             'map_description'       => ['required', 'string'],
             'note'                  => ['nullable', 'string'],
             'country_id'            => ['required', Rule::exists('countries', 'id')->where('is_active', 1)],
+            'city_id'               => ['required', Rule::exists('cities', 'id')->where('is_active', 1)],
         ];
     }
 }

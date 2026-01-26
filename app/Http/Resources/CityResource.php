@@ -30,6 +30,7 @@ class CityResource extends BaseResource
         ];
         //$this->relationLoaded()
         $this->relations = [
+            'region' => $this->relationLoaded('region') ? new RegionResource($this->region) : null,
         ];
         return $this->getResource();
     }

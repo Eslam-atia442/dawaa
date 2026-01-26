@@ -18,17 +18,10 @@ class CartItemResource extends JsonResource
         return [
             'id' => $this->id,
             'product' => $this->whenLoaded('product', function () {
-                return [
-                    'id' => $this->product->id,
-                    'name' => $this->product->name,
-                ];
+                return  new ProductResource($this->product);
             }),
             'child_product' => $this->whenLoaded('childProduct', function () {
-                return $this->childProduct ? [
-                    'id' => $this->childProduct->id,
-                    'name' => $this->childProduct->name,
-                    'price' => $this->childProduct->price,
-                ] : null;
+                return $this->childProduct ? new ChildProductResource($this->childProduct) : null;
             }),
             'quantity' => $this->quantity,
             'price' => $this->price,

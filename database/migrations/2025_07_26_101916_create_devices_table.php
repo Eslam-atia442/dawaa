@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->enum('device_type', ['ios', 'android', 'web'])->nullable();
             $table->longText('device_id')->nullable();
-            $table->morphs('deviceable');
+            $table->nullableMorphs('deviceable');
             $table->timestamps();
         });
     }

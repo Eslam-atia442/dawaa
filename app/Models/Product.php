@@ -16,14 +16,26 @@ class Product extends Model implements HasMedia
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
     protected $guarded = [];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax',
-     'parentId' , 'parent', 'store', 'city', 'category', 'brand', 'hasChildren', 'fromPrice', 'toPrice'];
+    protected array $filters = [
+        'keyword',
+        'createdAtMin',
+        'createdAtMax',
+        'parentId',
+        'parent',
+        'store',
+        'city',
+        'category',
+        'brand',
+        'hasChildren',
+        'fromPrice',
+        'toPrice'
+    ];
     protected array $searchable = ['name'];
     protected array $dates = ['expiry_date'];
     public array $translatable = ['name', 'description'];
     public array $restrictedRelations = [];
     public array $cascadedRelations = [];
-    public array $filesToUpload = ['image','gallery'];
+    public array $filesToUpload = ['image', 'gallery'];
     public const ADDITIONAL_PERMISSIONS = [];
     public const DISABLE_PERMISSIONS    = false;
     public const DISABLE_LOG            = false;
@@ -111,9 +123,9 @@ class Product extends Model implements HasMedia
         }
     }
 
-    public function scopeOfParent($query , $value)
+    public function scopeOfParent($query, $value)
     {
-        if ($value === null || $value === 'null' ||$value === true ) {
+        if ($value === null || $value === 'null' || $value === true) {
             return $query->whereNull('parent_id');
         } elseif ($value === 'not_null') {
             return $query->whereNotNull('parent_id');
@@ -159,5 +171,4 @@ class Product extends Model implements HasMedia
             $query->where('price', '<=', $value);
         });
     }
-
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\V1\CountryController;
+use App\Http\Controllers\Api\V1\RegionController;
+use App\Http\Controllers\Api\V1\CityController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\RefreshTokenController;
@@ -65,7 +67,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('countries', [CountryController::class, 'index']);
 
+Route::group(['prefix' => 'regions'], function () {
+    Route::get('/', [RegionController::class, 'index']);
+    Route::get('/country/{country}', [RegionController::class, 'getByCountry']);
+});
 
+Route::group(['prefix' => 'cities'], function () {
+    Route::get('/', [CityController::class, 'index']);
+    Route::get('/region/{region}', [CityController::class, 'getByRegion']);
+});
 
 Route::get('settings', [SettingController::class, 'index']);
 

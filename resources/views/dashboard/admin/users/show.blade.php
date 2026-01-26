@@ -121,6 +121,16 @@
                 placeholder="country.index"
                 disabled="true" />
             @endif
+            @if($row->city)
+            <x-admin.input
+                :value="$row->city->name ?? '-'"
+                name="city_id"
+                label="city.index"
+                type="text"
+                col="col-xl-6"
+                placeholder="city.index"
+                disabled="true" />
+            @endif
 
             @if($row->dob)
             <x-admin.input
