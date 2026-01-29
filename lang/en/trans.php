@@ -1331,6 +1331,32 @@ return [
     // Transaction Types
     'wallet_deposit' => 'Wallet Deposit',
     'wallet_refund' => 'Wallet Refund',
+    'insufficient_wallet_balance' => 'Insufficient wallet balance',
+    'wallet_not_found' => 'Wallet not found',
+    'wallet_suspended' => 'Wallet is suspended',
+    'wallet_payment_for_order' => 'Wallet payment for order #:order_id',
+    'quantity_must_be_positive' => 'Quantity must be positive',
+    'insufficient_product_quantity' => 'Insufficient product quantity',
+    'quantity_credit' => 'Credit',
+    'quantity_debit' => 'Debit',
+    'quantity_buy' => 'Purchase',
+    'quantity_refund' => 'Refund',
+    'quantity_order' => 'Order',
+    'quantity_order_for_order' => 'Quantity reduced for order #:order_id',
+    'quantity_adjustment' => 'Adjustment',
+    'quantity_return' => 'Return',
+    'quantity_history' => 'Quantity History',
+    'quantity_change' => 'Quantity Change',
+    'quantity_before' => 'Quantity Before',
+    'quantity_after' => 'Quantity After',
+    'reason' => 'Reason',
+    'balance_before' => 'Balance Before',
+    'balance_after' => 'Balance After',
+    'total_records' => 'Total Records',
+    'user_wallet_history' => 'User Wallet History',
+    'add_balance' => 'Add Balance',
+    'add_balance_confirmation' => 'Are you sure you want to add balance to this user\'s wallet?',
+    'balance_added_by_admin' => 'Balance added by admin',
     'cash_deposit' => 'Cash Deposit',
     'cash_refund' => 'Cash Refund',
     'online_deposit' => 'Online Deposit',
@@ -1392,7 +1418,19 @@ return [
         'read' => 'Read slider',
         'read-all' => 'Read All sliders',
         ],
-        #new_comand_translations_here
+
+    // Sidebar Menu Items
+    'countries' => 'Countries',
+    'regions' => 'Regions',
+    'cities' => 'Cities',
+    'intros' => 'Intros',
+    'categories' => 'Categories',
+    'brands' => 'Brands',
+    'stores' => 'Stores',
+    'sliders' => 'Sliders',
+    'roles' => 'Roles',
+
+    #new_comand_translations_here
         
 
 

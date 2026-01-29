@@ -19,6 +19,7 @@ use App\Mail\User\AccountAcceptedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use App\Services\WalletService;
 
 class UserController extends BaseWebController
 {
@@ -28,11 +29,13 @@ class UserController extends BaseWebController
     public array $relations;
     public object $countryService;
     protected ExportService $exportService;
-    
+    protected WalletService $walletService;
+
     public function __construct(
         UserService $service,
         CountryService $countryService,
         ExportService $exportService,
+        WalletService $walletService,
         $table = 'users',
         $guard = 'admin'
     )
@@ -40,9 +43,10 @@ class UserController extends BaseWebController
         $this->service = $service;
         $this->table = $table;
         $this->guard = $guard;
-        $this->relations = ['country'];  
+        $this->relations = ['country'];
         $this->countryService = $countryService;
         $this->exportService = $exportService;
+        $this->walletService = $walletService;
         parent::__construct($this->service, $this->table, $this->guard, $this->relations ,'user');
     }
 
@@ -186,6 +190,59 @@ class UserController extends BaseWebController
 
         } catch (Exception $e) {
             DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function walletHistory(User $user): View
+    {
+
+        $walletTransactions = $user->wallet?->transactions()
+            ->with(['admin'])
+            ->latest()
+            ->paginate(15);
+
+        return view('dashboard.admin.users.wallet-history', compact('user', 'walletTransactions'));
+    }
+
+    public function addBalance(User $user): JsonResponse
+    {
+    
+
+        $validated = request()->validate([
+            'amount' => 'required|numeric|min:0.01',
+            'notes' => 'nullable|string|max:255'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $wallet = $user->getWallet();
+            if (!$wallet) {
+                $wallet = $user->createWallet();
+            }
+
+            $this->walletService->credit(
+                $wallet,
+                $validated['amount'],
+                'admin',
+                auth()->guard('admin')->id(),
+                $validated['notes'] ?? __('trans.balance_added_by_admin')
+            );
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => __('trans.balance_updated')
+            ]);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()

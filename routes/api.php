@@ -122,7 +122,7 @@ Route::middleware(['auth:sanctum', 'accepted.user'])->group(function () {
         Route::post('/remove', [CartController::class, 'removeFromCart']);
         Route::delete('/empty', [CartController::class, 'emptyCart']);
     });
-    
+
     Route::group(['prefix' => 'orders'], function () {
         Route::post('/', [OrderController::class, 'createOrder']);
     });

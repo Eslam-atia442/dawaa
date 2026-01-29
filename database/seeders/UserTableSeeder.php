@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\UserTypeEnum;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -13,10 +14,10 @@ class UserTableSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(UserService $userService): void
     {
         // Create sample doctor
-        User::create([
+      $userService->create([
             'name' => 'Dr. Ahmed Mohamed',
             'type' => UserTypeEnum::DOCTOR->value,
             'email' => 'doctor@example.com',
@@ -31,7 +32,7 @@ class UserTableSeeder extends Seeder
         ]);
 
         // Create sample pharmacy
-        User::create([
+        $userService->create([
             'name' => 'Al-Shifa Pharmacy',
             'type' => UserTypeEnum::PHARMACY->value,
             'email' => 'pharmacy@example.com',

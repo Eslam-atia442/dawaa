@@ -13,7 +13,7 @@ use Spatie\Translatable\HasTranslations;
 class Wallet extends Model
 {
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory;
-    protected $fillable = ['balance'];
+    protected $fillable = ['balance', 'status'];
     protected array $filters = ['keyword','createdAtMin','createdAtMax'];
     protected array $searchable = [];
     protected array $dates = [];

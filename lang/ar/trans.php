@@ -1330,6 +1330,32 @@ return [
     // Transaction Types
     'wallet_deposit' => 'إيداع المحفظة',
     'wallet_refund' => 'استرداد المحفظة',
+    'insufficient_wallet_balance' => 'رصيد المحفظة غير كافي',
+    'wallet_not_found' => 'المحفظة غير موجودة',
+    'wallet_suspended' => 'المحفظة معلقة',
+    'wallet_payment_for_order' => 'دفع من المحفظة للطلب رقم :order_id',
+    'quantity_must_be_positive' => 'يجب أن تكون الكمية موجبة',
+    'insufficient_product_quantity' => 'الكمية المتاحة غير كافية',
+    'quantity_credit' => 'إضافة',
+    'quantity_debit' => 'خصم',
+    'quantity_buy' => 'شراء',
+    'quantity_refund' => 'استرداد',
+    'quantity_order' => 'طلب',
+    'quantity_order_for_order' => 'تم تقليل الكمية للطلب رقم :order_id',
+    'quantity_adjustment' => 'تعديل',
+    'quantity_return' => 'إرجاع',
+    'quantity_history' => 'تاريخ الكميات',
+    'quantity_change' => 'تغيير الكمية',
+    'quantity_before' => 'الكمية قبل',
+    'quantity_after' => 'الكمية بعد',
+    'reason' => 'السبب',
+    'balance_before' => 'الرصيد قبل',
+    'balance_after' => 'الرصيد بعد',
+    'total_records' => 'إجمالي السجلات',
+    'user_wallet_history' => 'تاريخ محفظة المستخدم',
+    'add_balance' => 'إضافة رصيد',
+    'add_balance_confirmation' => 'هل أنت متأكد من أنك تريد إضافة رصيد إلى محفظة هذا المستخدم؟',
+    'balance_added_by_admin' => 'تم إضافة الرصيد بواسطة المدير',
     'cash_deposit' => 'إيداع نقدي',
     'cash_refund' => 'استرداد نقدي',
     'online_deposit' => 'إيداع عبر الإنترنت',
@@ -1393,22 +1419,36 @@ return [
     'password_reset_email_note' => 'ملاحظة: هذا الكود صالح لمدة 15 دقيقة. إذا لم تطلب هذا الكود، يرجى تجاهل هذا البريد الإلكتروني.',
 
     'view_details' => 'عرض التفاصيل',
-    
-        'slider' => [
-         'index' => 'شرائط التمرير',
-         'create_page' => 'صفحة اضافة شريط التمرير',
-         'create' => 'اضافة شريط التمرير',
-         'edit_page' => 'صفحة تعديل شريط التمرير',
-         'edit' => 'صفحة تعديل شريط التمرير',
-         'show' => 'صفحة عرض شريط التمرير',
-         'delete' => 'حذف شريط التمرير',
-         'delete_all' => 'حذف العديد  من شرائط التمرير',
+
+    'slider' => [
+        'index' => 'شرائط التمرير',
+        'create_page' => 'صفحة اضافة شريط التمرير',
+        'create' => 'اضافة شريط التمرير',
+        'edit_page' => 'صفحة تعديل شريط التمرير',
+        'edit' => 'صفحة تعديل شريط التمرير',
+        'show' => 'صفحة عرض شريط التمرير',
+        'delete' => 'حذف شريط التمرير',
+        'delete_all' => 'حذف العديد  من شرائط التمرير',
         'update' => 'تعديل شريط التمرير',
         'read' => 'عرض شريط التمرير',
         'read-all' => 'عرض كل شرائط التمرير',
-        ],
-        #new_comand_translations_here
-        
+    ],
+
+    // Sidebar Menu Items
+    'countries' => 'الدول',
+    'regions' => 'المناطق',
+    'cities' => 'المدن',
+    'intros' => 'المقدمات',
+    'categories' => 'التصنيفات',
+    'brands' => 'الماركات',
+    'stores' => 'المتاجر',
+    'sliders' => 'الشرائح',
+    'roles' => 'الأدوار',
+
+    'wallet_balance' => 'رصيد المحفظه',
+    'reference' => 'مرجع',
+    #new_comand_translations_here
+
 
 
 

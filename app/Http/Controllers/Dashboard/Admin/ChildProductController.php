@@ -12,6 +12,7 @@ use App\Services\ExportService;
 use Exception;
 use App\Services\ChildProductService;
 use App\Services\ProductService;
+use App\Services\ProductQuantityService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,22 +25,25 @@ class ChildProductController extends Controller
     public string           $table;
     public string           $guard;
     public array            $relations;
-    protected ExportService $exportService;
+    protected ExportService      $exportService;
+    protected ProductQuantityService $productQuantityService;
 
     public function __construct(
-        ChildProductService $service,
-        ProductService      $productService,
-        ExportService       $exportService,
-                            $table = 'child-products',
-                            $guard = 'admin'
+        ChildProductService      $service,
+        ProductService           $productService,
+        ExportService            $exportService,
+        ProductQuantityService   $productQuantityService,
+                                 $table = 'child-products',
+                                 $guard = 'admin'
     )
     {
-        $this->service        = $service;
-        $this->productService = $productService;
-        $this->exportService  = $exportService;
-        $this->table          = $table;
-        $this->guard          = $guard;
-        $this->relations      = ['parent', 'parent.store', 'parent.city', 'parent.category', 'parent.brand'];
+        $this->service                 = $service;
+        $this->productService          = $productService;
+        $this->exportService           = $exportService;
+        $this->productQuantityService  = $productQuantityService;
+        $this->table                   = $table;
+        $this->guard                   = $guard;
+        $this->relations               = ['parent', 'parent.store', 'parent.city', 'parent.category', 'parent.brand'];
         
         // Apply permissions
         $this->middleware('permission:read-all-child-product')->only(['index']);
@@ -180,5 +184,14 @@ class ChildProductController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
+    }
+
+    public function quantityHistory(Product $product, Product $childProduct): View
+    {
+        $this->middleware('permission:read-child-product');
+
+        $quantityHistory = $this->productQuantityService->getHistory($childProduct);
+
+        return view('dashboard.admin.child-products.quantity-history', compact('product', 'childProduct', 'quantityHistory'));
     }
 }

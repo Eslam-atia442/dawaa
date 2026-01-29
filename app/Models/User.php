@@ -15,11 +15,21 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Translatable\HasTranslations;
 use App\Traits\HasMediaConversionsTrait;
+use App\Traits\HasWalletTraitTrait;
 use Spatie\MediaLibrary\HasMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use SoftDeletes, Notifiable, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasApiTokens, FCMNotificationTrait, HasMediaConversionsTrait;
+    use SoftDeletes,
+        Notifiable,
+        ModelTrait,
+        SearchTrait,
+        HasTranslations,
+        HasFactory,
+        HasApiTokens,
+        FCMNotificationTrait,
+        HasMediaConversionsTrait,
+        HasWalletTraitTrait;
 
     protected $guarded = ['id'];
     protected $hidden = ['password', 'remember_token',];

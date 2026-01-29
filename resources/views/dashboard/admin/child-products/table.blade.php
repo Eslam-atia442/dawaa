@@ -42,6 +42,10 @@
                     <a href="{{ route('admin.products.child-products.edit', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
                    @endcan
                     <a href="{{ route('admin.products.child-products.show', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
+                    <a href="{{ route('admin.child-products.quantity-history', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"
+                       data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('trans.quantity_history')">
+                        <i class="text-warning ti ti-history"></i>
+                    </a>
                    @can('delete-child-product')
                     <a class="btn btn-sm btn-icon delete-row" data-url="{{ route('admin.products.child-products.destroy', ['product' => $product->id, 'childProduct' => $row->id]) }}"><i class="text-danger ti ti-trash-x"></i></a>
                    @endcan

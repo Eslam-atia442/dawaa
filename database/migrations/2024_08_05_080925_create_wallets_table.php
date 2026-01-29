@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->morphs('walletable');
             $table->decimal('balance', 15, 2)->default(0);
+            // 1 => active, 0 => suspended
+            $table->tinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

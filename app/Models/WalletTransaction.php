@@ -6,6 +6,7 @@ use App\Traits\ModelTrait;
 use App\Traits\SearchTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
@@ -14,7 +15,17 @@ class WalletTransaction extends Model
 {
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory;
 
-    protected $fillable = ['type','balance','admin_id','wallet_id'];
+    protected $fillable = [
+        'wallet_id',
+        'amount',
+        'type',
+        'balance_before',
+        'balance_after',
+        'reference_type',
+        'reference_id',
+        'description',
+        'admin_id',
+    ];
     protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax'];
     protected array $searchable = [];
     protected array $dates = [];
@@ -29,6 +40,10 @@ class WalletTransaction extends Model
     //--------------------- casting  -------------------------------------
 
     //--------------------- relations -------------------------------------
+    public function admin() : BelongsTo {
+        return $this->belongsTo(Admin::class);
+        
+    }
 
     //--------------------- functions -------------------------------------
 

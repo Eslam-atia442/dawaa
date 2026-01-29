@@ -103,7 +103,8 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('users/export', [UserController::class, 'export'])->name('user-export');
         Route::post('users/{user}/accept', [UserController::class, 'acceptAccount'])->name('users.accept');
         Route::resource('users', UserController::Class);
-
+        Route::get('users/{user}/wallet-history', [UserController::class, 'walletHistory'])->name('users.wallet-history');
+        Route::post('users/{user}/add-balance', [UserController::class, 'addBalance'])->name('users.add-balance');
 
         // `countries`
         Route::resource('countries', CountryController::Class);
@@ -179,6 +180,7 @@ Route::group(['as' => 'admin.'], function () {
         ]);
         Route::post('products/{product}/child-products/multiple', [ChildProductController::class, 'destroyMultiple'])->name('products.child-products.destroy-multiple');
         Route::post('products/{product}/child-products/toggle-status/{childProduct}/{key}', [ChildProductController::class, 'toggleField'])->name('child-product-toggle');
+        Route::get('products/{product}/child-products/{childProduct}/quantity-history', [ChildProductController::class, 'quantityHistory'])->name('child-products.quantity-history');
         Route::post('products/child-products/export', [ChildProductController::class, 'export'])->name('child-product-export');
         
     // sliders

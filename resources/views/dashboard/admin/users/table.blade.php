@@ -54,6 +54,10 @@
                     @endcan
                     <a href="{{ route('admin.users.show' , ['user' => $row->id])  }}" class="btn btn-sm btn-icon"><i
                             class="text-info ti ti-eye-check"></i></a>
+                    <a href="{{ route('admin.users.wallet-history', ['user' => $row->id]) }}" class="btn btn-sm btn-icon"
+                       data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('trans.wallet_history')">
+                        <i class="text-warning ti ti-wallet"></i>
+                    </a>
                     @can('delete-user')
                         <a class="btn btn-sm btn-icon delete-row"
                            data-url="{{ route('admin.users.destroy', $row->id)  }}"><i
