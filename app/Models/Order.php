@@ -16,7 +16,7 @@ class Order extends Model implements HasMedia
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
     protected $guarded = [];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders'];
     protected array $searchable = ['name'];
     protected array $dates = [];
     public array $translatable = ['name'];
@@ -63,9 +63,15 @@ class Order extends Model implements HasMedia
 
     //--------------------- scopes -------------------------------------
 
-   public function scopeOfActive($query)
+    public function scopeOfActive($query)
     {
         return $query->where('is_active', 1);
     }
 
+    public function scopeOfMyOrders($query)
+    {
+        if (auth('sanctum')->check()) {
+            return $query->where('user_id', auth('sanctum')->id());
+        }
+    }
 }

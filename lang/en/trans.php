@@ -1403,6 +1403,7 @@ return [
     'invalid_payment_type' => 'Invalid payment type',
     'cash_payment_for_order' => 'Cash payment for order #:order_id',
     'online_payment_for_order' => 'Online payment for order #:order_id',
+    'order_details_retrieved_successfully' => 'Order details retrieved successfully',
 
     
         'slider' => [

@@ -812,8 +812,7 @@ abstract class BaseRepository implements BaseContract
      * @param array $data
      * @return mixed
      */
-    public function baseSearch($query, array $filters = [],
-                               array $relations = [], array $data = []): mixed
+    public function baseSearch($query, array $filters = [],   array $relations = [], array $data = []): mixed
     {
         $query = $this->applyRelations($query, $relations);
         if (!empty($filters)) {
@@ -836,6 +835,7 @@ abstract class BaseRepository implements BaseContract
      */
     public function search(array $filters = [], array $relations = [], array $data = []): mixed
     {
+   
         $query = $this->baseSearch($this->query, $filters, $relations, $data);
         return $this->getQueryResult($query, $filters);
     }
@@ -894,7 +894,6 @@ abstract class BaseRepository implements BaseContract
             $query = $query->paginate($limit);
             return $query->withPath($paginationURI);
         }
-
 
         if ($page) {
             return $query->paginate($limit);

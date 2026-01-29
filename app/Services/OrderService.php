@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Transaction;
 use App\Enums\TransactionTypeEnum;
 use App\Enums\TransactionStatusEnum;
+use App\Repositories\Contracts\OrderContract;
 use App\Services\Payment\CashPaymentService;
 use App\Services\Payment\PaymobService;
 use App\Services\WalletService;
@@ -17,7 +18,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class OrderService
+class OrderService extends BaseService
 {
     protected CashPaymentService $cashPaymentService;
     protected PaymobService $paymobService;
@@ -25,15 +26,18 @@ class OrderService
     protected ProductQuantityService $productQuantityService;
 
     public function __construct(
+        OrderContract $repository,
         CashPaymentService $cashPaymentService,
         PaymobService $paymobService,
         WalletService $walletService,
         ProductQuantityService $productQuantityService
     ) {
+        $this->repository = $repository;
         $this->cashPaymentService = $cashPaymentService;
         $this->paymobService = $paymobService;
         $this->walletService = $walletService;
         $this->productQuantityService = $productQuantityService;
+        parent::__construct($repository);
     }
 
     public function createOrder(int $userId, int $paymentType): array
@@ -184,6 +188,18 @@ class OrderService
             ],
             'processed_at' => now(),
         ]);
+    }
+
+    public function getUserOrders($userId, $filters = [], $relations = [])
+    {
+        /** @var OrderContract $repository */
+        $repository = $this->repository;
+        return $repository->getUserOrders($userId, $filters, $relations);
+    }
+
+    public function findOrder($id, $relations = [])
+    {
+        return $this->repository->find($id, $relations);
     }
 
     private function validateWallet($wallet, float $totalPrice): void

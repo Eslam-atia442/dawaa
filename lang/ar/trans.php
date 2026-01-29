@@ -1402,6 +1402,7 @@ return [
     'invalid_payment_type' => 'نوع الدفع غير صالح',
     'cash_payment_for_order' => 'دفع نقدي للطلب رقم :order_id',
     'online_payment_for_order' => 'دفع إلكتروني للطلب رقم :order_id',
+    'order_details_retrieved_successfully' => 'تم استرجاع تفاصيل الطلب بنجاح',
 
 
     // Activation Code Email

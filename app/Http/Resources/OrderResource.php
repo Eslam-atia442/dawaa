@@ -3,9 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\OrderItemResource;
+use App\Http\Resources\UserResource;
 
-class OrderResource extends JsonResource
+class OrderResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -15,21 +16,31 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $this->micro = [
             'id' => $this->id,
-            'user' => $this->whenLoaded('user', function () {
-                return [
-                    'id' => $this->user->id,
-                    'name' => $this->user->name,
-                    'email' => $this->user->email,
-                ];
-            }),
-            'items' => OrderItemResource::collection($this->whenLoaded('items')),
+            'total_price' => $this->total_price,
+        ];
+        $this->mini = [
+            'id' => $this->id,
             'total_price' => $this->total_price,
             'payment_type' => $this->payment_type?->value,
             'payment_type_label' => $this->payment_type?->label(),
+            'status' => $this->status?->value,
+            'status_label' => $this->status?->label(),
+            'items_count' => $this->items_count ?? $this->whenLoaded('items', fn() => $this->items->count()),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
+        $this->full = [
+            'refund_type' => $this->refund_type?->value,
+            'refund_type_label' => $this->refund_type?->label(),
+        ];
+
+        $this->relations = [
+
+            'items' => OrderItemResource::collection($this->whenLoaded('items')),
+        ];
+
+        return $this->getResource();
     }
 }

@@ -124,6 +124,8 @@ Route::middleware(['auth:sanctum', 'accepted.user'])->group(function () {
     });
 
     Route::group(['prefix' => 'orders'], function () {
+        Route::get('/my-orders', [OrderController::class, 'myOrders']);
+        Route::get('/{order}', [OrderController::class, 'show']);
         Route::post('/', [OrderController::class, 'createOrder']);
     });
 });

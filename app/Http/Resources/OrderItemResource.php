@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderItemResource extends JsonResource
+class OrderItemResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -15,21 +14,14 @@ class OrderItemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $this->micro = [
             'id' => $this->id,
-            'product' => $this->whenLoaded('product', function () {
-                return [
-                    'id' => $this->product->id,
-                    'name' => $this->product->name,
-                ];
-            }),
-            'child_product' => $this->whenLoaded('childProduct', function () {
-                return $this->childProduct ? [
-                    'id' => $this->childProduct->id,
-                    'name' => $this->childProduct->name,
-                    'price' => $this->childProduct->price,
-                ] : null;
-            }),
+            'quantity' => $this->quantity,
+            'price' => $this->price,
+            'total_price' => $this->total_price,
+        ];
+        $this->mini = [
+            'id' => $this->id,
             'quantity' => $this->quantity,
             'price' => $this->price,
             'total_price' => $this->total_price,
@@ -37,5 +29,19 @@ class OrderItemResource extends JsonResource
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
+        $this->full = [
+            // Add any additional fields for full representation
+        ];
+
+        $this->relations = [
+            'product' => $this->whenLoaded('product', function () {
+                return new ProductResource($this->product);
+            }),
+            'child_product' => $this->whenLoaded('childProduct', function () {
+                return new ProductResource($this->childProduct);
+            }),
+        ];
+
+        return $this->getResource();
     }
 }

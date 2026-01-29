@@ -47,10 +47,51 @@ class OrderController extends Controller
                     'transaction' => $result['transaction'],
                 ]
             );
-
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->respondWithError($e->getMessage());
         }
+    }
+
+    /**
+     * Get user's orders
+     * @authenticated
+     * @queryParam page integer Page number
+     * @queryParam limit integer Items per page
+     * @return JsonResponse
+     */
+    public function myOrders(): JsonResponse
+    {
+
+        request()->merge(['myOrders' => true]);
+        $relations = ['items', 'items.product', 'items.childProduct.parent'];
+        $orders = $this->orderService->search(request()->all(), $relations, []);
+
+        return $this->respondWithArray(OrderResource::collection($orders));
+    }
+
+    /**
+     * Get order details
+     * @authenticated
+     * @urlParam order integer required Order ID
+     * @return JsonResponse
+     */
+
+
+    public function show($orderId): JsonResponse
+    {
+        $user = auth('sanctum')->user();
+
+        $order = $this->orderService->findOrder($orderId, ['items.product', 'items.childProduct', 'user']);
+
+        // Ensure user can only view their own orders
+        if (!$order || $order->user_id !== $user->id) {
+            return $this->respondWithError(__('trans.unauthorized'), 403);
+        }
+
+        return $this->respondWithSuccess(
+            __('trans.order_details_retrieved_successfully'),
+            ['order' => new OrderResource($order)]
+        );
     }
 }
