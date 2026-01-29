@@ -1,0 +1,134 @@
+<?php
+namespace App\Http\Controllers\Dashboard\Admin;
+
+use App\Http\Controllers\BaseWebController;
+use App\Http\Requests\Admin\Order\CreateRequest;
+use App\Http\Requests\Admin\Order\UpdateRequest;
+use App\Models\Order;
+use App\Exports\OrderExport;
+use App\Jobs\ExportJob;
+use App\Models\User;
+use App\Services\ExportService;
+use Exception;
+use App\Services\OrderService;
+use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+
+
+class OrderController extends BaseWebController
+{
+    public object $service;
+    public object $userService;
+    public string $table;
+    public string $guard;
+    public array $relations;
+    protected ExportService $exportService;
+
+    public function __construct(
+                        UserService $userService,
+                        OrderService $service,
+                        ExportService $exportService,
+                        $table = 'orders',
+                        $guard = 'admin'
+    )
+    {
+
+        $this->service = $service;
+        $this->userService = $userService;
+        $this->exportService = $exportService;
+        $this->table = $table;
+        $this->guard = $guard;
+        $this->relations = [];
+        parent::__construct($this->service, $this->table, $this->guard, $this->relations ,'order');
+    }
+   
+    
+   
+    public function index(): View|JsonResponse
+    {
+
+        $users = $this->userService->search(['limit' => false, 'page' => false], [], );
+       
+        if (request()->ajax()) {
+            $rows = $this->service->search(request()->all(), $this->relations);
+            $html = view('dashboard.' . $this->guard . '.' . $this->table . '.table', compact('rows'))->render();
+            return response()->json(['html' => $html  ]);
+        }
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.index' , compact(var_name: 'users'));
+    }
+    public function store(CreateRequest $request): JsonResponse
+    {
+        try {
+            $this->service->create($request->validated());
+            return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()] , 400);
+        }
+    }
+    public function update(UpdateRequest $request, Order $order): JsonResponse
+    {
+        try {
+            $this->service->update($order, $request->validated());
+            return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()] , 400);
+        }
+    }
+
+    public function toggleField(Request $request, $order, $key)
+    {
+        return $this->service->toggleField($order, $key);
+    }
+
+    public function destroyMultiple(Request $request)
+    {
+        $request->validate([
+            'data' => 'required|json'
+        ]);
+
+        return $this->destroy($request->input('data'));
+    }
+
+    public function export(Request $request): JsonResponse
+    {
+        try {
+            $filters = collect($request->except(['_token']))
+                ->filter(function ($value) {
+                    if (is_array($value)) {
+                        return !empty(array_filter($value, fn($v) => $v !== '' && $v !== null));
+                    }
+                    return $value !== '' && $value !== null;
+                })
+                ->map(function ($value) {
+                    if (is_array($value)) {
+                        return array_filter($value, fn($v) => $v !== '' && $v !== null);
+                    }
+                    return $value;
+                })
+                ->toArray();
+
+            $export = $this->exportService->createExport(
+                name: __('trans.order.index') . ' ' . __('trans.export_excel') . ' - ' . now()->format('Y-m-d H:i:s'),
+                model: 'Order',
+                parameters: $filters
+            );
+
+            ExportJob::dispatch(
+                export: $export,
+                exportClass: OrderExport::class,
+                filters: $filters
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => __('trans.export_queued'),
+                'export_id' => $export->id
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+}

@@ -115,7 +115,18 @@
     </li>
 @endcan
 
+
+@can('read-all-order')
+    <li class="menu-item @if(Route::currentRouteName() == 'admin.orders.index') active @endif">
+        <a href="{{route('admin.orders.index')}}" class="menu-link">
+            <i class="menu-icon ti ti-bolt"></i>
+            <div data-i18n="@lang('trans.orders')">@lang('trans.order.index')</div>
+        </a>
+    </li>
+@endcan
+
 {{--#new_comand_side_bar_element_here--}}
+
 
 
 

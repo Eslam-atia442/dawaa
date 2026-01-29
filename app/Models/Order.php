@@ -16,15 +16,15 @@ class Order extends Model implements HasMedia
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
     protected $guarded = [];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user'];
     protected array $searchable = ['name'];
     protected array $dates = [];
     public array $translatable = ['name'];
     public array $restrictedRelations = [];
     public array $cascadedRelations = [];
     public array $filesToUpload = ['image'];
-    public const ADDITIONAL_PERMISSIONS = [];
-    public const DISABLE_PERMISSIONS    = false;
+    public const ADDITIONAL_PERMISSIONS = ['read-all', 'read'];
+    public const DISABLE_PERMISSIONS    = true;
     public const DISABLE_LOG            = false;
 
     //--------------------- casting  -------------------------------------
@@ -73,5 +73,10 @@ class Order extends Model implements HasMedia
         if (auth('sanctum')->check()) {
             return $query->where('user_id', auth('sanctum')->id());
         }
+    }
+
+    public function scopeOfUser($query, $data)
+    {
+        return $query->whereIn('user_id', (array)$data);
     }
 }

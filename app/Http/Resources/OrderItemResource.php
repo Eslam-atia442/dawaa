@@ -29,9 +29,7 @@ class OrderItemResource extends BaseResource
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
-        $this->full = [
-            // Add any additional fields for full representation
-        ];
+        $this->full = [];
 
         $this->relations = [
             'product' => $this->whenLoaded('product', function () {

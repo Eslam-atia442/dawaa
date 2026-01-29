@@ -25,7 +25,7 @@ class UserResource extends BaseResource
             'type'                 => $this->type?->value,
             'type_label'           => $this->type?->label(),
             'email'                => $this->email,
-            'register_by_social'   => (boolean)$this->social_type ?? false,
+            'register_by_social'   => (bool)$this->social_type ?? false,
             'social_type_provider' => $this->social_type ?? null,
             'phone'                => $this->phone,
             'gender'               => $this->gender ? GenderEnum::from($this->gender)->label() : null,
@@ -45,7 +45,11 @@ class UserResource extends BaseResource
             'accessToken' => $this->accessToken
         ];
         //$this->relationLoaded()
-        $this->relations = [];
+        $this->relations = [
+
+            'wallet' => $this->relationLoaded($this->wallet),
+
+        ];
         return $this->getResource();
     }
 }

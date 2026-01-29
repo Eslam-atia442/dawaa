@@ -66,7 +66,6 @@ class OrderController extends Controller
         request()->merge(['myOrders' => true]);
         $relations = ['items', 'items.product', 'items.childProduct.parent'];
         $orders = $this->orderService->search(request()->all(), $relations, []);
-
         return $this->respondWithArray(OrderResource::collection($orders));
     }
 
@@ -81,8 +80,8 @@ class OrderController extends Controller
     public function show($orderId): JsonResponse
     {
         $user = auth('sanctum')->user();
-
-        $order = $this->orderService->findOrder($orderId, ['items.product', 'items.childProduct', 'user']);
+        $relations = ['items', 'items.product', 'items.childProduct.parent'];
+        $order = $this->orderService->find($orderId, $relations);
 
         // Ensure user can only view their own orders
         if (!$order || $order->user_id !== $user->id) {

@@ -143,6 +143,7 @@ return [
     'enter'                       => 'Please enter',
     'provider'                    => 'Service Provider',
     'total_price'                 => 'Total Price',
+    'total'                       => 'Total',
     'pricing'                     => 'Pricing',
     'map_desc'                    => 'Map Description',
     'locations'                   => 'Addresses',
@@ -1404,6 +1405,8 @@ return [
     'cash_payment_for_order' => 'Cash payment for order #:order_id',
     'online_payment_for_order' => 'Online payment for order #:order_id',
     'order_details_retrieved_successfully' => 'Order details retrieved successfully',
+    'order_items' => 'Order Items',
+    'no_order_items' => 'No order items found',
 
     
         'slider' => [
@@ -1431,7 +1434,24 @@ return [
     'sliders' => 'Sliders',
     'roles' => 'Roles',
 
-    #new_comand_translations_here
+    
+        'order' => [
+         'index' => 'orders',
+         'create_page' => 'order Create Page',
+         'create' => 'Create order',
+         'edit_page' => 'order Edit Page',
+         'edit' => 'Edit order',
+         'show' => 'order Show',
+         'delete' => 'Delete order',
+         'delete_all' => 'Delete All orders',
+         'update' => 'Update order',
+        'read' => 'Read order',
+        'read-all' => 'Read All orders',
+        'details' => 'Order Details',
+        'items' => 'Order Items',
+        ],
+        #new_comand_translations_here
+        
         
 
 

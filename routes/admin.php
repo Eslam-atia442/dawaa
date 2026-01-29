@@ -31,7 +31,9 @@ use App\Http\Controllers\Dashboard\Admin\StoreController;
 use App\Http\Controllers\Dashboard\Admin\ProductController;
 use App\Http\Controllers\Dashboard\Admin\ChildProductController;
 use App\Http\Controllers\Dashboard\Admin\SliderController;
+    use App\Http\Controllers\Dashboard\Admin\OrderController;
     #new_comand_routes_path_here
+    
     
 
 
@@ -188,7 +190,14 @@ Route::group(['as' => 'admin.'], function () {
     Route::post('sliders/multiple', [SliderController::class, 'destroyMultiple'])->name('sliders.destroy-multiple');
     Route::post('sliders/toggle-status/{slider}/{key}', [SliderController::class, 'toggleField'])->name('slider-toggle');
     Route::post('sliders/export', [SliderController::class, 'export'])->name('slider-export');
+    
+    // orders
+    Route::resource('orders', OrderController::class);
+    Route::post('orders/multiple', [OrderController::class, 'destroyMultiple'])->name('orders.destroy-multiple');
+    Route::post('orders/toggle-status/{order}/{key}', [OrderController::class, 'toggleField'])->name('order-toggle');
+    Route::post('orders/export', [OrderController::class, 'export'])->name('order-export');
     #new_comand_routes_here
+
 
 
 

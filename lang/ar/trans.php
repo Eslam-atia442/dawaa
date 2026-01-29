@@ -155,6 +155,7 @@ return [
     'enter'                       => 'الرجاء ادخال',
     'provider'                    => 'مقدم الخدمة',
     'total_price'                 => 'السعر الكلي',
+    'total'                       => 'المجموع',
     'pricing'                     => 'التسعير',
     'map_desc'                    => 'الوصف على الخريطة',
     'locations'                   => 'العناوين',
@@ -1403,7 +1404,8 @@ return [
     'cash_payment_for_order' => 'دفع نقدي للطلب رقم :order_id',
     'online_payment_for_order' => 'دفع إلكتروني للطلب رقم :order_id',
     'order_details_retrieved_successfully' => 'تم استرجاع تفاصيل الطلب بنجاح',
-
+    'order_items' => 'عناصر الطلب',
+    'no_order_items' => 'لا توجد عناصر طلب',
 
     // Activation Code Email
     'activation_code_email_subject' => 'كود التفعيل',
@@ -1448,7 +1450,24 @@ return [
 
     'wallet_balance' => 'رصيد المحفظه',
     'reference' => 'مرجع',
-    #new_comand_translations_here
+    
+        'order' => [
+         'index' => 'الطلابات',
+         'create_page' => 'صفحة اضافة الطلب',
+         'create' => 'اضافة الطلب',
+         'edit_page' => 'صفحة تعديل الطلب',
+         'edit' => 'صفحة تعديل الطلب',
+         'show' => 'صفحة عرض الطلب',
+         'delete' => 'حذف الطلب',
+         'delete_all' => 'حذف العديد  من الطلابات',
+        'update' => 'تعديل الطلب',
+        'read' => 'عرض الطلب',
+        'read-all' => 'عرض كل الطلابات',
+        'details' => 'تفاصيل الطلب',
+        'items' => 'عناصر الطلب',
+        ],
+        #new_comand_translations_here
+        
 
 
 

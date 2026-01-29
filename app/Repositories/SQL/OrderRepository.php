@@ -15,12 +15,4 @@ class OrderRepository extends BaseRepository implements OrderContract
     {
         parent::__construct($model);
     }
-
-    public function getUserOrders($userId, $filters = [], $relations = [])
-    {
-
-        request()->merge(['myOrders'=>true]);
-        $query = $this->search(request()->all(), $relations);
-        return $this->getQueryResult($query, $filters);
-    }
 }
