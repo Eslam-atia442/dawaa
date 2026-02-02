@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\ExportService;
 use Exception;
 use App\Services\OrderService;
+use App\Services\RefundService;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,10 +26,12 @@ class OrderController extends BaseWebController
     public string $guard;
     public array $relations;
     protected ExportService $exportService;
+    protected RefundService $refundService;
 
     public function __construct(
                         UserService $userService,
                         OrderService $service,
+                        RefundService $refundService,
                         ExportService $exportService,
                         $table = 'orders',
                         $guard = 'admin'
@@ -37,6 +40,7 @@ class OrderController extends BaseWebController
 
         $this->service = $service;
         $this->userService = $userService;
+        $this->refundService = $refundService;
         $this->exportService = $exportService;
         $this->table = $table;
         $this->guard = $guard;
@@ -129,6 +133,46 @@ class OrderController extends BaseWebController
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    public function approveRefund(Order $order): JsonResponse
+    {
+        try {
+            $order->load(['parentOrder.items.product', 'parentOrder.items.childProduct', 'items']);
+
+            $approvedRefund = $this->refundService->approveRefund($order);
+
+            return response()->json([
+                'success' => true,
+                'message' => __('trans.refund_approved_successfully'),
+                'refund' => $approvedRefund
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function rejectRefund(Order $order): JsonResponse
+    {
+        try {
+            $order->load(['parentOrder.items.product', 'parentOrder.items.childProduct', 'items']);
+
+            $rejectedRefund = $this->refundService->rejectRefund($order);
+
+            return response()->json([
+                'success' => true,
+                'message' => __('trans.refund_rejected_successfully'),
+                'refund' => $rejectedRefund
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
         }
     }
 }

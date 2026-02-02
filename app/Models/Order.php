@@ -16,6 +16,15 @@ class Order extends Model implements HasMedia
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
     protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'total_price',
+        'payment_type',
+        'parent_id',
+        'refund_type',
+        'note',
+        'status',
+    ];
     protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user'];
     protected array $searchable = ['name'];
     protected array $dates = [];
@@ -23,17 +32,15 @@ class Order extends Model implements HasMedia
     public array $restrictedRelations = [];
     public array $cascadedRelations = [];
     public array $filesToUpload = ['image'];
-    public const ADDITIONAL_PERMISSIONS = ['read-all', 'read'];
+    public const ADDITIONAL_PERMISSIONS = ['read-all', 'read','approve-refund'];
     public const DISABLE_PERMISSIONS    = true;
     public const DISABLE_LOG            = false;
 
-    //--------------------- casting  -------------------------------------
     protected $casts = [
         'payment_type' => \App\Enums\PaymentTypeEnum::class,
         'refund_type' => \App\Enums\RefundTypeEnum::class,
+        'status' => \App\Enums\OrderStatusEnum::class,
     ];
-
-    //--------------------- relations -------------------------------------
     public function items()
     {
         return $this->hasMany(OrderItem::class);
@@ -58,10 +65,6 @@ class Order extends Model implements HasMedia
     {
         return $this->morphMany(Transaction::class, 'transactionable');
     }
-
-    //--------------------- functions -------------------------------------
-
-    //--------------------- scopes -------------------------------------
 
     public function scopeOfActive($query)
     {

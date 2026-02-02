@@ -21,6 +21,12 @@ class RepositoryServiceProvider extends ServiceProvider
                 "App\Repositories\SQL\\{$model}Repository"
             );
         }
+
+        // Manually bind RefundContract since it uses Order model
+        $this->app->bind(
+            "App\Repositories\Contracts\RefundContract",
+            "App\Repositories\SQL\RefundRepository"
+        );
     }
 
     protected function getModels(): Collection

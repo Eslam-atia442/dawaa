@@ -23,8 +23,6 @@ return new class extends Migration
             $table->tinyInteger('payment_type')->default(PaymentTypeEnum::ONLINE->value);
             $table->foreignIdFor(Order::class, 'parent_id')->nullable()->constrained()->onDelete('set null'); // refund order
             $table->tinyInteger('refund_type')->default(RefundTypeEnum::CASH->value);
-
-
             $table->softDeletes();
             $table->timestamps();
         });

@@ -63,7 +63,6 @@ class WalletService
 
         return DB::transaction(function () use ($wallet, $amount, $referenceType, $referenceId, $description) {
             $balanceBefore = $wallet->balance;
-
             if ($balanceBefore < $amount) {
                 throw new Exception(__('trans.insufficient_wallet_balance'));
             }

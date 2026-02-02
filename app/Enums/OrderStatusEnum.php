@@ -13,6 +13,9 @@ enum OrderStatusEnum: int
     case SHIPPED = 3;
     case DELIVERED = 4;
     case CANCELLED = 5;
+    case REFUND_REQUESTED = 6;
+    case REFUND_APPROVED = 7;
+    case REFUND_REJECTED = 8;
 
     public function label(): string
     {
@@ -27,6 +30,9 @@ enum OrderStatusEnum: int
             self::SHIPPED->value => __('trans.shipped'),
             self::DELIVERED->value => __('trans.delivered'),
             self::CANCELLED->value => __('trans.cancelled'),
+            self::REFUND_REQUESTED->value => __('trans.refund_requested'),
+            self::REFUND_APPROVED->value => __('trans.refund_approved'),
+            self::REFUND_REJECTED->value => __('trans.refund_rejected'),
         ];
     }
 
@@ -38,6 +44,9 @@ enum OrderStatusEnum: int
             self::SHIPPED->value => __('trans.shipped'),
             self::DELIVERED->value => __('trans.delivered'),
             self::CANCELLED->value => __('trans.cancelled'),
+            self::REFUND_REQUESTED->value => __('trans.refund_requested'),
+            self::REFUND_APPROVED->value => __('trans.refund_approved'),
+            self::REFUND_REJECTED->value => __('trans.refund_rejected'),
             default => ''
         };
     }

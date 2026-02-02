@@ -15,7 +15,7 @@ class Product extends Model implements HasMedia
 {
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
     protected array $filters = [
         'keyword',
         'createdAtMin',
@@ -28,7 +28,8 @@ class Product extends Model implements HasMedia
         'brand',
         'hasChildren',
         'fromPrice',
-        'toPrice'
+        'toPrice',
+        'recentlyAdded'
     ];
     protected array $searchable = ['name'];
     protected array $dates = ['expiry_date'];
@@ -170,5 +171,9 @@ class Product extends Model implements HasMedia
         return $query->whereHas('childProducts', function ($query) use ($value) {
             $query->where('price', '<=', $value);
         });
+    }
+    public function scopeOfRecentlyAdded($query)
+    {
+        return $query->where('is_recently_added', 1);
     }
 }

@@ -46,8 +46,7 @@ class UserResource extends BaseResource
         ];
         //$this->relationLoaded()
         $this->relations = [
-
-            'wallet' => $this->relationLoaded($this->wallet),
+            'wallet' => $this->relationLoaded('wallet') ? new $this->wallet : null,
 
         ];
         return $this->getResource();

@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\ChildProductController;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\OrderController;
+use App\Http\Controllers\Api\V1\RefundController;
 use App\Http\Controllers\Api\V1\SliderController;
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +128,12 @@ Route::middleware(['auth:sanctum', 'accepted.user'])->group(function () {
         Route::get('/my-orders', [OrderController::class, 'myOrders']);
         Route::get('/{order}', [OrderController::class, 'show']);
         Route::post('/', [OrderController::class, 'createOrder']);
+    });
+
+    Route::group(['prefix' => 'refunds'], function () {
+        Route::get('/refundable-orders', [RefundController::class, 'getRefundableOrders']);
+        Route::get('/orders/{order}/refundable-items', [RefundController::class, 'getRefundableItems']);
+        Route::post('/', [RefundController::class, 'createRefund']);
     });
 });
 

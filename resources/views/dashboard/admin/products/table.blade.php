@@ -11,6 +11,7 @@
         <th>{{ __('trans.category.index') }}</th>
         <th>{{ __('trans.brand.index') }}</th>
         <th>{{ __('trans.activate') }}</th>
+        <th>{{ __('trans.recently_added') }}</th>
         <th>{{ __('trans.actions') }}</th>
     </tr>
     </thead>
@@ -39,7 +40,12 @@
                     url="{{ route('admin.product-toggle',['product' => $row->id ,'key' => 'is_active']) }}">
                 </x-admin.toggle>
             </td>
-
+            <td>
+                <x-admin.toggle
+                    checked="{{$row->is_recently_added}}"
+                    url="{{ route('admin.product-toggle',['product' => $row->id ,'key' => 'is_recently_added']) }}">
+                </x-admin.toggle>
+            </td>
             <td>
                 <div class="d-inline-block text-nowrap">
                     @can('read-child-product')

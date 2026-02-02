@@ -196,6 +196,10 @@ Route::group(['as' => 'admin.'], function () {
     Route::post('orders/multiple', [OrderController::class, 'destroyMultiple'])->name('orders.destroy-multiple');
     Route::post('orders/toggle-status/{order}/{key}', [OrderController::class, 'toggleField'])->name('order-toggle');
     Route::post('orders/export', [OrderController::class, 'export'])->name('order-export');
+
+    // refund management
+    Route::post('orders/{order}/approve-refund', [OrderController::class, 'approveRefund'])->middleware('permission:approve-refund-order')->name('orders.approve-refund');
+    Route::post('orders/{order}/reject-refund', [OrderController::class, 'rejectRefund'])->middleware('permission:reject-refund-order')->name('orders.reject-refund');
     #new_comand_routes_here
 
 

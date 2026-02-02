@@ -9,6 +9,8 @@
         <th>{{ __('trans.user.index') }}</th>
         <th>{{ __('trans.total_price') }}</th>
         <th>{{ __('trans.payment_type') }}</th>
+        <th>{{ __('trans.type') }}</th>
+        
         <th>{{ __('trans.created_at') }}</th>
         <th>{{ __('trans.actions') }}</th>
     </tr>
@@ -28,6 +30,9 @@
             </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->payment_type?->label() }}</span>
+            </td>
+            <td>
+                <span class="text-truncate d-flex align-items-center">{{ $row->parent_id ? __('trans.refund_order') : __('trans.order.index')   }}</span>
             </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->created_at?->format('Y-m-d H:i:s') }}</span>
