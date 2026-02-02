@@ -31,22 +31,57 @@
     </ol>
 </nav>
 
-<div class="card mb-4 mt-4">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">{{ $title }} - {{ $user->name }}</h5>
-        <div class="d-flex gap-2">
-            @can('update-user')
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBalanceModal">
-                <i class="ti ti-plus me-1"></i>
-                @lang('trans.add_balance')
-            </button>
-            @endcan
-            <a href="{{route('admin.users.show', $user)}}" class="btn btn-outline-primary">
-                <i class="ti ti-arrow-left me-1"></i>
-                @lang('trans.back')
-            </a>
-        </div>
+<div class="card">
+    <div class="card-header">
+        <x-admin.buttons
+            extrabuttons="true"
+            :addbutton="false"
+            :deletebutton="false"
+        >
+            <x-slot name="extrabuttonsdiv">
+                @can('update-user')
+                <button type="button" class="btn btn-success waves-effect extrabuttonsdiv me-2" data-bs-toggle="modal" data-bs-target="#addBalanceModal">
+                    <i class="ti ti-plus me-1"></i>
+                    @lang('trans.add_balance')
+                </button>
+                @endcan
+
+                @can('create-export')
+                    <x-admin.export-button 
+                        :route="route('admin.users.wallet-history-export', $user)"
+                        buttonId="exportWalletHistoryBtn"
+                        buttonClass="btn btn-outline-success waves-effect extrabuttonsdiv me-2"
+                    />  
+                @endcan
+
+                <a href="{{route('admin.users.show', $user)}}" class="btn btn-outline-primary waves-effect extrabuttonsdiv">
+                    <i class="ti ti-arrow-left me-1"></i>
+                    @lang('trans.back')
+                </a>
+            </x-slot>
+        </x-admin.buttons>
+
+        <x-admin.filter
+            datefilter="true"
+            order="true"
+            :searchArray="[
+                'type' => [
+                    'input_type' => 'select',
+                    'input_name' => __('trans.type'),
+                    'rows' => [
+                        ['id' => '', 'name' => __('trans.all')],
+                        ['id' => \App\Enums\WalletTransactionTypeEnum::add->value, 'name' => __('trans.credit')],
+                        ['id' => \App\Enums\WalletTransactionTypeEnum::deduct->value, 'name' => __('trans.debit')],
+                    ]
+                ],
+                'reference_type' => [
+                    'input_type' => 'text',
+                    'input_name' => __('trans.reference_type'),
+                ],
+            ]"
+        />
     </div>
+
     <div class="card-body">
         <div class="row g-3 mb-4">
             <div class="col-md-3">
@@ -74,68 +109,11 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>@lang('trans.id')</th>
-                        <th>@lang('trans.type')</th>
-                        <th>@lang('trans.amount')</th>
-                        <th>@lang('trans.balance_before')</th>
-                        <th>@lang('trans.balance_after')</th>
-                        <th>@lang('trans.reference')</th>
-                        <th>@lang('trans.admin.index')</th>
-                        <th>@lang('trans.created_at')</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($walletTransactions as $transaction)
-                        <tr>
-                            <td>{{ $transaction->id }}</td>
-                            <td>
-                                <span class="badge bg-{{ $transaction->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? 'success' : 'danger' }}">
-                                    {{ $transaction->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? __('trans.credit') : __('trans.debit') }}
-                                </span>
-                            </td>
-                            <td class="{{ $transaction->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? 'text-success' : 'text-danger' }}">
-                                {{ $transaction->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? '+' : '-' }}{{ number_format($transaction->amount, 2) }}
-                            </td>
-                            <td>{{ number_format($transaction->balance_before ?? 0, 2) }}</td>
-                            <td>{{ number_format($transaction->balance_after ?? 0, 2) }}</td>
-                            <td>
-                                @if($transaction->reference_type && $transaction->reference_id)
-                                    {{ ucfirst($transaction->reference_type) }} #{{ $transaction->reference_id }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>{{ $transaction->admin?->name ?? '-' }}</td>
-                            <td>{{ $transaction->created_at?->format('Y-m-d H:i:s') }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center py-4">
-                                <div class="d-flex flex-column align-items-center">
-                                    <img src="{{globalSetting('no_data_image')?->first()?->getFullUrl()}} " width="100px" alt="">
-                                    <span class="mt-2">{{ __('trans.no_data_found') }}</span>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if($walletTransactions->hasPages())
-            <div class="d-flex justify-content-center mt-4">
-                {{ $walletTransactions->links('pagination::bootstrap-4') }}
-            </div>
-        @endif
+    <div class="card-datatable table-responsive table_content_append">
     </div>
 </div>
-
-@endsection
 
 <!-- Add Balance Modal -->
 <div class="modal fade" id="addBalanceModal" tabindex="-1" aria-labelledby="addBalanceModalLabel" aria-hidden="true">
@@ -173,6 +151,8 @@
         </div>
     </div>
 </div>
+
+@endsection
 
 @push('js_files')
 <script>
@@ -233,4 +213,8 @@
         });
     });
 </script>
+
+@include('dashboard.shared.deleteAll')
+@include('dashboard.shared.deleteOne')
+@include('dashboard.shared.filter_js', ['index_route' => route('admin.users.wallet-history', $user)])
 @endpush

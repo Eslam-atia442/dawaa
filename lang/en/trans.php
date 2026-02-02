@@ -1516,6 +1516,9 @@ return [
 
 
     'note' => 'Note',
+    'notes' => 'Notes',
+    'all' => 'All',
+    'reference_type' => 'Reference Type',
     'order_items' => 'Order Items',
     'order_items_required' => 'Order items are required',
     'order_items_must_be_array' => 'Order items must be an array',

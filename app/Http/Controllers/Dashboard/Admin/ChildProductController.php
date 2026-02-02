@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\ChildProduct\CreateRequest;
 use App\Http\Requests\Admin\ChildProduct\UpdateRequest;
 use App\Models\Product;
 use App\Exports\ChildProductExport;
+use App\Exports\ProductQuantityHistoryExport;
 use App\Jobs\ExportJob;
 use App\Services\ExportService;
 use Exception;
@@ -186,12 +187,66 @@ class ChildProductController extends Controller
         }
     }
 
-    public function quantityHistory(Product $product, Product $childProduct): View
+    public function quantityHistory(Request $request, Product $product, Product $childProduct): View|JsonResponse
     {
         $this->middleware('permission:read-child-product');
+     
 
-        $quantityHistory = $this->productQuantityService->getHistory($childProduct);
+        if ($request->ajax()) {
+            $filters = $request->except(['_token', 'page']);
+            $filters['product_id'] = $childProduct->id;
 
-        return view('dashboard.admin.child-products.quantity-history', compact('product', 'childProduct', 'quantityHistory'));
+            $rows = $this->productQuantityService->search($filters, ['admin'], ['id' => 'desc']);
+
+            $html = view('dashboard.admin.child-products.quantity-history.table', compact('rows', 'product', 'childProduct'))->render();
+            return response()->json(['html' => $html]);
+        }
+
+        return view('dashboard.admin.child-products.quantity-history.index', compact('product', 'childProduct'));
+    }
+
+    public function quantityHistoryExport(Request $request, Product $product, Product $childProduct): JsonResponse
+    {
+        $this->middleware('permission:create-export');
+
+        try {
+            $filters = collect($request->except(['_token']))
+                ->filter(function ($value) {
+                    if (is_array($value)) {
+                        return !empty(array_filter($value, fn($v) => $v !== '' && $v !== null));
+                    }
+                    return $value !== '' && $value !== null;
+                })
+                ->map(function ($value) {
+                    if (is_array($value)) {
+                        return array_filter($value, fn($v) => $v !== '' && $v !== null);
+                    }
+                    return $value;
+                })
+                ->toArray();
+
+            $filters['product_id'] = $childProduct->id;
+
+            $export = $this->exportService->createExport(
+                name: __('trans.quantity_history') . ' - ' . $childProduct->name . ' - ' . now()->format('Y-m-d H:i:s'),
+                model: 'ProductQuantityHistory',
+                parameters: $filters
+            );
+
+            ExportJob::dispatch(
+                export: $export,
+                exportClass: ProductQuantityHistoryExport::class,
+                filters: $filters
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => __('trans.export_queued'),
+                'export_id' => $export->id
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 }

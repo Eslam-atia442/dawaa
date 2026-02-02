@@ -2,13 +2,22 @@
 
 namespace App\Services;
 
+use App\Repositories\Contracts\BaseContract;
+use App\Repositories\Contracts\ProductQuantityHistoryContract;
 use App\Models\Product;
 use App\Models\ProductQuantityHistory;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class ProductQuantityService
+class ProductQuantityService extends BaseService
 {
+    protected BaseContract $repository;
+
+    public function __construct(ProductQuantityHistoryContract $repository)
+    {
+        $this->repository = $repository;
+        parent::__construct($repository);
+    }
     /**
      * Credit quantity to product (increase quantity).
      *
@@ -140,5 +149,32 @@ class ProductQuantityService
         }
 
         return $query->paginate($filters['per_page'] ?? 15);
+    }
+
+    /**
+     * Search quantity history with filters.
+     */
+    public function searchHistory(array $filters = [], array $relations = [], array $orderBy = ['id' => 'desc'])
+    {
+        $query = ProductQuantityHistory::query();
+
+        if (!empty($relations)) {
+            $query->with($relations);
+        }
+
+        $query->search($filters);
+
+        foreach ($orderBy as $column => $direction) {
+            $query->orderBy($column, $direction);
+        }
+
+        $limit = $filters['limit'] ?? 15;
+        $page = $filters['page'] ?? true;
+
+        if ($page === false || $page === 'false') {
+            return $query->get();
+        }
+
+        return $query->paginate($limit);
     }
 }

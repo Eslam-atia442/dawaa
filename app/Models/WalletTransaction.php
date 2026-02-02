@@ -26,8 +26,8 @@ class WalletTransaction extends Model
         'description',
         'admin_id',
     ];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax'];
-    protected array $searchable = [];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'type', 'wallet', 'admin', 'reference_type', 'reference_id'];
+    protected array $searchable = ['description'];
     protected array $dates = [];
     public array $translatable = [];
     public array $restrictedRelations = [];
@@ -45,8 +45,36 @@ class WalletTransaction extends Model
         
     }
 
+    public function wallet() : BelongsTo {
+        return $this->belongsTo(Wallet::class);
+    }
+
     //--------------------- functions -------------------------------------
 
     //--------------------- scopes -------------------------------------
 
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('type', $type);
+    }
+
+    public function scopeOfWallet($query, $walletId)
+    {
+        return $query->where('wallet_id', $walletId);
+    }
+
+    public function scopeOfAdmin($query, $adminId)
+    {
+        return $query->where('admin_id', $adminId);
+    }
+
+    public function scopeOfReferenceType($query, $referenceType)
+    {
+        return $query->where('reference_type', $referenceType);
+    }
+
+    public function scopeOfReferenceId($query, $referenceId)
+    {
+        return $query->where('reference_id', $referenceId);
+    }
 }

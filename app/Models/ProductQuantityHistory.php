@@ -26,7 +26,7 @@ class ProductQuantityHistory extends Model
         'admin_id'
     ];
 
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'product_id', 'reason', 'type'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'product', 'reason', 'type', 'reference_type', 'reference_id'];
     protected array $searchable = [];
     protected array $dates = [];
     public array $restrictedRelations = [];

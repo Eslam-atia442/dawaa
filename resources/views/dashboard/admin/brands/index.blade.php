@@ -32,11 +32,11 @@
             >
                 <x-slot name="extrabuttonsdiv">
                     @can('create-export')
-                        <!-- <x-admin.export-button 
+                       <x-admin.export-button 
                             :route="route('admin.brand-export')"
                             buttonId="exportBrandBtn"
                             buttonClass="btn btn-outline-success waves-effect extrabuttonsdiv me-2"
-                        /> -->
+                        />  
                     @endcan
                 </x-slot>
             </x-admin.buttons>

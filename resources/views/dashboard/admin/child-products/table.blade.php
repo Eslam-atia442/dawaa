@@ -42,7 +42,7 @@
                     <a href="{{ route('admin.products.child-products.edit', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
                    @endcan
                     <a href="{{ route('admin.products.child-products.show', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
-                    <a href="{{ route('admin.child-products.quantity-history', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"
+                    <a href="{{ route('admin.products.child-products.quantity-history', ['product' => $product->id, 'childProduct' => $row->id]) }}" class="btn btn-sm btn-icon"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('trans.quantity_history')">
                         <i class="text-warning ti ti-history"></i>
                     </a>

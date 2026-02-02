@@ -1388,6 +1388,9 @@ return [
     'cart_item_id_required' => 'معرف عنصر السلة مطلوب',
     'cart_item_not_found' => 'عنصر السلة غير موجود',
     'note' => 'ملاحظة',
+    'notes' => 'ملاحظات',
+    'all' => 'الكل',
+    'reference_type' => 'نوع المرجع',
 
     // User Status Messages
     'unauthenticated' => 'غير مصادق عليه',

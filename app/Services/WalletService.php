@@ -2,14 +2,23 @@
 
 namespace App\Services;
 
+use App\Repositories\Contracts\BaseContract;
+use App\Repositories\Contracts\WalletTransactionContract;
 use App\Enums\WalletTransactionTypeEnum;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class WalletService
+class WalletService extends BaseService
 {
+    protected BaseContract $repository;
+
+    public function __construct(WalletTransactionContract $repository)
+    {
+        $this->repository = $repository;
+        parent::__construct($repository);
+    }
     /**
      * Credit amount to wallet (increase balance).
      *
@@ -123,6 +132,33 @@ class WalletService
     {
         $wallet->update(['status' => 1]);
         return $wallet;
+    }
+
+    /**
+     * Search wallet transactions with filters.
+     */
+    public function searchTransactions(array $filters = [], array $relations = [], array $orderBy = ['id' => 'desc'])
+    {
+        $query = WalletTransaction::query();
+
+        if (!empty($relations)) {
+            $query->with($relations);
+        }
+
+        $query->search($filters);
+
+        foreach ($orderBy as $column => $direction) {
+            $query->orderBy($column, $direction);
+        }
+
+        $limit = $filters['limit'] ?? 15;
+        $page = $filters['page'] ?? true;
+
+        if ($page === false || $page === 'false') {
+            return $query->get();
+        }
+
+        return $query->paginate($limit);
     }
 }
 

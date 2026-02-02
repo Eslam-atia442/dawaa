@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\ExportService;
 use App\Jobs\ExportJob;
 use App\Exports\UserExport;
+use App\Exports\WalletTransactionExport;
 use Exception;
 use App\Enums\UserTypeEnum;
 use App\Services\UserService;
@@ -197,15 +198,62 @@ class UserController extends BaseWebController
         }
     }
 
-    public function walletHistory(User $user): View
+    public function walletHistory(Request $request, User $user): View|JsonResponse
     {
+        if ($request->ajax()) {
+            $filters = $request->except(['_token', 'page']);
+            $filters['wallet_id'] = $user->wallet?->id;
 
-        $walletTransactions = $user->wallet?->transactions()
-            ->with(['admin'])
-            ->latest()
-            ->paginate(15);
+            $rows = $this->walletService->search($filters, ['admin'], ['id' => 'desc']);
 
-        return view('dashboard.admin.users.wallet-history', compact('user', 'walletTransactions'));
+            $html = view('dashboard.admin.users.wallet-history.table', compact('rows', 'user'))->render();
+            return response()->json(['html' => $html]);
+        }
+
+        return view('dashboard.admin.users.wallet-history.index', compact('user'));
+    }
+
+    public function walletHistoryExport(Request $request, User $user): JsonResponse
+    {
+        try {
+            $filters = collect($request->except(['_token']))
+                ->filter(function ($value) {
+                    if (is_array($value)) {
+                        return !empty(array_filter($value, fn($v) => $v !== '' && $v !== null));
+                    }
+                    return $value !== '' && $value !== null;
+                })
+                ->map(function ($value) {
+                    if (is_array($value)) {
+                        return array_filter($value, fn($v) => $v !== '' && $v !== null);
+                    }
+                    return $value;
+                })
+                ->toArray();
+
+            $filters['wallet_id'] = $user->wallet?->id;
+
+            $export = $this->exportService->createExport(
+                name: __('trans.user_wallet_history') . ' - ' . $user->name . ' - ' . now()->format('Y-m-d H:i:s'),
+                model: 'WalletTransaction',
+                parameters: $filters
+            );
+
+            ExportJob::dispatch(
+                export: $export,
+                exportClass: WalletTransactionExport::class,
+                filters: $filters
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => __('trans.export_queued'),
+                'export_id' => $export->id
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     public function addBalance(User $user): JsonResponse
