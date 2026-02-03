@@ -1338,6 +1338,8 @@ return [
     'insufficient_wallet_balance' => 'Insufficient wallet balance',
     'wallet_not_found' => 'Wallet not found',
     'wallet_suspended' => 'Wallet is suspended',
+    'wallet_retrieved_successfully' => 'Wallet retrieved successfully',
+    'wallet_history_retrieved_successfully' => 'Wallet history retrieved successfully',
     'wallet_payment_for_order' => 'Wallet payment for order #:order_id',
     'quantity_must_be_positive' => 'Quantity must be positive',
     'insufficient_product_quantity' => 'Insufficient product quantity',

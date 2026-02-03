@@ -75,6 +75,7 @@ class ProfileController extends BaseApiController
     public function show(Request $request): JsonResponse
     {
         $user = auth('sanctum')->user();
+        $user->load(['wallet', 'country', 'city']);
         return $this->respondWithModel($user);
     }   
 }

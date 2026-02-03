@@ -46,8 +46,9 @@ class UserResource extends BaseResource
         ];
         //$this->relationLoaded()
         $this->relations = [
-            'wallet' => $this->relationLoaded('wallet') ? new $this->wallet : null,
-
+            'wallet' => $this->relationLoaded('wallet') && $this->wallet ? new WalletResource($this->wallet) : null,
+            'country' => $this->relationLoaded('country') && $this->country ? new CountryResource($this->country) : null,
+            'city' => $this->relationLoaded('city') && $this->city ? new CityResource($this->city) : null,
         ];
         return $this->getResource();
     }

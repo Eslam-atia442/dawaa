@@ -1337,6 +1337,8 @@ return [
     'insufficient_wallet_balance' => 'رصيد المحفظة غير كافي',
     'wallet_not_found' => 'المحفظة غير موجودة',
     'wallet_suspended' => 'المحفظة معلقة',
+    'wallet_retrieved_successfully' => 'تم جلب المحفظة بنجاح',
+    'wallet_history_retrieved_successfully' => 'تم جلب تاريخ المحفظة بنجاح',
     'wallet_payment_for_order' => 'دفع من المحفظة للطلب رقم :order_id',
     'quantity_must_be_positive' => 'يجب أن تكون الكمية موجبة',
     'insufficient_product_quantity' => 'الكمية المتاحة غير كافية',
