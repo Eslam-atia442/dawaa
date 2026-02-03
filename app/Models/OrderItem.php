@@ -29,6 +29,49 @@ class OrderItem extends Model implements HasMedia
     public const DISABLE_LOG            = false;
 
     //--------------------- casting  -------------------------------------
+    
+    protected $casts = [
+        'original_price' => 'decimal:2',
+        'discount_amount' => 'decimal:2',
+        'discounted_price' => 'decimal:2',
+        'total_discount' => 'decimal:2',
+        'price' => 'decimal:2',
+        'total_price' => 'decimal:2',
+    ];
+
+    //--------------------- accessors -------------------------------------
+    
+    /**
+     * Get the discount percentage for this item.
+     *
+     * @return float|null
+     */
+    public function getDiscountPercentageAttribute(): ?float
+    {
+        if (!$this->original_price || $this->original_price <= 0) {
+            return null;
+        }
+        
+        if (!$this->discount_amount || $this->discount_amount <= 0) {
+            return 0;
+        }
+        
+        return ($this->discount_amount / $this->original_price) * 100;
+    }
+    
+    /**
+     * Get the original total price (before discount).
+     *
+     * @return float|null
+     */
+    public function getOriginalTotalPriceAttribute(): ?float
+    {
+        if (!$this->original_price || !$this->quantity) {
+            return null;
+        }
+        
+        return $this->original_price * $this->quantity;
+    }
 
     //--------------------- relations -------------------------------------
     public function order()

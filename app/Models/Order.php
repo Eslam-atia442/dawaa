@@ -82,4 +82,36 @@ class Order extends Model implements HasMedia
     {
         return $query->whereIn('user_id', (array)$data);
     }
+
+    //--------------------- accessors -------------------------------------
+    
+    /**
+     * Get the subtotal (total before discount).
+     *
+     * @return float
+     */
+    public function getSubtotalAttribute(): float
+    {
+        if (!$this->relationLoaded('items')) {
+            return (float) $this->total_price;
+        }
+        
+        return (float) $this->items->sum(function ($item) {
+            return ($item->original_price ?? $item->price) * ($item->quantity ?? 1);
+        });
+    }
+    
+    /**
+     * Get the total discount amount.
+     *
+     * @return float
+     */
+    public function getTotalDiscountAttribute(): float
+    {
+        if (!$this->relationLoaded('items')) {
+            return 0;
+        }
+        
+        return (float) $this->items->sum('total_discount');
+    }
 }

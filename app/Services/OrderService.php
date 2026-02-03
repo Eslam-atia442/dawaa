@@ -68,6 +68,7 @@ class OrderService extends BaseService
         }
 
         $totalPrice = 0;
+        $totalDiscount = 0;
         $validatedCartItems = [];
 
         foreach ($cartItems as $cartItem) {
@@ -77,7 +78,25 @@ class OrderService extends BaseService
 
             $childProduct = $cartItem->childProduct;
             $quantity = $cartItem->quantity;
-            $price = $childProduct->price;
+            $originalPrice = $childProduct->price;
+            
+            $parent = $childProduct->parent;
+            $hasDiscount = $parent && ($parent->has_discount ?? false);
+            $discountPercentage = $hasDiscount ? ($parent->discount_percentage ?? 0) : 0;
+            
+            $discountAmount = 0;
+            $discountedPrice = $originalPrice;
+            
+            if ($hasDiscount && $discountPercentage > 0) {
+                $discountAmount = $originalPrice * ($discountPercentage / 100);
+                $discountedPrice = $originalPrice - $discountAmount;
+            }
+            
+            $itemTotalDiscount = $discountAmount * $quantity;
+            $itemTotalPrice = $discountedPrice * $quantity;
+            
+            $totalPrice += $itemTotalPrice;
+            $totalDiscount += $itemTotalDiscount;
 
             if ($quantity > $childProduct->quantity) {
                 throw new Exception(__('trans.insufficient_quantity', [
@@ -87,11 +106,14 @@ class OrderService extends BaseService
                 ]));
             }
 
-            $totalPrice += $quantity * $price;
             $validatedCartItems[] = [
                 'child_product' => $childProduct,
                 'quantity' => $quantity,
-                'price' => $price,
+                'original_price' => $originalPrice,
+                'discount_amount' => $discountAmount,
+                'discounted_price' => $discountedPrice,
+                'total_discount' => $itemTotalDiscount,
+                'total_price' => $itemTotalPrice,
             ];
         }
 
@@ -109,7 +131,12 @@ class OrderService extends BaseService
                     'product_id' => $item['child_product']->parent_id,
                     'child_product_id' => $item['child_product']->id,
                     'quantity' => $item['quantity'],
-                    'price' => $item['price'],
+                    'price' => $item['discounted_price'],
+                    'original_price' => $item['original_price'],
+                    'discount_amount' => $item['discount_amount'],
+                    'discounted_price' => $item['discounted_price'],
+                    'total_price' => $item['total_price'],
+                    'total_discount' => $item['total_discount'],
                 ]);
 
                 $this->productQuantityService->debit(
@@ -129,7 +156,7 @@ class OrderService extends BaseService
             DB::commit();
 
             return [
-                'order' => $order->load(['items', 'user']),
+                'order' => $order->load(['items', 'items.product', 'items.childProduct.parent', 'user']),
                 'transaction' => $transaction,
             ];
         } catch (Exception $e) {
