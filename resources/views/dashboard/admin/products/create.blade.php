@@ -115,6 +115,22 @@
                                         col="col-xl-6"
                                         :checked="true"
                                     />
+                                    <x-admin.input
+                                        name="has_discount"
+                                        label="has_discount"
+                                        type="checkbox"
+                                        col="col-xl-6"
+                                    />
+                                    <x-admin.input
+                                        name="discount_percentage"
+                                        label="discount_percentage"
+                                        type="number"
+                                        col="col-xl-6"
+                                        step="0.01"
+                                        min="0"
+                                        max="100"
+                                        placeholder="0.00"
+                                    />
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-media" role="tabpanel" aria-labelledby="v-pills-media-tab" tabindex="0">
@@ -234,6 +250,26 @@
                     }
                 });
             }, 1000);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var hasDiscountCheckbox = $('#has_discount');
+            var discountPercentageField = $('#discount_percentage').closest('.form-group');
+            
+            function toggleDiscountField() {
+                if (hasDiscountCheckbox.is(':checked')) {
+                    discountPercentageField.show();
+                    $('#discount_percentage').prop('required', true);
+                } else {
+                    discountPercentageField.hide();
+                    $('#discount_percentage').prop('required', false);
+                    $('#discount_percentage').val('');
+                }
+            }
+            
+            hasDiscountCheckbox.on('change', toggleDiscountField);
+            toggleDiscountField();
         });
     </script>
 @endpush

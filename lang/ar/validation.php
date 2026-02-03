@@ -240,6 +240,9 @@ return [
         'brand_id'                             => 'العلامة التجارية',
         'expiry_date'                          => 'تاريخ الانتهاء',
         'production_line_number'               => 'رقم خط الإنتاج',
+        'discount_percentage'                  => 'نسبة الخصم',
+        'has_discount'                         => 'هل يوجد خصم',
+        'discounted_price'                     => 'السعر المخفض',
     ],
 
 

@@ -83,6 +83,26 @@
                     </p>
                 </div>
 
+                {{-- Has Discount --}}
+                <div class="col-xl-6">
+                    <label class="form-label fw-bold">@lang('trans.has_discount')</label>
+                    <p class="form-control-plaintext">
+                        @if($row->has_discount)
+                            <span class="badge bg-success">@lang('trans.yes')</span>
+                        @else
+                            <span class="badge bg-secondary">@lang('trans.no')</span>
+                        @endif
+                    </p>
+                </div>
+
+                {{-- Discount Percentage --}}
+                @if($row->has_discount && $row->discount_percentage)
+                <div class="col-xl-6">
+                    <label class="form-label fw-bold">@lang('trans.discount_percentage')</label>
+                    <p class="form-control-plaintext">{{ number_format($row->discount_percentage, 2) }}%</p>
+                </div>
+                @endif
+
                 {{-- Image --}}
                 @if($row->getFirstMedia('image'))
                 <div class="col-xl-6">

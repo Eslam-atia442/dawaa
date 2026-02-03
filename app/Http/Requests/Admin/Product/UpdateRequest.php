@@ -26,6 +26,8 @@ class UpdateRequest extends BaseRequest
             'category_id' => ['required', 'exists:categories,id'],
             'brand_id' => ['required', 'exists:brands,id'],
             'is_active' => ['required', 'boolean'],
+            'has_discount' => ['nullable', 'boolean'],
+            'discount_percentage' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:has_discount,1'],
             'image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],

@@ -35,6 +35,7 @@ class ProductController extends BaseApiController
      * @queryParam from_price Filter by from price.
      * @queryParam to_price Filter by to price.
      * @queryParam recently_added Filter by recently added products.
+     * @queryParam has_discount Filter by has discount.
      */
     public function index(): mixed
     {

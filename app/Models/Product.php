@@ -29,7 +29,8 @@ class Product extends Model implements HasMedia
         'hasChildren',
         'fromPrice',
         'toPrice',
-        'recentlyAdded'
+        'recentlyAdded',
+        'hasDiscount',
     ];
     protected array $searchable = ['name'];
     protected array $dates = ['expiry_date'];
@@ -45,6 +46,8 @@ class Product extends Model implements HasMedia
 
     protected $casts = [
         'expiry_date' => 'date',
+        'has_discount' => 'boolean',
+        'discount_percentage' => 'decimal:2',
     ];
 
     //--------------------- relations -------------------------------------
@@ -94,6 +97,57 @@ class Product extends Model implements HasMedia
     public function isChild(): bool
     {
         return !is_null($this->parent_id);
+    }
+
+    //--------------------- accessors -------------------------------------
+
+    /**
+     * Get the discount status (inherited from parent if child product).
+     *
+     * @return bool
+     */
+    public function getHasDiscountAttribute(): bool
+    {
+        if ($this->isChild() && $this->relationLoaded('parent') && $this->parent) {
+            return (bool) ($this->parent->attributes['has_discount'] ?? false);
+        }
+        return (bool) ($this->attributes['has_discount'] ?? false);
+    }
+
+    /**
+     * Get the discount percentage (inherited from parent if child product).
+     *
+     * @return float|null
+     */
+    public function getDiscountPercentageAttribute(): ?float
+    {
+        if ($this->isChild() && $this->relationLoaded('parent') && $this->parent) {
+            $parentHasDiscount = (bool) ($this->parent->attributes['has_discount'] ?? false);
+            if ($parentHasDiscount) {
+                return isset($this->parent->attributes['discount_percentage']) 
+                    ? (float) $this->parent->attributes['discount_percentage'] 
+                    : null;
+            }
+            return null;
+        }
+        return isset($this->attributes['discount_percentage']) ? (float) $this->attributes['discount_percentage'] : null;
+    }
+
+    /**
+     * Calculate the discounted price based on discount percentage.
+     *
+     * @return float|null
+     */
+    public function getDiscountedPriceAttribute(): ?float
+    {
+        $hasDiscount = $this->has_discount;
+        $discountPercentage = $this->discount_percentage;
+        
+        if (!$hasDiscount || !$discountPercentage || !$this->price) {
+            return null;
+        }
+        
+        return $this->price - ($this->price * ($discountPercentage / 100));
     }
 
     //--------------------- scopes -------------------------------------
@@ -175,5 +229,9 @@ class Product extends Model implements HasMedia
     public function scopeOfRecentlyAdded($query)
     {
         return $query->where('is_recently_added', 1);
+    }
+    public function scopeOfHasDiscount($query)
+    {
+        return $query->where('has_discount', true);
     }
 }

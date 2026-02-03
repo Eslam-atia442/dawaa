@@ -19,11 +19,15 @@ class ChildProductResource extends BaseResource
             'id' => $this->id,
             'name' => $this->name,
         ];
+
         $this->mini = [
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
             'quantity' => $this->quantity,
+            'has_discount' => $this->has_discount,
+            'discount_percentage' => $this->discount_percentage,
+            'discounted_price' => $this->discounted_price,
             'image' => $this->getFirstMediaUrl('image'),
             'expiry_date' => $this->expiry_date?->format('Y-m-d H:i:s'),
             'production_line_number' => $this->production_line_number,
@@ -32,6 +36,9 @@ class ChildProductResource extends BaseResource
         ];
         $this->full = [
             'is_active' => $this->is_active,
+            'has_discount' => $this->has_discount,
+            'discount_percentage' => $this->discount_percentage,
+            'discounted_price' => $this->discounted_price,
         ];
         //$this->relationLoaded()
         $this->relations = [
