@@ -127,11 +127,27 @@
 
 {{--#new_comand_side_bar_element_here--}}
 
+<li class="menu-header small text-uppercase">
+    <span class="menu-header-text">@lang('trans.reports')</span>
+</li>
 
+@can('best-seller-report-setting')
+<li class="menu-item @if(Route::currentRouteName() == 'admin.reports.best-sellers.index') active @endif">
+    <a href="{{route('admin.reports.best-sellers.index')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-chart-bar"></i>
+        <div data-i18n="@lang('trans.best_seller_report')">@lang('trans.best_seller_report')</div>
+    </a>
+</li>
+@endcan
 
-
-
-
+@can('stock-quantity-report-setting')
+<li class="menu-item @if(Route::currentRouteName() == 'admin.reports.stock-quantity.index') active @endif">
+    <a href="{{route('admin.reports.stock-quantity.index')}}" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-package"></i>
+        <div data-i18n="@lang('trans.stock_quantity_report')">@lang('trans.stock_quantity_report')</div>
+    </a>
+</li>
+@endcan
 
 
 

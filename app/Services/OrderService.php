@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentTypeEnum;
 use App\Models\Cart;
 use App\Models\ChildProduct;
@@ -150,6 +151,8 @@ class OrderService extends BaseService
             }
 
             $transaction = $this->processPayment($order, $paymentType);
+
+            $order->update(['status' => OrderStatusEnum::PAID]);
 
             OrderItem::where('user_id', $userId)->whereNull('order_id')->delete();
 

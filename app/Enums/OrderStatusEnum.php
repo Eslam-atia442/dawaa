@@ -16,6 +16,7 @@ enum OrderStatusEnum: int
     case REFUND_REQUESTED = 6;
     case REFUND_APPROVED = 7;
     case REFUND_REJECTED = 8;
+    case PAID = 9;
 
     public function label(): string
     {
@@ -33,6 +34,7 @@ enum OrderStatusEnum: int
             self::REFUND_REQUESTED->value => __('trans.refund_requested'),
             self::REFUND_APPROVED->value => __('trans.refund_approved'),
             self::REFUND_REJECTED->value => __('trans.refund_rejected'),
+            self::PAID->value => __('trans.paid'),
         ];
     }
 
@@ -47,6 +49,7 @@ enum OrderStatusEnum: int
             self::REFUND_REQUESTED->value => __('trans.refund_requested'),
             self::REFUND_APPROVED->value => __('trans.refund_approved'),
             self::REFUND_REJECTED->value => __('trans.refund_rejected'),
+            self::PAID->value => __('trans.paid'),
             default => ''
         };
     }

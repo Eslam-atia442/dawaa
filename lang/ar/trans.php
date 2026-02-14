@@ -1535,8 +1535,24 @@ return [
         'items' => 'عناصر الطلب',
         ],
         #new_comand_translations_here
-        
 
+    // Reports
+    'reports' => 'التقارير',
+    'best_seller_report' => 'تقرير الأكثر مبيعاً',
+    'stock_quantity_report' => 'تقرير كمية المخزون',
+    'total_quantity_sold' => 'إجمالي الكمية المباعة',
+    'orders_count' => 'عدد الطلبات',
+    'total_revenue' => 'إجمالي الإيرادات',
+    'product_name' => 'اسم المنتج',
+    'parent_product' => 'المنتج الرئيسي',
+    'child_product_name' => 'اسم المنتج الفرعي',
+    'store_name' => 'المتجر',
+    'expiry_date' => 'تاريخ الانتهاء',
+    'enter_quantity_to_filter' => 'أدخل الكمية لتصفية النتائج',
+    'no_quantity_filter' => 'الرجاء إدخال قيمة الكمية في الفلتر لعرض تقرير المخزون.',
+    'paid' => 'مدفوع',
+    'price' => 'السعر',
+    'production_line_number' => 'رقم خط الإنتاج',
 
 
 

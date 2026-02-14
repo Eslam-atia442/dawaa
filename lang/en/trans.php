@@ -1516,8 +1516,24 @@ return [
         'items' => 'Order Items',
         ],
         #new_comand_translations_here
-        
-        
+
+    // Reports
+    'reports' => 'Reports',
+    'best_seller_report' => 'Best Sellers Report',
+    'stock_quantity_report' => 'Stock Quantity Report',
+    'total_quantity_sold' => 'Total Quantity Sold',
+    'orders_count' => 'Orders Count',
+    'total_revenue' => 'Total Revenue',
+    'product_name' => 'Product Name',
+    'parent_product' => 'Parent Product',
+    'child_product_name' => 'Child Product Name',
+    'store_name' => 'Store',
+    'expiry_date' => 'Expiry Date',
+    'enter_quantity_to_filter' => 'Enter quantity to filter results',
+    'no_quantity_filter' => 'Please enter a quantity value in the filter to view the stock report.',
+    'paid' => 'Paid',
+    'price' => 'Price',
+    'production_line_number' => 'Production Line Number',
 
 
     'note' => 'Note',

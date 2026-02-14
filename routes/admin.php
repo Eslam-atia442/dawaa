@@ -32,6 +32,8 @@ use App\Http\Controllers\Dashboard\Admin\ProductController;
 use App\Http\Controllers\Dashboard\Admin\ChildProductController;
 use App\Http\Controllers\Dashboard\Admin\SliderController;
     use App\Http\Controllers\Dashboard\Admin\OrderController;
+    use App\Http\Controllers\Dashboard\Admin\BestSellerReportController;
+    use App\Http\Controllers\Dashboard\Admin\StockQuantityReportController;
     #new_comand_routes_path_here
     
     
@@ -202,6 +204,17 @@ Route::group(['as' => 'admin.'], function () {
     // refund management
     Route::post('orders/{order}/approve-refund', [OrderController::class, 'approveRefund'])->middleware('permission:approve-refund-order')->name('orders.approve-refund');
     Route::post('orders/{order}/reject-refund', [OrderController::class, 'rejectRefund'])->middleware('permission:reject-refund-order')->name('orders.reject-refund');
+    // reports
+    Route::prefix('reports')->name('reports.')->group(function () {
+        // best sellers report
+        Route::get('best-sellers', [BestSellerReportController::class, 'index'])->name('best-sellers.index');
+        Route::post('best-sellers/export', [BestSellerReportController::class, 'export'])->name('best-sellers.export');
+
+        // stock quantity report
+        Route::get('stock-quantity', [StockQuantityReportController::class, 'index'])->name('stock-quantity.index');
+        Route::post('stock-quantity/export', [StockQuantityReportController::class, 'export'])->name('stock-quantity.export');
+    });
+
     #new_comand_routes_here
 
 

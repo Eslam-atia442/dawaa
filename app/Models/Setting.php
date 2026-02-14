@@ -31,7 +31,7 @@ class Setting extends Model implements HasMedia
             'no_data_icon',
             'login_background',
         ];
-    public const ADDITIONAL_PERMISSIONS = ['read-all', 'update', 'fcm'];
+    public const ADDITIONAL_PERMISSIONS = ['read-all', 'update', 'fcm', 'best-seller-report', 'stock-quantity-report'];
     public const DISABLE_PERMISSIONS    = true;
     public const DISABLE_LOG            = false;
 
