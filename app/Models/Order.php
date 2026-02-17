@@ -34,7 +34,7 @@ class Order extends Model implements HasMedia
     public array $cascadedRelations = [];
     public array $filesToUpload = ['image'];
     public const ADDITIONAL_PERMISSIONS = ['read-all', 'read','approve-refund'];
-    public const DISABLE_PERMISSIONS    = true;
+    public const DISABLE_PERMISSIONS    = false;
     public const DISABLE_LOG            = false;
 
     protected $casts = [
