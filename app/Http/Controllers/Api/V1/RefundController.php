@@ -73,9 +73,7 @@ class RefundController extends BaseApiController
         try {
             $user = auth('sanctum')->user();
             request()->merge(['user_id' => $user->id ,'refundable' => true] );
-            $orders = $this->refundService->search([], ['items.product', 'items.childProduct', 'refundOrders'], [
-                'relations' => ['items.product', 'items.childProduct', 'refundOrders']
-            ]);
+            $orders = $this->refundService->search(request()->all(), ['items.product', 'items.childProduct', 'refundOrders'] ,[]);
 
             return $this->respondWithSuccess(
                 __('trans.refundable_orders_retrieved_successfully'),
