@@ -6,7 +6,7 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\RefundTypeEnum;
 use App\Models\Order;
 use App\Repositories\Contracts\BaseContract;
-use App\Repositories\Contracts\OrderContract;
+use App\Repositories\Contracts\RefundContract;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +17,7 @@ class RefundService extends BaseService
     protected ProductQuantityService $productQuantityService;
 
     public function __construct(
-        OrderContract $repository,
+        RefundContract $repository,
         WalletService $walletService,
         ProductQuantityService $productQuantityService
     ) {
