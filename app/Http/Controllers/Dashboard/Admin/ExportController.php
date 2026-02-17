@@ -46,10 +46,7 @@ class ExportController extends BaseWebController
 
     public function download(Export $export): StreamedResponse
     {
-        if ($export->user_id !== auth($this->guard)->id()) {
-            abort(403, __('trans.unauthorized'));
-        }
-
+      
         if (!$export->isReady()) {
             abort(404, __('trans.export_not_ready'));
         }
