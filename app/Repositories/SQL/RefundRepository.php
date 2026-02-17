@@ -33,6 +33,6 @@ class RefundRepository extends BaseRepository implements RefundContract
         return $this->model->where('user_id', $userId)
             ->whereNotNull('parent_id') 
             ->whereDoesntHave('refundOrders')
-            ->with($filters['relations'] ?? [])
+            ->with($filters['relations'] ?? []);
     }
 }
