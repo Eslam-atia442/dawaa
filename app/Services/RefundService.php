@@ -65,9 +65,9 @@ class RefundService extends BaseService
 
     private function validateRefundEligibility(Order $order): void
     {
-        dd ($order->user_id, auth('sanctum')->id());
+     
         
-        if ($order->user_id !== auth('sanctum')->id()) {
+        if ($order->user_id != auth('sanctum')->id()) {
             throw new Exception(__('trans.order_not_found'));
         }
 
