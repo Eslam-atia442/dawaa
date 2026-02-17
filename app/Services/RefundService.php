@@ -13,15 +13,18 @@ use Illuminate\Support\Facades\DB;
 class RefundService extends BaseService
 {
     protected BaseContract $repository;
+    protected OrderContract $orderRepository;
     protected WalletService $walletService;
     protected ProductQuantityService $productQuantityService;
 
     public function __construct(
         OrderContract $repository,
+        OrderContract $orderRepository,
         WalletService $walletService,
         ProductQuantityService $productQuantityService
     ) {
         $this->repository = $repository;
+        $this->orderRepository = $orderRepository;
         $this->walletService = $walletService;
         $this->productQuantityService = $productQuantityService;
         parent::__construct($repository);
