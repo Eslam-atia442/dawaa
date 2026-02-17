@@ -30,7 +30,7 @@ class Product extends Model implements HasMedia
         'fromPrice',
         'toPrice',
         'recentlyAdded',
-        'has_discount',
+        'hasDiscount',
     ];
     protected array $searchable = ['name'];
     protected array $dates = ['expiry_date'];
@@ -232,7 +232,6 @@ class Product extends Model implements HasMedia
     }
     public function scopeOfHasDiscount($query)
     {
-            dd('test');
         return $query->where('has_discount', true);
     }
 }

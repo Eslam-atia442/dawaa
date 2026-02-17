@@ -32,10 +32,11 @@ class ProductController extends BaseApiController
      * @queryParam city Filter by city ID.
      * @queryParam category Filter by category ID.
      * @queryParam brand Filter by brand ID.
-     * @queryParam from_price Filter by from price.
-     * @queryParam to_price Filter by to price.
-     * @queryParam recently_added Filter by recently added products.
-     * @queryParam has_discount Filter by has discount.
+     * @queryParam fromPrice Filter by from price.
+     * @queryParam toPrice Filter by to price.
+     * @queryParam hasDiscount Filter by has discount.
+     * @queryParam recentlyAdded Filter by recently added products.
+     * @queryParam hasChildren Filter by has children products.
      */
     public function index(): mixed
     {
