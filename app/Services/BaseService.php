@@ -17,7 +17,6 @@ class BaseService
 
     public function search($filters = [], $relations = [], $data = [])
     {
-        dd($filters, $relations, $data);
         return $this->repository->search($filters, $relations, $data);
     }
 
