@@ -38,6 +38,7 @@ class UserResource extends BaseResource
             'front_card_image'     => $this->getFirstMediaUrl('front_card_image'),
             'back_card_image'      => $this->getFirstMediaUrl('back_card_image'),
             'phone_verified_at'    => $this->phone_verified_at,
+            'email_verified_at'    => $this->email_verified_at,
             'is_accepted'          => $this->is_accepted,
             'lat'                  => $this->lat,
             'long'                 => $this->long,
