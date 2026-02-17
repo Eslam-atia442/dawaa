@@ -174,12 +174,20 @@ class CartController extends Controller
                     return ($item->childProduct->discounted_price ?? $item->childProduct->price) * $item->quantity;
                 });
 
+                $total_original_price = $cartItems->sum(function ($item) {
+                    return $item->childProduct->price * $item->quantity;
+                });
+
+                $total_discount = $total_original_price - $total;
+
             return $this->respondWithSuccess(
                 __('trans.cart_retrieved'),
                 [
                     'items' => CartItemResource::collection($cartItems),
                     'items_count' => $cartItems->count(),
                     'total_price' => $total,
+                    'total_original_price' => $total_original_price,
+                    'total_discount' => $total_discount,
                 ]
             );
         } catch (\Exception $e) {
