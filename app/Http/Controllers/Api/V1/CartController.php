@@ -171,19 +171,16 @@ class CartController extends Controller
             $cartItems = OrderItem::cartItems($user->id)->with(['product', 'childProduct'])->get();
 
                 $total = $cartItems->sum(function ($item) {
-                    return ($item->discounted_price ?? $item->price) * $item->quantity;
+                    return ($item->childProduct->discounted_price ?? $item->childProduct->price) * $item->quantity;
                 });
-            $itemsCount = $cartItems->count();
-
-            $cartData = [
-                'items' => CartItemResource::collection($cartItems),
-                'items_count' => $itemsCount,
-                'total_price' => $total,
-            ];
 
             return $this->respondWithSuccess(
                 __('trans.cart_retrieved'),
-                (new CartResource($cartData))->resolve()
+                [
+                    'items' => CartItemResource::collection($cartItems),
+                    'items_count' => $cartItems->count(),
+                    'total_price' => $total,
+                ]
             );
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage());
