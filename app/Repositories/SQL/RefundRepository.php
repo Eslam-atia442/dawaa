@@ -27,5 +27,13 @@ class RefundRepository extends BaseRepository implements RefundContract
         return $this->create($refundOrderData);
     }
 
-
+    public function getRefundableOrders($userId, $filters = [])
+    {
+        // Get orders that can be refunded (not refunded yet)
+        return $this->model->where('user_id', $userId)
+            ->whereNull('parent_id') // Not a refund order
+            ->whereDoesntHave('refundOrders') // No existing refunds
+            ->with($filters['relations'] ?? [])
+            ->paginate($filters['per_page'] ?? 15);
+    }
 }
