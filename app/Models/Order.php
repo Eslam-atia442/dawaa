@@ -118,6 +118,8 @@ class Order extends Model implements HasMedia
 
     public function scopeOfRefundable($query)
     {
+
+        dd(auth('sanctum')->id());
         return $query->whereNotNull('parent_id')->whereDoesntHave('refundOrders')->where('user_id', auth('sanctum')->id());
     }
 }
