@@ -24,6 +24,7 @@ class Order extends Model implements HasMedia
         'refund_type',
         'note',
         'status',
+        'refundable',
     ];
     protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user'];
     protected array $searchable = ['name'];
@@ -113,5 +114,11 @@ class Order extends Model implements HasMedia
         }
         
         return (float) $this->items->sum('total_discount');
+    }
+
+
+    public function scopeOfRefundable($query)
+    {
+        return $query->whereNotNull('parent_id')->whereDoesntHave('refundOrders')->where('user_id', auth('sanctum')->id());
     }
 }
