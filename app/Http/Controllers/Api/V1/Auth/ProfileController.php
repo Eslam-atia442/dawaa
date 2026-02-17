@@ -62,6 +62,10 @@ class ProfileController extends BaseApiController
     {
         $user = $request->user();
         $user->tokens()->delete();
+
+        $user->email = now()->format('Y-m-d H:i:s') . '_' . $user->email;
+        $user->phone = now()->format('Y-m-d H:i:s') . '_' . $user->phone;
+        $user->save();
         $this->service->remove($user);
         return $this->respondWithSuccess(
             trans('trans.messages.account_deleted_successfully')
