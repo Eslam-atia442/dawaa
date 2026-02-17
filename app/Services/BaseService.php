@@ -13,7 +13,6 @@ class BaseService
     public function __construct(BaseContract $repository)
     {
         $this->repository = $repository;
-        dd($this->repository);
     }
 
     public function search($filters = [], $relations = [], $data = [])
