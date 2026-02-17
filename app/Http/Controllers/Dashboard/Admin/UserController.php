@@ -202,9 +202,13 @@ class UserController extends BaseWebController
     {
         if ($request->ajax()) {
             $filters = $request->except(['_token', 'page']);
-            $filters['wallet_id'] = $user->wallet?->id;
+            $filters['wallet'] = $user->wallet?->id;
 
-            $rows = $this->walletService->search($filters, ['admin'], ['id' => 'desc']);
+            if (!$filters['wallet']) {
+                $rows = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15);
+            } else {
+                $rows = $this->walletService->search($filters, ['admin'], ['page' => true, 'limit' => $filters['limit'] ?? 15]);
+            }
 
             $html = view('dashboard.admin.users.wallet-history.table', compact('rows', 'user'))->render();
             return response()->json(['html' => $html]);
@@ -231,7 +235,11 @@ class UserController extends BaseWebController
                 })
                 ->toArray();
 
-            $filters['wallet_id'] = $user->wallet?->id;
+            $filters['wallet'] = $user->wallet?->id;
+
+            if (!$filters['wallet']) {
+                return response()->json(['error' => __('trans.user_has_no_wallet')], 400);
+            }
 
             $export = $this->exportService->createExport(
                 name: __('trans.user_wallet_history') . ' - ' . $user->name . ' - ' . now()->format('Y-m-d H:i:s'),
