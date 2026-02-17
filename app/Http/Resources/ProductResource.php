@@ -30,6 +30,8 @@ class ProductResource extends BaseResource
             'is_active' => $this->is_active,
             'has_discount' => $this->has_discount ?? false,
             'discount_percentage' => $this->has_discount ? $this->discount_percentage : null,
+            'discounted_price' => $this->discounted_price,
+            
             'gallery' => $this->getMedia('gallery')->map(function ($media) {
                 return [
                     'id' => $media->id,
