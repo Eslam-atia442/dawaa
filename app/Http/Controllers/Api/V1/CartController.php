@@ -163,6 +163,8 @@ class CartController extends Controller
      */
     public function index(): JsonResponse
     {
+
+        dd('test');
         try {
             $user = auth('sanctum')->user();
 
