@@ -31,9 +31,8 @@ class RefundRepository extends BaseRepository implements RefundContract
     {
         // Get orders that can be refunded (not refunded yet)
         return $this->model->where('user_id', $userId)
-            ->whereNull('parent_id') // Not a refund order
-            ->whereDoesntHave('refundOrders') // No existing refunds
+            ->whereNotNull('parent_id') 
+            ->whereDoesntHave('refundOrders')
             ->with($filters['relations'] ?? [])
-            ->paginate($filters['per_page'] ?? 15);
     }
 }

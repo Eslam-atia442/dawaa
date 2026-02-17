@@ -35,7 +35,7 @@ class RefundService extends BaseService
         $this->validateRefundType($refundData['refund_type']);
 
         $validatedItems = $this->validateRefundItems($originalOrder, $refundData['items']);
-        
+
         $refundTotal = $this->calculateRefundTotal($validatedItems);
         $refundTypeValue = $this->getRefundTypeEnumValue($refundData['refund_type']);
         DB::beginTransaction();
