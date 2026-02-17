@@ -22,9 +22,9 @@ class PermissionsTableSeeder extends Seeder
     public function run(): void
     {
 
-        // DB::table('permissions')->delete();
-        // DB::table('role_has_permissions')->delete();
-        // DB::table('model_has_permissions')->delete();
+        DB::table('permissions')->delete();
+        DB::table('role_has_permissions')->delete();
+        DB::table('model_has_permissions')->delete();
 
         $defaultPermissions = Permission::defaultPermissions();
         Schema::disableForeignKeyConstraints();
