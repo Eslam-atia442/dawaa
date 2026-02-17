@@ -65,7 +65,6 @@ class OrderController extends Controller
 
         request()->merge(['myOrders' => true]);
         $relations = ['items', 'items.product', 'items.childProduct.parent'];
-        dd(request()->all());
         $orders = $this->orderService->search(request()->all(), $relations, []);
         return $this->respondWithArray(OrderResource::collection($orders));
     }
