@@ -236,6 +236,10 @@ class Product extends Model implements HasMedia
     }
     public function scopeOfHasDiscount($query)
     {
-        return $query->where('has_discount', true);
+        if (request()->has('hasDiscount') && request()->hasDiscount == true) {
+            return $query->where('has_discount', true);
+        } else {
+            return $query->where('has_discount', false);
+        }
     }
 }
