@@ -185,7 +185,6 @@ class CartController extends Controller
                 [
                     'items' => CartItemResource::collection($cartItems),
                     'items_count' => $cartItems->count(),
-                    'total_price' => $total,
                     'total_price_original' => $total_original_price,
                     'total_price_discounted' => $total,
                     'total_discount' => round($total_discount, 2),
