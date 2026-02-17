@@ -20,12 +20,10 @@ class RefundController extends BaseApiController
     use BaseApiResponseTrait;
 
     protected RefundService $refundService;
-    protected OrderService $orderService;
 
-    public function __construct(RefundService $refundService, OrderService $orderService)
+    public function __construct(RefundService $refundService)
     {
         $this->refundService = $refundService;
-        $this->orderService = $orderService;
         parent::__construct($refundService, OrderResource::class);
     }
 
@@ -74,10 +72,23 @@ class RefundController extends BaseApiController
     {
         try {
             $user = auth('sanctum')->user();
-            request()->merge(['user_id' => $user->id ,'refundable' => true] );
-            $orders = $this->orderService->search(request()->all(), ['items.product', 'items.childProduct', 'refundOrders'] ,[]);
 
-            return $this ->respondWithCollection($orders);
+            $filters = array_merge(request()->all(), [
+                'user' => $user->id,
+                'refundable' => true,
+            ]);
+
+            $orders = $this->refundService->search($filters, ['items.product', 'items.childProduct', 'refundOrders'], [
+                'page' => true,
+                'limit' => request('limit', 15),
+            ]);
+
+            return $this->respondWithSuccess(
+                __('trans.refundable_orders_retrieved_successfully'),
+                [
+                    'orders' => OrderResource::collection($orders),
+                ]
+            );
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage());
         }
