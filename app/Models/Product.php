@@ -143,6 +143,8 @@ class Product extends Model implements HasMedia
         $hasDiscount =(float) $this->attributes['has_discount'];
         $discountPercentage =(float) $this->attributes['discount_percentage'];
         $price =(float) $this->attributes['price'];
+
+        dd($hasDiscount, $discountPercentage, $price);
         
         if (!$hasDiscount || !$discountPercentage || !$price) {
             return null;
