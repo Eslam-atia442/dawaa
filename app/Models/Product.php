@@ -124,8 +124,8 @@ class Product extends Model implements HasMedia
         if ($this->isChild() && $this->relationLoaded('parent') && $this->parent) {
             $parentHasDiscount = (bool) ($this->parent->attributes['has_discount'] ?? false);
             if ($parentHasDiscount) {
-                return isset($this->parent->attributes['discount_percentage']) 
-                    ? (float) $this->parent->attributes['discount_percentage'] 
+                return isset($this->parent->attributes['discount_percentage'])
+                    ? (float) $this->parent->attributes['discount_percentage']
                     : null;
             }
             return null;
@@ -140,17 +140,21 @@ class Product extends Model implements HasMedia
      */
     public function getDiscountedPriceAttribute(): ?float
     {
-        $hasDiscount =(float) $this->parent->attributes['has_discount'];
-        $discountPercentage =(float) $this->parent->attributes['discount_percentage'];
-        $price =(float) $this->parent->attributes['price'];
 
-        dd($hasDiscount, $discountPercentage, $price);
-        
-        if (!$hasDiscount || !$discountPercentage || !$price) {
+        if ($this->attributes['parent_id']) {
+
+            $hasDiscount = (float) $this->parent->attributes['has_discount'];
+            $discountPercentage = (float) $this->parent->attributes['discount_percentage'];
+            $price = (float) $this->parent->attributes['price'];
+
+            if (!$hasDiscount || !$discountPercentage || !$price) {
+                return null;
+            }
+
+            return $price - ($price * ($discountPercentage / 100));
+        } else {
             return null;
         }
-        
-        return $price - ($price * ($discountPercentage / 100));
     }
 
     //--------------------- scopes -------------------------------------
@@ -233,7 +237,7 @@ class Product extends Model implements HasMedia
     {
         if (request()->has('recentlyAdded') && request()->recentlyAdded == true) {
             return $query->where('is_recently_added', 1);
-            } else {
+        } else {
             return $query->where('is_recently_added', 0);
         }
     }
