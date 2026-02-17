@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\Api\CreateRefundRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
