@@ -41,6 +41,7 @@ class LoginController extends BaseApiController
             $user = Auth::user();
             $user->tokens()->delete();
             $user->accessToken = $user->createToken('api')->plainTextToken;
+            $user->load(['city.region','country']);
             return $this->respondWithModel($user);
         }
         return $this->errorWrongArgs('Wrong Credentials');
