@@ -140,14 +140,14 @@ class Product extends Model implements HasMedia
      */
     public function getDiscountedPriceAttribute(): ?float
     {
-        $hasDiscount = $this->has_discount;
-        $discountPercentage = $this->discount_percentage;
+        $hasDiscount = $this->attributes['has_discount'];
+        $discountPercentage = $this->attributes['discount_percentage'];
         
-        if (!$hasDiscount || !$discountPercentage || !$this->price) {
+        if (!$hasDiscount || !$discountPercentage || !$this->attributes['price']) {
             return null;
         }
         
-        return $this->price - ($this->price * ($discountPercentage / 100));
+        return $this->attributes['price'] - ($this->attributes['price'] * ($discountPercentage / 100));
     }
 
     //--------------------- scopes -------------------------------------
