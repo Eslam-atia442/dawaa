@@ -27,7 +27,7 @@ class RefundService extends BaseService
         $this->orderRepository = $orderRepository;
         $this->walletService = $walletService;
         $this->productQuantityService = $productQuantityService;
-        parent::__construct($repository);
+        parent::__construct($orderRepository);
     }
 
     public function createRefund(Order $originalOrder, array $refundData): Order
