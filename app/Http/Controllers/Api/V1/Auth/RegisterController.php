@@ -52,7 +52,7 @@ class RegisterController extends BaseApiController
         if ($user->email) {
             Mail::to($user->email)->send(new ActivationCodeMail($user, $data['code']));
         }
-
+        $user->load(['city.region','country']);
         return $this->respondWithModel($user);
     }
 }

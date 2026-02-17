@@ -44,6 +44,7 @@ class ProfileController extends BaseApiController
 
         $user  = $this->service->update($user, $data);
         $user->refresh();
+        $user->load(['city.region','country']);
         return $this->respondWithSuccess(
             trans('trans.messages.profile_updated_successfully'),
             [
@@ -75,7 +76,7 @@ class ProfileController extends BaseApiController
     public function show(Request $request): JsonResponse
     {
         $user = auth('sanctum')->user();
-        $user->load(['wallet', 'country', 'city']);
+        $user->load(['wallet', 'country', 'city.region']);
         return $this->respondWithModel($user);
     }   
 }
