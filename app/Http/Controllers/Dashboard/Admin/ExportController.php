@@ -66,9 +66,7 @@ class ExportController extends BaseWebController
             foreach ($exportIds as $exportId) {
                 $export = $this->service->find($exportId);
 
-                if ($export->user_id !== auth($this->guard)->id()) {
-                    return response()->json(['error' => __('trans.unauthorized')], 403);
-                }
+           
 
                 if ($export->file_path && Storage::exists($export->file_path)) {
                     Storage::delete($export->file_path);
