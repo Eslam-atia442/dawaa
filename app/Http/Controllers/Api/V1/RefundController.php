@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\BaseApiController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateRefundRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -19,13 +19,12 @@ class RefundController extends BaseApiController
 {
     use BaseApiResponseTrait;
 
-    public array $relations;
+    protected RefundService $refundService;
 
-    public function __construct(RefundService $service)
+    public function __construct(RefundService $refundService)
     {
-        $this->service   = $service;
-        $this->relations = ['items.product', 'items.childProduct', 'refundOrders.orderItems'];
-        parent::__construct($service, OrderResource::class);
+        $this->refundService = $refundService;
+        parent::__construct($refundService, OrderResource::class);
     }
 
     /**
@@ -44,10 +43,21 @@ class RefundController extends BaseApiController
     
         try {
             $user = auth('sanctum')->user();
-            $order = $this->service->find($request->order_id, $this->relations);
+            $order = app(OrderService::class)->find($request->order_id, ['items.product', 'items.childProduct', 'user', 'refundOrders']);
 
-            $refundOrder = $this->service->createRefund($order, $request->all());
-            return $this->respondWithModel($refundOrder);
+            $refundOrder = $this->refundService->createRefund($order, [
+                'refund_type' => $request->refund_type,
+                'note' => $request->note,
+                'items' => $request->items,
+            ]);
+
+            return $this->respondWithSuccess(
+                __('trans.refund_request_submitted'),
+                [
+                    'refund_order' => new OrderResource($refundOrder),
+                    'original_order' => new OrderResource($order),
+                ]
+            );
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage());
         }
@@ -62,9 +72,16 @@ class RefundController extends BaseApiController
     {
         try {
             $user = auth('sanctum')->user();
-            request()->merge(['user_id' => $user->id ,'refundable' => true] );
-            $orders = $this->service->search(request()->all(), $this->relations,[]);
-            return $this->respondWithCollection($orders);
+            $orders = $this->refundService->getRefundableOrders($user->id, [
+                'relations' => ['items.product', 'items.childProduct', 'refundOrders']
+            ]);
+
+            return $this->respondWithSuccess(
+                __('trans.refundable_orders_retrieved_successfully'),
+                [
+                    'orders' => OrderResource::collection($orders),
+                ]
+            );
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage());
         }
@@ -80,9 +97,25 @@ class RefundController extends BaseApiController
     {
         try {
             $user = auth('sanctum')->user();
-            $order = $this->service->find($orderId, $this->relations);
-            $refundableItems = $this->service->getRefundableItems($order);
-            return $this->respondWithCollection($refundableItems);
+            $order = app(OrderService::class)->find($orderId, [
+                'items.product',
+                'items.childProduct',
+                'refundOrders.orderItems'
+            ]);
+
+            if ($order->user_id !== $user->id) {
+                return $this->respondWithError(__('trans.order_not_found'));
+            }
+
+            $refundableItems = $this->refundService->getRefundableItems($order);
+
+            return $this->respondWithSuccess(
+                __('trans.refundable_items_retrieved_successfully'),
+                [
+                    'order' => new OrderResource($order),
+                    'refundable_items' => $refundableItems,
+                ]
+            );
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage());
         }
