@@ -118,6 +118,6 @@ class Order extends Model implements HasMedia
 
     public function scopeOfRefundable($query)
     {
-        return $query->whereNull('parent_id')->whereDoesntHave('refundOrders');
+        return $query->whereNotNull('parent_id')->whereDoesntHave('refundOrders');
     }
 }
