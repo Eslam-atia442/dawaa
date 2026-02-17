@@ -1,5 +1,4 @@
-
-<table class="datatables-products table">
+<table class="datatables-wallet-history table">
 
     <thead class="border-top">
     <tr>
@@ -9,31 +8,33 @@
         <th>@lang('trans.balance_before')</th>
         <th>@lang('trans.balance_after')</th>
         <th>@lang('trans.reference')</th>
+        <th>@lang('trans.description')</th>
         <th>@lang('trans.admin.index')</th>
         <th>@lang('trans.created_at')</th>
     </tr>
     </thead>
     <tbody>
     @foreach ($rows as $row)
-        <tr class="delete_row">
+        <tr>
             <td>{{ $row->id }}</td>
             <td>
-                <span class="badge bg-{{ $row->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? 'success' : 'danger' }}">
-                    {{ $row->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? __('trans.credit') : __('trans.debit') }}
+                <span class="badge bg-{{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? 'success' : 'danger' }}">
+                    {{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? __('trans.credit') : __('trans.debit') }}
                 </span>
             </td>
-            <td class="{{ $row->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? 'text-success' : 'text-danger' }}">
-                {{ $row->type === App\Enums\WalletTransactionTypeEnum::deduct->value ? '+' : '-' }}{{ number_format($row->amount, 2) }}
+            <td class="{{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? 'text-success' : 'text-danger' }}">
+                {{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? '+' : '-' }}{{ number_format($row->amount, 2) }}
             </td>
             <td>{{ number_format($row->balance_before ?? 0, 2) }}</td>
             <td>{{ number_format($row->balance_after ?? 0, 2) }}</td>
             <td>
                 @if($row->reference_type && $row->reference_id)
-                    {{ ucfirst($row->reference_type) }} #{{ $row->reference_id }}
+                    {{ ucfirst(class_basename($row->reference_type)) }} #{{ $row->reference_id }}
                 @else
                     -
                 @endif
             </td>
+            <td><span class="text-truncate d-inline-block" style="max-width: 200px;" title="{{ $row->description }}">{{ $row->description ?? '-' }}</span></td>
             <td>{{ $row->admin?->name ?? '-' }}</td>
             <td>{{ $row->created_at?->format('Y-m-d H:i:s') }}</td>
         </tr>
