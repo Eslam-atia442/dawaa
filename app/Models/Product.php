@@ -228,7 +228,11 @@ class Product extends Model implements HasMedia
     }
     public function scopeOfRecentlyAdded($query)
     {
-        return $query->where('is_recently_added', 1);
+        if (request()->has('recentlyAdded') && request()->recentlyAdded == true) {
+            return $query->where('is_recently_added', 1);
+            } else {
+            return $query->where('is_recently_added', 0);
+        }
     }
     public function scopeOfHasDiscount($query)
     {
