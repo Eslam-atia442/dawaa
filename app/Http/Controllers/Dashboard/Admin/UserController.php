@@ -44,7 +44,7 @@ class UserController extends BaseWebController
         $this->service = $service;
         $this->table = $table;
         $this->guard = $guard;
-        $this->relations = ['country'];
+        $this->relations = ['country', 'city', 'city.region'];
         $this->countryService = $countryService;
         $this->exportService = $exportService;
         $this->walletService = $walletService;

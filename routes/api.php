@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\RefundController;
 use App\Http\Controllers\Api\V1\SliderController;
 use App\Http\Controllers\Api\V1\WalletController;
+use App\Http\Controllers\Api\V1\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,7 +65,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('profile/update', [ProfileController::class, 'update']);
     Route::post('profile/change-password', [ChangePasswordController::class, 'update']);
     Route::post('profile/delete', [ProfileController::class, 'delete']);
-    
+
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::get('/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::post('/read-all', [NotificationController::class, 'markAllAsRead']);
+        Route::get('/{id}', [NotificationController::class, 'show']);
+        Route::post('/{id}/read', [NotificationController::class, 'markAsRead']);
+    });
+
     Route::group(['prefix' => 'wallet'], function () {
         Route::get('/', [WalletController::class, 'getWallet']);
         Route::get('/history', [WalletController::class, 'getHistory']);

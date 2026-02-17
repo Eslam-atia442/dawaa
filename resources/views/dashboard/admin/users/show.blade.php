@@ -111,26 +111,32 @@
                 disabled="true" />
 
 
-            @if($row->country)
             <x-admin.input
-                :value="$row->country->name ?? '-'"
+                :value="$row->country?->name ?? '-'"
                 name="country_id"
                 label="country.index"
                 type="text"
                 col="col-xl-6"
                 placeholder="country.index"
                 disabled="true" />
-            @endif
-            @if($row->city)
+
             <x-admin.input
-                :value="$row->city->name ?? '-'"
+                :value="$row->city?->region?->name ?? '-'"
+                name="region"
+                label="region.index"
+                type="text"
+                col="col-xl-6"
+                placeholder="region.index"
+                disabled="true" />
+
+            <x-admin.input
+                :value="$row->city?->name ?? '-'"
                 name="city_id"
                 label="city.index"
                 type="text"
                 col="col-xl-6"
                 placeholder="city.index"
                 disabled="true" />
-            @endif
 
             @if($row->dob)
             <x-admin.input
@@ -219,7 +225,15 @@
         
         <div class="row g-3 mt-4">
             <div class="col-12">
-                <h5 class="mb-3">{{ __('trans.location') }}</h5>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">{{ __('trans.location') }}</h5>
+                    @if($row->lat && $row->long)
+                    <a href="https://www.google.com/maps?q={{ $row->lat }},{{ $row->long }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm">
+                        <i class="ti ti-brand-google me-1"></i>
+                        {{ __('trans.open_in_google_maps') }}
+                    </a>
+                    @endif
+                </div>
                 <div id="map"></div>
             </div>
         </div>
