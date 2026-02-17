@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseApiController;
 use App\Http\Requests\Api\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
@@ -10,19 +10,22 @@ use App\Traits\BaseApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
+
 /**
  * @group Api
  * @subgroup Orders
  */
-class OrderController extends Controller
+class OrderController extends BaseApiController
 {
     use BaseApiResponseTrait;
 
-    protected OrderService $orderService;
+    public array $relations;
 
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $service)
     {
-        $this->orderService = $orderService;
+        $this->service   = $service;
+        $this->relations = ['items', 'items.product', 'items.childProduct.parent'];
+        parent::__construct($service, OrderResource::class);
     }
 
     /**
@@ -38,7 +41,7 @@ class OrderController extends Controller
             $user = auth('sanctum')->user();
             $paymentType = $request->payment_type;
 
-            $result = $this->orderService->createOrder($user->id, $paymentType);
+            $result = $this->service->createOrder($user->id, $paymentType);
             DB::commit();
             return $this->respondWithSuccess(
                 __('trans.order_created_successfully'),
@@ -64,11 +67,8 @@ class OrderController extends Controller
     {
 
         request()->merge(['myOrders' => true]);
-        $relations = ['items', 'items.product', 'items.childProduct.parent'];
-        $orders = $this->orderService->search(request()->all(), $relations, []);
-        return $this->respondWithSuccess(__('trans.orders_retrieved_successfully'), [
-            'orders' => OrderResource::collection($orders),
-        ]);
+        $orders = $this->service->search(request()->all(), $this->relations, []);
+        return $this->respondWithCollection($orders);
     }
 
     /**
@@ -82,8 +82,7 @@ class OrderController extends Controller
     public function show($orderId): JsonResponse
     {
         $user = auth('sanctum')->user();
-        $relations = ['items', 'items.product', 'items.childProduct.parent'];
-        $order = $this->orderService->find($orderId, $relations);
+        $order = $this->service->find($orderId, $this->relations);
 
         // Ensure user can only view their own orders
         if (!$order || $order->user_id !== $user->id) {
