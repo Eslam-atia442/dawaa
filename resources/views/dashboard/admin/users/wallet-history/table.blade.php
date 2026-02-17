@@ -19,7 +19,7 @@
             <td>{{ $row->id }}</td>
             <td>
                 <span class="badge bg-{{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? 'success' : 'danger' }}">
-                    {{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? __('trans.credit') : __('trans.debit') }}
+                    {{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? __('trans.credit') : __('trans.debit') }} {{ $row->type }}
                 </span>
             </td>
             <td class="{{ $row->type === App\Enums\WalletTransactionTypeEnum::add->value ? 'text-success' : 'text-danger' }}">
