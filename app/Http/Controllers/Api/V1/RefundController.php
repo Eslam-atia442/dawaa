@@ -45,7 +45,7 @@ class RefundController extends BaseApiController
         try {
             $user = auth('sanctum')->user();
             $order = app(OrderService::class)->find($request->order_id, ['items.product', 'items.childProduct', 'user', 'refundOrders']);
-
+dd($order);
             $refundOrder = $this->refundService->createRefund($order, [
                 'refund_type' => $request->refund_type,
                 'note' => $request->note,
