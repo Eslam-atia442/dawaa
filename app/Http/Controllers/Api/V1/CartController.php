@@ -187,7 +187,7 @@ class CartController extends Controller
                     'items_count' => $cartItems->count(),
                     'total_price' => $total,
                     'total_original_price' => $total_original_price,
-                    'total_discount' => $total_discount,
+                    'total_discount' => round($total_discount, 2),
                 ]
             );
         } catch (\Exception $e) {
