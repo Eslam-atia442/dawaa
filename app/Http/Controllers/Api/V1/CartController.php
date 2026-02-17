@@ -164,13 +164,15 @@ class CartController extends Controller
     public function index(): JsonResponse
     {
 
-        dd('test');
+    
         try {
             $user = auth('sanctum')->user();
 
             $cartItems = OrderItem::cartItems($user->id)->with(['product', 'childProduct'])->get();
 
-            $total = $cartItems->sum('total_price');
+                $total = $cartItems->sum(function ($item) {
+                    return ($item->discounted_price ?? $item->price) * $item->quantity;
+                });
             $itemsCount = $cartItems->count();
 
             $cartData = [
