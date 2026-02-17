@@ -83,12 +83,7 @@ class RefundController extends BaseApiController
                 'limit' => request('limit', 15),
             ]);
 
-            return $this->respondWithSuccess(
-                __('trans.refundable_orders_retrieved_successfully'),
-                [
-                    'orders' => OrderResource::collection($orders),
-                ]
-            );
+            return $this->respondWithCollection($orders);
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage());
         }
