@@ -59,6 +59,11 @@ trait FCMNotificationTrait
 
                 $result = $this->sendToDevices($messaging, $tokens, $deviceTypes, $messageData, $type, $modelType, $modelId);
 
+                // Store Laravel database notification for User (deviceable_type=User)
+                if ($result['success'] && $userModel instanceof \App\Models\User) {
+                    $this->storeUserFCMNotification($userModel, $messageData, $modelType, $modelId);
+                }
+
                 // Log the result
                 if ($result['success']) {
                     $this->logFCMSuccess(
@@ -721,6 +726,21 @@ trait FCMNotificationTrait
 
             $result = $this->sendToDevices($messaging, $allTokens, $allDeviceTypes, $messageData, 'multiple', $modelType, $modelId);
 
+            // Store Laravel database notification for each User (deviceable_type=User)
+            if ($result['success']) {
+                $userIds = $authenticatedDevices
+                    ->filter(fn ($d) => $d->deviceable_type === \App\Models\User::class)
+                    ->pluck('deviceable_id')
+                    ->unique();
+
+                foreach ($userIds as $userId) {
+                    $user = \App\Models\User::find($userId);
+                    if ($user) {
+                        $this->storeUserFCMNotification($user, $messageData, $modelType, $modelId);
+                    }
+                }
+            }
+
             $results[] = [
                 'success' => $result['success'],
                 'message' => $result['message'],
@@ -739,5 +759,23 @@ trait FCMNotificationTrait
         }
 
         return $results;
+    }
+
+    /**
+     * Store FCM notification in Laravel database for User to retrieve via API.
+     * Used when deviceable_type=User (e.g. deviceable_id=1 for User with id 1).
+     *
+     * @param \App\Models\User $user
+     * @param array $messageData
+     * @param string|null $modelType
+     * @param int|null $modelId
+     */
+    protected function storeUserFCMNotification(\App\Models\User $user, array $messageData, ?string $modelType = null, ?int $modelId = null): void
+    {
+        try {
+            $user->notify(new \App\Notifications\FCMStorageNotification($messageData, $modelType, $modelId));
+        } catch (Exception $e) {
+            Log::warning('Failed to store user FCM notification: ' . $e->getMessage(), ['user_id' => $user->id]);
+        }
     }
 }
