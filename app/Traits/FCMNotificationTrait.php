@@ -24,6 +24,14 @@ trait FCMNotificationTrait
      */
     public function sendFCM(array $users, array $messageData, string $type = 'multiple', ?string $modelType = null, ?int $modelId = null): array
     {
+        // for test send to user 1
+        // $userModel = \App\Models\User::find(1);
+
+        // if ($userModel) {
+        //     $this->storeUserFCMNotification($userModel, $messageData, $modelType, $modelId);
+        // }
+
+        // dd($userModel);
         $results = [];
 
         try {
@@ -57,12 +65,15 @@ trait FCMNotificationTrait
                 $tokens = $devices->pluck('fcm_token')->toArray();
                 $deviceTypes = $devices->pluck('device_type')->toArray();
 
-                $result = $this->sendToDevices($messaging, $tokens, $deviceTypes, $messageData, $type, $modelType, $modelId);
 
-                // Store Laravel database notification for User (deviceable_type=User)
-                if ($result['success'] && $userModel instanceof \App\Models\User) {
+                if ( $userModel instanceof \App\Models\User) {
                     $this->storeUserFCMNotification($userModel, $messageData, $modelType, $modelId);
                 }
+
+                $result = $this->sendToDevices($messaging, $tokens, $deviceTypes, $messageData, $type, $modelType, $modelId);
+
+              
+             
 
                 // Log the result
                 if ($result['success']) {

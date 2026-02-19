@@ -142,6 +142,14 @@
                                         max="100"
                                         placeholder="0.00"
                                     />
+                                    <x-admin.input
+                                        name="minimum_quantity"
+                                        label="minimum_quantity"
+                                        type="number"
+                                        col="col-xl-6"
+                                        :value="$row->minimum_quantity"
+                                        placeholder="minimum_quantity"
+                                    />
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-media" role="tabpanel" aria-labelledby="v-pills-media-tab" tabindex="0">

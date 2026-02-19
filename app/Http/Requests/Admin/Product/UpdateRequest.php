@@ -31,7 +31,7 @@ class UpdateRequest extends BaseRequest
             'image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
             'gallery' => ['nullable', 'array'],
             'gallery.*' => ['nullable', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
-
+            'minimum_quantity' => ['required', 'integer', 'min:0'],
         ];
     }
     /**

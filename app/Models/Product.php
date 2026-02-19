@@ -158,6 +158,18 @@ class Product extends Model implements HasMedia
         }
     }
 
+   
+    public function getTotalQuantityAttribute(): ?int
+    {
+        return $this->childProducts()->sum('quantity');
+    }
+
+    public function getIsLowQuantityAttribute(): ?bool
+    {
+        return $this->total_quantity < $this->minimum_quantity;
+    }
+
+
     //--------------------- scopes -------------------------------------
 
     public function scopeParents($query)

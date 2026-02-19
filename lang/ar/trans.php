@@ -1523,7 +1523,7 @@ return [
 
     'wallet_balance' => 'رصيد المحفظه',
     'reference' => 'مرجع',
-    
+    'minimum_quantity' => 'الكمية الأدنى',
         'order' => [
          'index' => 'الطلابات',
          'create_page' => 'صفحة اضافة الطلب',

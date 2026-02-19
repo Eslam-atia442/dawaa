@@ -156,7 +156,14 @@
                             @foreach($row->items as $index => $item)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $item->product->name ?? '-' }}</td>
+                                    <td>
+                                    {{ $item->product->name ?? '-' }}
+                               
+                                        <span class="text-muted"><a href="{{ route('admin.products.child-products.show', 
+                                        ['product' => $item->product->id, 'childProduct' => $item->childProduct->id]) }}">
+                                        {{ $item->childProduct->production_line_number }}</a></span>
+                      
+                                    </td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ number_format($item->price, 2) }}</td>
                                     <td>{{ number_format($item->quantity * $item->price, 2) }}</td>

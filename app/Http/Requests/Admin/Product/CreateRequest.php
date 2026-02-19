@@ -31,6 +31,7 @@ class CreateRequest extends BaseRequest
             'image' => ['required', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
             'gallery' => ['required', 'array'],
             'gallery.*' => ['required', 'file', 'mimes:jpeg,jpg,png,gif,svg', 'max:2048'],
+            'minimum_quantity' => ['required', 'integer', 'min:0'],
         ];
     }
     /**

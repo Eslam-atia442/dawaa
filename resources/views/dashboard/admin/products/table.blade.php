@@ -20,7 +20,7 @@
         <tr class="delete_row">
             <td class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes checkSingle form-check-input" id="{{ $row->id }}"></td>
             <td>
-                <span class="text-truncate d-flex align-items-center">{{ $row->name }}</span>
+                <span class="text-truncate d-flex align-items-center @if($row->is_low_quantity) text-danger @endif">{{ $row->name }}</span>
             </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->store->name ?? '-' }}</span>

@@ -21,9 +21,11 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Services\WalletService;
-
+use App\Traits\FCMNotificationTrait;
 class UserController extends BaseWebController
 {
+
+    use FCMNotificationTrait;
     public object $service;
     public string $table;
     public string $guard;
@@ -288,6 +290,27 @@ class UserController extends BaseWebController
                 auth()->guard('admin')->id(),
                 $validated['notes'] ?? __('trans.balance_added_by_admin')
             );
+
+            //sent notification to user
+
+            $messageData = [
+                'title' => [
+                    'ar' => 'تم اضافة الرصيد بنجاح',
+                    'en' => 'Balance added successfully',
+                ],
+                'body' => [
+                    'ar' => 'تم اضافة الرصيد بنجاح',
+                    'en' => 'Balance added successfully',
+                ],
+                'data' => [
+                    'amount' => $validated['amount'],
+                ],
+                'modelType' => 'user',
+                'modelId' => $user->id,
+            ];
+
+            
+            $this->sendFCMToUser($user, $messageData, 'user', $user->id);
 
             DB::commit();
 

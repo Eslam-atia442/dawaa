@@ -103,6 +103,12 @@
                 </div>
                 @endif
 
+                {{-- Minimum Quantity --}}
+                <div class="col-xl-6">
+                    <label class="form-label fw-bold">@lang('trans.minimum_quantity')</label>
+                    <p class="form-control-plaintext">{{ $row->minimum_quantity }}</p>
+                </div>
+
                 {{-- Image --}}
                 @if($row->getFirstMedia('image'))
                 <div class="col-xl-6">

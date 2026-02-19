@@ -1504,7 +1504,7 @@ return [
     'sliders' => 'Sliders',
     'roles' => 'Roles',
 
-    
+    'minimum_quantity' => 'Minimum Quantity',
         'order' => [
          'index' => 'orders',
          'create_page' => 'order Create Page',
