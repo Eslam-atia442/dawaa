@@ -24,6 +24,7 @@ class Order extends Model implements HasMedia
         'refund_type',
         'note',
         'status',
+        'order_status',
         'refundable',
     ];
     protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user', 'refundable'];
@@ -41,6 +42,7 @@ class Order extends Model implements HasMedia
         'payment_type' => \App\Enums\PaymentTypeEnum::class,
         'refund_type' => \App\Enums\RefundTypeEnum::class,
         'status' => \App\Enums\OrderStatusEnum::class,
+        'order_status' => \App\Enums\OrderStatusFlagEnum::class,
     ];
     public function items()
     {

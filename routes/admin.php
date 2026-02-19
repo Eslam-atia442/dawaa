@@ -204,6 +204,7 @@ Route::group(['as' => 'admin.'], function () {
     // refund management
     Route::post('orders/{order}/approve-refund', [OrderController::class, 'approveRefund'])->middleware('permission:approve-refund-order')->name('orders.approve-refund');
     Route::post('orders/{order}/reject-refund', [OrderController::class, 'rejectRefund'])->middleware('permission:reject-refund-order')->name('orders.reject-refund');
+    Route::post('orders/{order}/order-status', [OrderController::class, 'updateOrderStatus'])->name('orders.update-order-status');
     // reports
     Route::prefix('reports')->name('reports.')->group(function () {
         // best sellers report

@@ -74,6 +74,26 @@
                     </p>
                 </div>
 
+                {{-- Order Status Flag (editable) --}}
+                <div class="col-xl-12">
+                    <label class="form-label fw-bold">@lang('trans.order_status')</label>
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <select id="order_status_select" class="form-select" style="max-width: 200px;">
+                            @foreach([1 => 'in_progress', 2 => 'delivered', 3 => 'rejected', 4 => 'canceled'] as $value => $key)
+                            <option value="{{ $value }}" {{ ($row->order_status?->value ?? 1) == $value ? 'selected' : '' }}>
+                                {{ \App\Enums\OrderStatusFlagEnum::getTranslation($value) }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <button type="button" id="save_order_status_btn" class="btn btn-primary btn-sm">
+                            <i class="ti ti-device-floppy me-1"></i>@lang('trans.save')
+                        </button>
+                        <span id="order_status_badge" class="badge bg-{{ \App\Enums\OrderStatusFlagEnum::getColor($row->order_status?->value ?? 1) }}">
+                            {{ \App\Enums\OrderStatusFlagEnum::getTranslation($row->order_status?->value ?? 1) }}
+                        </span>
+                    </div>
+                </div>
+
                 {{-- Updated At --}}
                 <div class="col-xl-6">
                     <label class="form-label fw-bold">@lang('trans.updated_at')</label>
@@ -278,6 +298,59 @@ function approveRefund(orderId) {
         }
     });
 }
+
+$(function() {
+$('#save_order_status_btn').on('click', function() {
+    var btn = $(this);
+    var select = $('#order_status_select');
+    var badge = $('#order_status_badge');
+    var orderId = {{ $row->id }};
+    var orderStatus = select.val();
+
+    btn.prop('disabled', true);
+    btn.html('<i class="ti ti-loader me-1"></i>@lang('trans.processing')...');
+
+    $.ajax({
+        url: '{{ route("admin.orders.update-order-status", ":id") }}'.replace(':id', orderId),
+        method: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            order_status: orderStatus
+        },
+        success: function(response) {
+            if (response.success) {
+                badge.removeClass('bg-primary bg-success bg-danger bg-secondary')
+                    .addClass('bg-' + response.order_status_color)
+                    .text(response.order_status_label);
+                Swal.fire({
+                    title: '@lang('trans.success')',
+                    text: response.message,
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    title: '@lang('trans.error')',
+                    text: response.message || '@lang('trans.error_occurred')',
+                    icon: 'error'
+                });
+            }
+        },
+        error: function(xhr) {
+            Swal.fire({
+                title: '@lang('trans.error')',
+                text: xhr.responseJSON?.error || '@lang('trans.error_occurred')',
+                icon: 'error'
+            });
+        },
+        complete: function() {
+            btn.prop('disabled', false);
+            btn.html('<i class="ti ti-device-floppy me-1"></i>@lang('trans.save')');
+        }
+    });
+});
+});
 
 function rejectRefund(orderId) {
     Swal.fire({

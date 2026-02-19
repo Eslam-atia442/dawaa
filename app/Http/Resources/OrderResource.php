@@ -35,6 +35,10 @@ class OrderResource extends BaseResource
             'items_count' => $this->items_count ?? $this->whenLoaded('items', fn() => $this->items->count()),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+
+            
+            'order_status' => $this->order_status?->value,
+            'order_status_label' => $this->order_status?->label(),
         ];
         $this->full = [
             'subtotal' => $subtotal,

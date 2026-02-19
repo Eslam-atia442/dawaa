@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Dashboard\Admin;
 
+use App\Enums\OrderStatusFlagEnum;
 use App\Http\Controllers\BaseWebController;
 use App\Http\Requests\Admin\Order\CreateRequest;
 use App\Http\Requests\Admin\Order\UpdateRequest;
@@ -173,6 +174,28 @@ class OrderController extends BaseWebController
                 'success' => false,
                 'message' => $e->getMessage()
             ], 400);
+        }
+    }
+
+    public function updateOrderStatus(Request $request, Order $order): JsonResponse
+    {
+        $request->validate([
+            'order_status' => ['required', 'integer', 'in:1,2,3,4'],
+        ]);
+
+        try {
+            $order->update(['order_status' => (int) $request->order_status]);
+            $order->refresh();
+            $statusValue = $order->order_status?->value ?? OrderStatusFlagEnum::IN_PROGRESS->value;
+            return response()->json([
+                'success' => true,
+                'message' => __('trans.order_status_updated_successfully'),
+                'order_status' => $statusValue,
+                'order_status_label' => OrderStatusFlagEnum::getTranslation($statusValue),
+                'order_status_color' => OrderStatusFlagEnum::getColor($statusValue),
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 }
