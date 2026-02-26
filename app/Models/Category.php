@@ -16,7 +16,7 @@ class Category extends Model implements HasMedia
     use  ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
     protected $guarded = ['id'];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'active'];
     protected array $searchable = ['name'];
     protected array $dates = [];
     public array $translatable = ['name'];
@@ -37,5 +37,10 @@ class Category extends Model implements HasMedia
     //--------------------- functions -------------------------------------
 
     //--------------------- scopes -------------------------------------
+
+    public function scopeOfActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
 
 }

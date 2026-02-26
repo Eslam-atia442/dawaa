@@ -16,7 +16,7 @@ class Brand extends Model implements HasMedia
     use SoftDeletes, ModelTrait, SearchTrait, HasTranslations, HasFactory, HasMediaConversionsTrait;
 
     protected $guarded = [];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'active'];
     protected array $searchable = ['name'];
     protected array $dates = [];
     public array $translatable = ['name'];

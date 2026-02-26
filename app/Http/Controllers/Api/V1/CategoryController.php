@@ -31,7 +31,7 @@ class CategoryController extends BaseApiController
      */
     public function index(): mixed
     {
-        
+        request()->merge(['active' => true]);
         $models = $this->service->search(request()->all(), $this->relations);
         return $this->respondWithCollection($models);
     }
@@ -42,6 +42,7 @@ class CategoryController extends BaseApiController
      */
     public function show($id): mixed
     {
+        
         $model = $this->service->find($id, $this->relations);
         return $this->respondWithModel($model);
     }

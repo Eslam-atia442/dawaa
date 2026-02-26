@@ -31,6 +31,7 @@ class Product extends Model implements HasMedia
         'toPrice',
         'recentlyAdded',
         'hasDiscount',
+        'active',
     ];
     protected array $searchable = ['name'];
     protected array $dates = ['expiry_date'];
@@ -262,4 +263,5 @@ class Product extends Model implements HasMedia
             return $query->where('has_discount', false);
         }
     }
+
 }

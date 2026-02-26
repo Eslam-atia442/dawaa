@@ -113,8 +113,7 @@ class CartController extends Controller
             $quantityToRemove = $request->quantity ?? 1;
 
             if ($cartItem->quantity <= $quantityToRemove) {
-                // Remove item completely
-                $cartItem->delete();
+                $cartItem->forceDelete();
                 $message = __('trans.item_removed_from_cart');
             } else {
                 // Reduce quantity
@@ -135,7 +134,7 @@ class CartController extends Controller
 
     /**
      * Empty cart - remove all items from user's cart.
-     * @authenticated
+     * @authenticated   
      * @return JsonResponse
      */
     public function emptyCart(): JsonResponse
@@ -145,7 +144,7 @@ class CartController extends Controller
 
             $deletedCount = OrderItem::where('user_id', $user->id)
                 ->whereNull('order_id')
-                ->delete();
+                ->forceDelete();
 
             return $this->respondWithSuccess(
                 __('trans.cart_emptied'),
