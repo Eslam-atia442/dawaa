@@ -169,7 +169,7 @@ class CartController extends Controller
             $total = $cartItems->sum(function ($item) {
                 return ($item->childProduct->discounted_price ?? $item->childProduct->price) * $item->quantity;
             });
-            dd('here');
+   
             $total_original_price = $cartItems->sum(function ($item) {
                 return $item->childProduct->price * $item->quantity;
             });

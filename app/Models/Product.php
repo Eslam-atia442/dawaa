@@ -109,6 +109,7 @@ class Product extends Model implements HasMedia
      */
     public function getHasDiscountAttribute(): bool
     {
+        dd('here2');
         if ($this->isChild() && $this->relationLoaded('parent') && $this->parent) {
             return (bool) ($this->parent->attributes['has_discount'] ?? false);
         }
@@ -122,6 +123,7 @@ class Product extends Model implements HasMedia
      */
     public function getDiscountPercentageAttribute(): ?float
     {
+        dd('here1');
         if ($this->isChild() && $this->relationLoaded('parent') && $this->parent) {
             $parentHasDiscount = (bool) ($this->parent->attributes['has_discount'] ?? false);
             if ($parentHasDiscount) {
