@@ -34,7 +34,7 @@ class CartController extends Controller
         try {
             DB::beginTransaction();
 
-            $user =auth('sanctum')->user();
+            $user = auth('sanctum')->user();
             $productId = $request->product_id;
             $quantity = $request->quantity ?? 1;
             $product = Product::findOrFail($productId);
@@ -54,7 +54,7 @@ class CartController extends Controller
                 }
                 $cartItem->quantity = $newQuantity;
                 // $cartItem->total_price = $cartItem->quantity * $cartItem->price;
-             
+
                 $cartItem->save();
             } else {
                 if ($product->quantity < $quantity) {
@@ -83,9 +83,6 @@ class CartController extends Controller
                     'cart_item' => new CartItemResource($cartItem)
                 ]
             );
-
-
-
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->respondWithError($e->getMessage());
@@ -163,24 +160,24 @@ class CartController extends Controller
     public function index(): JsonResponse
     {
 
-    
+
         try {
             $user = auth('sanctum')->user();
 
             $cartItems = OrderItem::cartItems($user->id)->with(['product', 'childProduct'])->get();
+
+            $total = $cartItems->sum(function ($item) {
+                return ($item->childProduct->discounted_price ?? $item->childProduct->price) * $item->quantity;
+            });
             dd('here');
-                $total = $cartItems->sum(function ($item) {
-                    return ($item->childProduct->discounted_price ?? $item->childProduct->price) * $item->quantity;
-                });
+            $total_original_price = $cartItems->sum(function ($item) {
+                return $item->childProduct->price * $item->quantity;
+            });
 
-                $total_original_price = $cartItems->sum(function ($item) {
-                    return $item->childProduct->price * $item->quantity;
-                });
-
-                $total_discount = $total_original_price - $total;
+            $total_discount = $total_original_price - $total;
 
 
-       
+
             return $this->respondWithSuccess(
                 __('trans.cart_retrieved'),
                 [
