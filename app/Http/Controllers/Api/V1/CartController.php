@@ -179,6 +179,8 @@ class CartController extends Controller
 
                 $total_discount = $total_original_price - $total;
 
+
+                dd('here');
             return $this->respondWithSuccess(
                 __('trans.cart_retrieved'),
                 [
