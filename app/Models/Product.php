@@ -143,7 +143,7 @@ class Product extends Model implements HasMedia
      */
     public function getDiscountedPriceAttribute(): ?float
     {
-
+        dd('here3');
         if ($this->attributes['parent_id']) {
 
             $hasDiscount = (float) $this->parent->attributes['has_discount'];
