@@ -168,7 +168,7 @@ class CartController extends Controller
             $user = auth('sanctum')->user();
 
             $cartItems = OrderItem::cartItems($user->id)->with(['product', 'childProduct'])->get();
-
+            dd('here');
                 $total = $cartItems->sum(function ($item) {
                     return ($item->childProduct->discounted_price ?? $item->childProduct->price) * $item->quantity;
                 });
@@ -180,7 +180,7 @@ class CartController extends Controller
                 $total_discount = $total_original_price - $total;
 
 
-                dd('here');
+       
             return $this->respondWithSuccess(
                 __('trans.cart_retrieved'),
                 [
