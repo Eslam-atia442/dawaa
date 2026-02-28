@@ -47,7 +47,7 @@ class Product extends Model implements HasMedia
     //--------------------- casting  -------------------------------------
 
     protected $casts = [
-        'expiry_date' => 'date',
+        // 'expiry_date' => 'date',
         'has_discount' => 'boolean',
         'discount_percentage' => 'decimal:2',
     ];
