@@ -149,6 +149,7 @@ class ExportJob implements ShouldQueue
             $filters = $this->filters;
             $filters['page'] = false;
             $filters['limit'] = false;
+            $filters['parent'] = true;
             $filteredData = $service->fresh()->search($filters,['store', 'city', 'category', 'brand']
             );
             return $filteredData->toArray();

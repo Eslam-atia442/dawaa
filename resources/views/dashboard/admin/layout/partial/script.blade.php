@@ -130,7 +130,7 @@
                 url: url,
                 type: 'GET',
                 headers: {
-                    'Accept-Language': selectedLanguage
+                    'X-Locale': selectedLanguage
                 },
                 success: function (data) {
                     location.reload();
