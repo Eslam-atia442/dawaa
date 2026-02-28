@@ -12,13 +12,13 @@ class SetLocale
 
     public function handle($request, Closure $next)
     {
+        dd('here');
         $lang = "ar";
         if (Cookie::has('lang'))
             $lang = Cookie::get('lang');
 
 
-        if ($request->header('Accept-Language')
-            && in_array($request->header('Accept-Language'), languages(),))
+        if ($request->header('Accept-Language') && in_array($request->header('Accept-Language'), languages(),))
             setcookie('lang', $request->header('Accept-Language'), time() + (86400 * 30), "/");
 
 
