@@ -110,7 +110,7 @@ class ChildProductController extends Controller
     public function destroy(Product $product, Product $childProduct): JsonResponse
     {
         try {
-            $this->service->delete($childProduct);
+            $this->service->remove($childProduct);
             return response()->json(['success' => true]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
@@ -134,7 +134,7 @@ class ChildProductController extends Controller
             foreach ($ids as $id) {
                 $childProduct = $this->service->find($id);
                 if ($childProduct && $childProduct->parent_id == $product->id) {
-                    $this->service->delete($childProduct);
+                    $this->service->remove($childProduct);
                 }
             }
             return response()->json(['success' => true]);
