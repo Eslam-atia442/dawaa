@@ -336,9 +336,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof L === 'undefined') return;
-        var lat = parseFloat(@json(@$row->user?->lat));
-        var lng = parseFloat(@json(@$row-> user ? -> long));
-        var mapDesc = @json(@$row -> user ? -> map_description ?? '');
+        var lat = parseFloat(@json($row->user?->lat));
+        var lng = parseFloat(@json($row->user?->long));
+        var mapDesc = @json($row->user?->map_description ?? '');
         var mapEl = document.getElementById('order-user-map');
         if (!mapEl) return;
         if (!isNaN(lat) && !isNaN(lng)) {
@@ -356,8 +356,7 @@
             }
         } else {
             mapEl.style.height = 'auto';
-            mapEl.innerHTML = '<div class="alert alert-warning m-0">@json(__('
-            trans.no_location_data '))</div>';
+            mapEl.innerHTML = '<div class="alert alert-warning m-0">' + @json(__('trans.no_location_data')) + '</div>';
         }
     });
 </script>
