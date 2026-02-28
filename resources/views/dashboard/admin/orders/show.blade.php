@@ -256,14 +256,19 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>
-                            @if(isset($item->childProduct))
-                            {{ @$item->product?->name ?? '-' }}
-
-                            <span class="text-muted"><a href="{{ route('admin.products.child-products.show', 
-                                        ['product' => @$item->product?->id, 'childProduct' => @$item->childProduct?->id]) }}">
-                                    {{ @$item->childProduct?->production_line_number }}</a></span>
-                            @else
-                            {{ '-' }}
+                            @php
+                                $parentProduct = $item->product ?? $item->childProduct?->parent;
+                                $childProduct = $item->childProduct;
+                            @endphp
+                            {{ $item->product?->name ?? $item->childProduct?->name ?? '-' }}
+                            @if($childProduct && $parentProduct)
+                                <span class="text-muted">
+                                    <a href="{{ route('admin.products.child-products.show', ['product' => $parentProduct->id, 'childProduct' => $childProduct->id]) }}">
+                                        {{ $childProduct->production_line_number }}
+                                    </a>
+                                </span>
+                            @elseif($childProduct)
+                                <span class="text-muted">{{ $childProduct->production_line_number }}</span>
                             @endif
                         </td>
                         <td>{{ $item->quantity }}</td>
