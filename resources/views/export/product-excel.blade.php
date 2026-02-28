@@ -17,18 +17,35 @@
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.created_at') }}</th>
         </tr>
         @forelse($records as $record)
+            @php
+                $locale = app()->getLocale();
+                $name = data_get($record, 'name');
+                $name = is_array($name) ? ($name[$locale] ?? $name['en'] ?? head($name) ?? '') : ($name ?? '');
+                $storeName = data_get($record, 'store.name');
+                $storeName = is_array($storeName) ? ($storeName[$locale] ?? $storeName['en'] ?? head($storeName) ?? '-') : ($storeName ?? '-');
+                $cityName = data_get($record, 'city.name');
+                $cityName = is_array($cityName) ? ($cityName[$locale] ?? $cityName['en'] ?? head($cityName) ?? '-') : ($cityName ?? '-');
+                $categoryName = data_get($record, 'category.name');
+                $categoryName = is_array($categoryName) ? ($categoryName[$locale] ?? $categoryName['en'] ?? head($categoryName) ?? '-') : ($categoryName ?? '-');
+            @endphp
             <tr>
                 <td style="text-align: center">{{ $loop->iteration }}</td>
-                <td style="text-align: center">{{ is_array($record['name'] ?? null) ? ($record['name'][app()->getLocale()] ?? '') : ($record['name'] ?? '') }}</td>
-                <td style="text-align: center">{{ is_array($record['store']['name'] ?? null) ? ($record['store']['name'][app()->getLocale()] ?? '') : ($record['store']['name'] ?? '-') }}</td>
-                <td style="text-align: center">{{ is_array($record['city']['name'] ?? null) ? ($record['city']['name'][app()->getLocale()] ?? '') : ($record['city']['name'] ?? '-') }}</td>
-                <td style="text-align: center">{{ is_array($record['category']['name'] ?? null) ? ($record['category']['name'][app()->getLocale()] ?? '') : ($record['category']['name'] ?? '-') }}</td>
-                <td style="text-align: center">{{ number_format($record['price'] ?? 0, 2) }}</td>
-                <td style="text-align: center">{{ $record['quantity'] ?? 0 }}</td>
-                <td style="text-align: center">{{ isset($record['expiry_date']) && $record['expiry_date'] ? \Carbon\Carbon::parse($record['expiry_date'])->format('Y-m-d') : '-' }}</td>
-                <td style="text-align: center">{{ $record['production_line_number'] ?? '-' }}</td>
-                <td style="text-align: center">{{ ($record['is_active'] ?? false) ? __('trans.active') : __('trans.inactive') }}</td>
-                <td style="text-align: center">{{ isset($record['created_at']) && $record['created_at'] ? \Carbon\Carbon::parse($record['created_at'])->format('Y-m-d H:i:s') : '' }}</td>
+                <td style="text-align: center">{{ $name }}</td>
+                <td style="text-align: center">{{ $storeName }}</td>
+                <td style="text-align: center">{{ $cityName }}</td>
+                <td style="text-align: center">{{ $categoryName }}</td>
+                <td style="text-align: center">{{ number_format((float) (data_get($record, 'price') ?? 0), 2) }}</td>
+                <td style="text-align: center">{{ (int) (data_get($record, 'quantity') ?? 0) }}</td>
+                <td style="text-align: center">
+                    @php $expiry = data_get($record, 'expiry_date'); @endphp
+                    {{ $expiry ? \Carbon\Carbon::parse($expiry)->format('Y-m-d') : '-' }}
+                </td>
+                <td style="text-align: center">{{ data_get($record, 'production_line_number') ?? '-' }}</td>
+                <td style="text-align: center">{{ (bool) (data_get($record, 'is_active') ?? false) ? __('trans.active') : __('trans.inactive') }}</td>
+                <td style="text-align: center">
+                    @php $created = data_get($record, 'created_at'); @endphp
+                    {{ $created ? \Carbon\Carbon::parse($created)->format('Y-m-d H:i:s') : '' }}
+                </td>
             </tr>
         @empty
             <tr>

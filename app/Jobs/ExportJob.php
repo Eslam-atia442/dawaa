@@ -143,6 +143,17 @@ class ExportJob implements ShouldQueue
             return $filteredData->toArray();
         }
 
+        // Handle Product export (with relations for store, city, category, brand)
+        if ($modelClass === 'App\\Models\\Product') {
+            $service = app('App\\Services\\ProductService');
+            $filteredData = $service->fresh()->search(
+                $this->filters,
+                ['store', 'city', 'category', 'brand'],
+                ['page' => false]
+            );
+            return $filteredData->toArray();
+        }
+
         // Fallback for other models - try to use service if exists
         $serviceClass = 'App\\Services\\' . class_basename($modelClass) . 'Service';
         
