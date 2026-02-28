@@ -77,6 +77,7 @@
                                         :value="$row->quantity"
                                         min="0"
                                     />
+                                    {{ $row->expiry_date }}
                                     <x-admin.input
                                         name="expiry_date"
                                         label="expiry_date"
