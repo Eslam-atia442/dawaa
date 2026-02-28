@@ -22,6 +22,9 @@ class SetLocale
             if ($cookieLang !== null && in_array($cookieLang, languages(), true)) {
                 $lang = $cookieLang;
             } else {
+                if ($cookieLang !== null) {
+                    Cookie::queue(Cookie::forget('lang'));
+                }
                 $headerLang = $this->localeFromRequest($request);
                 if ($headerLang !== null) {
                     $lang = $headerLang;
