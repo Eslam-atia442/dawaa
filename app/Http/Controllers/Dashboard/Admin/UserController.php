@@ -295,23 +295,15 @@ class UserController extends BaseWebController
 
             $messageData = [
                 'title' => [
-                    'ar' => 'تم اضافة الرصيد بنجاح',
-                    'en' => 'Balance added successfully',
+                    'ar' => ' تم اضافة الرصيد بنجاح بواسطة ' . request()->amount,
+                    'en' => 'Balance added successfully by ' . request()->amount,
                 ],
                 'body' => [
-                    'ar' => 'تم اضافة الرصيد بنجاح',
-                    'en' => 'Balance added successfully',
+                    'ar' => ' تم اضافة الرصيد بنجاح بواسطة ' . request()->amount,
+                    'en' => 'Balance added successfully by ' . request()->amount,
                 ],
-                'data' => [
-                    'amount' => $validated['amount'],
-                ],
-                'modelType' => 'user',
-                'modelId' => $user->id,
             ];
-
-            
             $this->sendFCMToUser($user, $messageData, 'user', $user->id);
-
             DB::commit();
 
             return response()->json([
