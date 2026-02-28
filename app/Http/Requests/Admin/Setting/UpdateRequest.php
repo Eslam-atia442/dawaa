@@ -34,6 +34,7 @@ class UpdateRequest extends BaseRequest
             'privacy_policy_en'   => 'nullable',
             'privacy_policy_ar'   => 'nullable',
             'different_gold_price' => 'nullable',
+            'delivery_fees' => 'required|numeric|min:0',
         ];
     }
 

@@ -6,6 +6,15 @@
 
 @push('css_files')
 <link rel="stylesheet" href="{{asset('assets/validation/form-validation.css')}}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    #order-user-map {
+        height: 400px;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -129,6 +138,76 @@
         </div>
     </div>
 
+    {{-- User Data Section --}}
+    @if($row->user)
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="ti ti-user me-2"></i>@lang('trans.user.index')</h5>
+            @if(Route::has('admin.users.show'))
+            <a href="{{ route('admin.users.show', $row->user) }}" class="btn btn-sm btn-outline-primary">
+                <i class="ti ti-eye me-1"></i>@lang('trans.view')
+            </a>
+            @endif
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6 col-xl-4">
+                    <label class="form-label fw-bold">@lang('trans.name')</label>
+                    <p class="form-control-plaintext">{{ $row->user->name ?? '-' }}</p>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <label class="form-label fw-bold">@lang('trans.email')</label>
+                    <p class="form-control-plaintext">{{ $row->user->email ?? '-' }}</p>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <label class="form-label fw-bold">@lang('trans.phone')</label>
+                    <p class="form-control-plaintext">{{ $row->user->phone ?? '-' }}</p>
+                </div>
+                @if(isset($row->user->type))
+                <div class="col-md-6 col-xl-4">
+                    <label class="form-label fw-bold">@lang('trans.type')</label>
+                    <p class="form-control-plaintext">{{ $row->user->type?->label() ?? '-' }}</p>
+                </div>
+                @endif
+                @if($row->user->relationLoaded('country') && $row->user->country)
+                <div class="col-md-6 col-xl-4">
+                    <label class="form-label fw-bold">@lang('trans.country.index')</label>
+                    <p class="form-control-plaintext">{{ $row->user->country->name ?? '-' }}</p>
+                </div>
+                @endif
+                @if($row->user->relationLoaded('city') && $row->user->city)
+                <div class="col-md-6 col-xl-4">
+                    <label class="form-label fw-bold">@lang('trans.city.index')</label>
+                    <p class="form-control-plaintext">{{ $row->user->city->name ?? '-' }}</p>
+                </div>
+                @endif
+                {{-- Address / Map description --}}
+                @if(!empty($row->user->map_description))
+                <div class="col-12">
+                    <label class="form-label fw-bold">@lang('trans.user_location_address')</label>
+                    <p class="form-control-plaintext">{{ $row->user->map_description }}</p>
+                </div>
+                @endif
+            </div>
+            {{-- Location map --}}
+            <div class="row g-3 mt-2">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">@lang('trans.location')</h5>
+                        @if($row->user->lat && $row->user->long)
+                        <a href="https://www.google.com/maps?q={{ $row->user->lat }},{{ $row->user->long }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm">
+                            <i class="ti ti-brand-google me-1"></i>
+                            @lang('trans.open_in_google_maps')
+                        </a>
+                        @endif
+                    </div>
+                    <div id="order-user-map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- Refund Actions (for pending refund requests) --}}
     @if($row->status && $row->status->value === 6) {{-- REFUND_REQUESTED --}}
     <div class="card mb-4">
@@ -249,6 +328,32 @@
 @endsection
 
 @push('js_files')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+@if($row->user)
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof L === 'undefined') return;
+    var lat = parseFloat(@json($row->user->lat));
+    var lng = parseFloat(@json($row->user->long));
+    var mapDesc = @json($row->user->map_description ?? '');
+    var mapEl = document.getElementById('order-user-map');
+    if (!mapEl) return;
+    if (!isNaN(lat) && !isNaN(lng)) {
+        try {
+            var map = L.map('order-user-map').setView([lat, lng], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            L.marker([lat, lng]).addTo(map).bindPopup(mapDesc || '').openPopup();
+            setTimeout(function() { map.invalidateSize(); }, 500);
+        } catch (e) { console.error('Error initializing map:', e); }
+    } else {
+        mapEl.style.height = 'auto';
+        mapEl.innerHTML = '<div class="alert alert-warning m-0">@json(__('trans.no_location_data'))</div>';
+    }
+});
+</script>
+@endif
 <script>
 function approveRefund(orderId) {
     Swal.fire({

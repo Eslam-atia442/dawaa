@@ -19,13 +19,17 @@ class IntroResource extends BaseResource
             'id' => $this->id,
         ];
         $this->mini = [
+            'title' => $this->name,
+            'description' => $this->description,
+            'image' => $this->getFirstMediaUrl('image'),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
         $this->full = [
             'is_active' => $this->is_active,
-            'active_class' => $this->active_class,
-            'active_status' => $this->active_status
+            'image' => $this->getFirstMediaUrl('image'),
+            'title' => $this->name,
+            'description' => $this->description,
         ];
         //$this->relationLoaded()
         $this->relations = [

@@ -32,6 +32,7 @@ class Product extends Model implements HasMedia
         'recentlyAdded',
         'hasDiscount',
         'active',
+        'expiryDate',
     ];
     protected array $searchable = ['name'];
     protected array $dates = ['expiry_date'];
@@ -188,6 +189,15 @@ class Product extends Model implements HasMedia
     public function scopeOfActive($query)
     {
         return $query->where('is_active', 1);
+    }
+
+    public function scopeOfExpiryDate($query , $value)
+    {
+        if ($value) {
+            return $query->where('expiry_date', '>=', $value);
+        } else {
+            return $query->where('expiry_date', '<=', now());
+        }
     }
 
     public function scopeOfParentId($query, $value)

@@ -1500,6 +1500,8 @@ return [
         'read-all' => 'Read All sliders',
         ],
 
+    'delivery_fees' => 'Delivery Fees',
+
     // Sidebar Menu Items
     'countries' => 'Countries',
     'regions' => 'Regions',

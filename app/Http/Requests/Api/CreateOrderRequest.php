@@ -24,6 +24,11 @@ class CreateOrderRequest extends FormRequest
                 'integer',
                 Rule::in(PaymentTypeEnum::values()),
             ],
+            'note' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
         ];
     }
 
@@ -31,6 +36,7 @@ class CreateOrderRequest extends FormRequest
     {
         return [
             'payment_type' => __('trans.payment_type'),
+            'note' => __('trans.note'),
         ];
     }
 

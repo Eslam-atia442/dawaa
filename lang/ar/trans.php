@@ -1517,6 +1517,8 @@ return [
         'read-all' => 'عرض كل شرائط التمرير',
     ],
 
+    'delivery_fees' => 'رسوم التوصيل',
+
     // Sidebar Menu Items
     'countries' => 'الدول',
     'regions' => 'المناطق',

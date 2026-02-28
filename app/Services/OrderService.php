@@ -60,7 +60,7 @@ class OrderService extends BaseService
         return $this->repository->remove($order);
     }
 
-    public function createOrder($userId, $paymentType)
+    public function createOrder($userId, $paymentType, $note)
     {
         $cartItems = OrderItem::where('user_id', $userId)->whereNull('order_id')->with(['childProduct.parent', 'childProduct'])->get();
 
@@ -124,6 +124,7 @@ class OrderService extends BaseService
                 'user_id' => $userId,
                 'total_price' => $totalPrice,
                 'payment_type' => $paymentType,
+                'note' => $note,
             ]);
 
             foreach ($validatedCartItems as $item) {

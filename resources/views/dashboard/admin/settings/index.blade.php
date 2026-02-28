@@ -122,6 +122,10 @@
                                            label="phone"
                                            type="text" col="col-xl-6" placeholder="phone"
                             />
+                            <x-admin.input :value="globalSetting('delivery_fees')" required="true" name="delivery_fees"
+                                           label="delivery_fees"
+                                           type="number" col="col-xl-6" placeholder="delivery_fees"
+                            />
 
  
                         </div>

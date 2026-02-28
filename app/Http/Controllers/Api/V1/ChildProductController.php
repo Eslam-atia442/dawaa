@@ -33,7 +33,7 @@ class ChildProductController extends BaseApiController
     public function index(): mixed
     {
         $filters = request()->all();
-        $filters = array_merge($filters, ['page' => false, 'limit' => false, 'active' => true]);
+        $filters = array_merge($filters, ['page' => false, 'limit' => false, 'active' => true, 'expiryDate' => now()]);
 
         // If parent_id is provided in query params, filter by it
         if (request()->has('parent_id')) {
@@ -51,7 +51,7 @@ class ChildProductController extends BaseApiController
      */
     public function getByProduct($productId): mixed
     {
-        request()->merge(['page' => false, 'limit' => false, 'active' => true, 'parent' => $productId]);
+        request()->merge(['page' => false, 'limit' => false, 'active' => true, 'parent' => $productId, 'expiryDate' => now()]);
         $models = $this->service->search(request()->all(), $this->relations);
         return $this->respondWithCollection($models);
     }

@@ -32,6 +32,7 @@ class OrderController extends BaseApiController
      * Create order from cart
      * @authenticated
      * @bodyParam payment_type integer required Payment type (1=Online, 2=Cash, 3=Wallet)
+     * @bodyParam note string optional Note
      * @return JsonResponse
      */
     public function createOrder(CreateOrderRequest $request): JsonResponse
@@ -41,7 +42,7 @@ class OrderController extends BaseApiController
             $user = auth('sanctum')->user();
             $paymentType = $request->payment_type;
 
-            $result = $this->service->createOrder($user->id, $paymentType);
+            $result = $this->service->createOrder($user->id, $paymentType, $request->note);
             DB::commit();
             return $this->respondWithSuccess(
                 __('trans.order_created_successfully'),
