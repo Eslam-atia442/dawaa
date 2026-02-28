@@ -336,9 +336,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof L === 'undefined') return;
-        var lat = parseFloat(@json($row - > user - > lat));
-        var lng = parseFloat(@json($row - > user - > long));
-        var mapDesc = @json($row - > user - > map_description ?? '');
+        var lat = parseFloat(@json(@$row->user?->lat));
+        var lng = parseFloat(@json(@$row->user?->long));
+        var mapDesc = @json(@$row->user?->map_description ?? '');
         var mapEl = document.getElementById('order-user-map');
         if (!mapEl) return;
         if (!isNaN(lat) && !isNaN(lng)) {
@@ -429,7 +429,7 @@
             var badge = $('#order_status_badge');
             var orderId = {
                 {
-                    $row - > id
+                    @$row->id
                 }
             };
             var orderStatus = select.val();
