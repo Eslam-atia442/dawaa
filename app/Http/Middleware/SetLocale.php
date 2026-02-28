@@ -9,22 +9,58 @@ use Illuminate\Support\Facades\Cookie;
 
 class SetLocale
 {
-
     public function handle($request, Closure $next)
     {
-        $lang = "ar";
-        if (Cookie::has('lang'))
-            $lang = Cookie::get('lang');
+        $lang = defaultLang();
 
-
-        if ($request->header('Accept-Language')
-            && in_array($request->header('Accept-Language'), languages(),))
-            setcookie('lang', $request->header('Accept-Language'), time() + (86400 * 30), "/");
-
+        if ($request->is('api/*')) {
+            // API: use only headers (no cookies - API clients typically don't send cookies)
+            $lang = $this->localeFromRequest($request) ?? $lang;
+        } else {
+            // Web: cookie first, then header, and persist in cookie
+            if (Cookie::has('lang')) {
+                $lang = Cookie::get('lang');
+            } else {
+                $headerLang = $this->localeFromRequest($request);
+                if ($headerLang !== null) {
+                    $lang = $headerLang;
+                    Cookie::queue('lang', $lang, 30 * 24 * 60, '/');
+                }
+            }
+        }
 
         App::setLocale($lang);
         Carbon::setLocale($lang);
 
         return $next($request);
+    }
+
+    /**
+     * Get locale from Accept-Language or X-Locale header. Returns null if none valid.
+     */
+    protected function localeFromRequest($request): ?string
+    {
+        $allowed = languages();
+
+        if ($request->header('X-Locale')) {
+            $v = strtolower(trim($request->header('X-Locale')));
+            if (in_array($v, $allowed)) {
+                return $v;
+            }
+        }
+
+        if ($request->header('Accept-Language')) {
+            $raw = $request->header('Accept-Language');
+            $first = strtolower(trim(explode(',', $raw)[0]));
+            // e.g. "en-US" -> "en"
+            if (strlen($first) >= 2 && in_array(substr($first, 0, 2), $allowed)) {
+                return substr($first, 0, 2);
+            }
+            if (in_array($first, $allowed)) {
+                return $first;
+            }
+        }
+
+        return null;
     }
 }
