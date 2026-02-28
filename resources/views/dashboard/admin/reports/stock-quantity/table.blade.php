@@ -34,7 +34,7 @@
                 <span class="text-truncate d-flex align-items-center">{{ $row->store->name ?? '-' }}</span>
             </td>
             <td>
-                <span class="text-truncate d-flex align-items-center">{{ $row->expiry_date?->format('Y-m-d') ?? '-' }}</span>
+                <span class="text-truncate d-flex align-items-center">{{ $row->expiry_date ?? '-' }}</span>
             </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->production_line_number ?? '-' }}</span>
