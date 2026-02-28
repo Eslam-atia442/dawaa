@@ -27,7 +27,7 @@ class Order extends Model implements HasMedia
         'order_status',
         'refundable',
     ];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user', 'refundable'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user', 'refundable', 'normalOrders'];
     protected array $searchable = ['name'];
     protected array $dates = [];
     public array $translatable = ['name'];
@@ -121,5 +121,10 @@ class Order extends Model implements HasMedia
     public function scopeOfRefundable($query)
     {
         return $query->whereNotNull('parent_id')->whereDoesntHave('refundOrders');
+    }
+
+    public function scopeOfNormalOrders($query)
+    {
+        return $query->whereNull('parent_id');
     }
 }

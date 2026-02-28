@@ -67,7 +67,7 @@ class OrderController extends BaseApiController
     public function myOrders(): JsonResponse
     {
 
-        request()->merge(['myOrders' => true]);
+        request()->merge(['myOrders' => true , 'normalOrders' => true]);
         $orders = $this->service->search(request()->all(), $this->relations, []);
         return $this->respondWithCollection($orders);
     }

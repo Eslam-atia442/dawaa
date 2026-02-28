@@ -431,16 +431,11 @@
             var btn = $(this);
             var select = $('#order_status_select');
             var badge = $('#order_status_badge');
-            var orderId = {
-                {
-                    @$row - > id
-                }
-            };
+            var orderId = {{ $row->id }};
             var orderStatus = select.val();
 
             btn.prop('disabled', true);
-            btn.html('<i class="ti ti-loader me-1"></i>@lang('
-                trans.processing ')...');
+            btn.html('<i class="ti ti-loader me-1"></i>{{ __('trans.processing') }}...');
 
             $.ajax({
                 url: '{{ route("admin.orders.update-order-status", ":id") }}'.replace(':id', orderId),
