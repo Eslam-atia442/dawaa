@@ -17,9 +17,10 @@ class SetLocale
             // API: use only headers (no cookies - API clients typically don't send cookies)
             $lang = $this->localeFromRequest($request) ?? $lang;
         } else {
-            // Web: cookie first, then header, and persist in cookie
-            if (Cookie::has('lang')) {
-                $lang = Cookie::get('lang');
+            // Web: cookie first (only if valid), then header, and persist in cookie
+            $cookieLang = Cookie::get('lang');
+            if ($cookieLang !== null && in_array($cookieLang, languages(), true)) {
+                $lang = $cookieLang;
             } else {
                 $headerLang = $this->localeFromRequest($request);
                 if ($headerLang !== null) {
