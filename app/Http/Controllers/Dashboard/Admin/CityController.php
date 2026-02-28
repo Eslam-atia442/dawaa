@@ -11,6 +11,7 @@ use Exception;
 use App\Services\CityService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 
 class CityController extends BaseWebController

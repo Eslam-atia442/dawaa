@@ -11,6 +11,7 @@ use Exception;
 use App\Services\RegionService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 
 class RegionController extends BaseWebController
