@@ -29,7 +29,7 @@ class ChildProductResource extends BaseResource
             'discount_percentage' => $this->discount_percentage,
             'discounted_price' => $this->discounted_price,
             'image' => $this->getFirstMediaUrl('image'),
-            'expiry_date' => $this->expiry_date?->format('Y-m-d H:i:s'),
+            'expiry_date' => $this->expiry_date,    
             'production_line_number' => $this->production_line_number,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
