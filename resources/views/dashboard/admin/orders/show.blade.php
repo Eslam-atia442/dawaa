@@ -256,12 +256,15 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>
+                                        @if(isset($item->childProduct))
                                     {{ $item->product->name ?? '-' }}
                                
                                         <span class="text-muted"><a href="{{ route('admin.products.child-products.show', 
                                         ['product' => $item->product->id, 'childProduct' => $item->childProduct->id]) }}">
                                         {{ $item->childProduct->production_line_number }}</a></span>
-                      
+                                        @else
+                                        {{ '-' }}
+                                        @endif
                                     </td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ number_format($item->price, 2) }}</td>
