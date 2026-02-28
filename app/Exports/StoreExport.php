@@ -38,9 +38,10 @@ class StoreExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
     {
         return [
             '#',
-            __('trans.Name'),
-            __('trans.Status'),
-            __('trans.Created At'),
+            __('trans.id'),
+            __('trans.name'),
+            __('trans.activate'),
+            __('trans.created_at'),
         ];
     }
 }

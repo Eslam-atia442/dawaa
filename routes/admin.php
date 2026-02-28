@@ -34,7 +34,9 @@ use App\Http\Controllers\Dashboard\Admin\SliderController;
     use App\Http\Controllers\Dashboard\Admin\OrderController;
     use App\Http\Controllers\Dashboard\Admin\BestSellerReportController;
     use App\Http\Controllers\Dashboard\Admin\StockQuantityReportController;
+    use App\Http\Controllers\Dashboard\Admin\ContactUsController;
     #new_comand_routes_path_here
+    
     
     
 
@@ -216,7 +218,14 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('stock-quantity/export', [StockQuantityReportController::class, 'export'])->name('stock-quantity.export');
     });
 
+    
+    // contactuses
+    Route::resource('contactuses', ContactUsController::class);
+    Route::post('contactuses/multiple', [ContactUsController::class, 'destroyMultiple'])->name('contactuses.destroy-multiple');
+    Route::post('contactuses/toggle-status/{contactUs}/{key}', [ContactUsController::class, 'toggleField'])->name('contactUs-toggle');
+    Route::post('contactuses/export', [ContactUsController::class, 'export'])->name('contactUs-export');
     #new_comand_routes_here
+
 
 
 

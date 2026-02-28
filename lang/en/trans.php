@@ -1529,7 +1529,22 @@ return [
         'details' => 'Order Details',
         'items' => 'Order Items',
         ],
+        
+        'contactUs' => [
+         'index' => 'contactuses',
+         'create_page' => 'contactUs Create Page',
+         'create' => 'Create contactUs',
+         'edit_page' => 'contactUs Edit Page',
+         'edit' => 'Edit contactUs',
+         'show' => 'contactUs Show',
+         'delete' => 'Delete contactUs',
+         'delete_all' => 'Delete All contactuses',
+         'update' => 'Update contactUs',
+        'read' => 'Read contactUs',
+        'read-all' => 'Read All contactuses',
+        ],
         #new_comand_translations_here
+        
 
     // Reports
     'reports' => 'Reports',

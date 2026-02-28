@@ -26,7 +26,7 @@
             </tr>
         @empty
             <tr>
-                <td style="text-align: center" colspan="8">{{__('trans.no_data_found')}}</td>
+                <td style="text-align: center" colspan="8">{{ __('trans.No data available') }}</td>
             </tr>
         @endforelse
         </tbody>

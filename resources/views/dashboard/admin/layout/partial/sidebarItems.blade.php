@@ -125,7 +125,18 @@
     </li>
 @endcan
 
+
+@can('read-all-contact-us')
+    <li class="menu-item @if(Route::currentRouteName() == 'admin.contactuses.index') active @endif">
+        <a href="{{route('admin.contactuses.index')}}" class="menu-link">
+            <i class="menu-icon tf-icons ti  ti-message-chatbot"></i>
+            <div data-i18n="@lang('trans.contactuses')">@lang('trans.contactUs.index')</div>
+        </a>
+    </li>
+@endcan
+
 {{--#new_comand_side_bar_element_here--}}
+
 
 <li class="menu-header small text-uppercase">
     <span class="menu-header-text">@lang('trans.reports')</span>

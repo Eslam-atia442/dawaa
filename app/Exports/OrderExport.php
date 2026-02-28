@@ -38,9 +38,12 @@ class OrderExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
     {
         return [
             '#',
-            __('trans.Name'),
-            __('trans.Status'),
-            __('trans.Created At'),
+            __('trans.id'),
+            __('trans.user.index'),
+            __('trans.total_price'),
+            __('trans.payment_type'),
+            __('trans.type'),
+            __('trans.created_at'),
         ];
     }
 }

@@ -11,7 +11,7 @@
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{__('trans.quantity_after')}}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{__('trans.reason')}}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{__('trans.reference')}}</th>
-            <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{__('trans.note')}}</th>
+            <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.note') }}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{__('trans.admins')}}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{__('trans.created_at')}}</th>
         </tr>
@@ -49,7 +49,7 @@
             </tr>
         @empty
             <tr>
-                <td style="text-align: center" colspan="10">{{__('trans.No data available')}}</td>
+                <td style="text-align: center" colspan="10">{{ __('trans.No data available') }}</td>
             </tr>
         @endforelse
         </tbody>

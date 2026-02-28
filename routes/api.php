@@ -32,6 +32,7 @@ use App\Http\Controllers\Api\V1\RefundController;
 use App\Http\Controllers\Api\V1\SliderController;
 use App\Http\Controllers\Api\V1\WalletController;
 use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\ContactUsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -155,4 +156,10 @@ Route::middleware(['auth:sanctum', 'accepted.user'])->group(function () {
 Route::group(['prefix' => 'sliders'], function () {
     Route::get('/', [SliderController::class, 'index']);
     Route::get('/{id}', [SliderController::class, 'show']);
+});
+
+Route::group(['prefix' => 'contactuses'], function () {
+    // Route::get('/', [ContactUsController::class, 'index']);
+    // Route::get('/{id}', [ContactUsController::class, 'show']);
+    Route::post('/', [ContactUsController::class, 'store']);
 });

@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ProductExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
+class ContactUsExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
 {
     private $records;
 
@@ -29,7 +29,7 @@ class ProductExport implements FromView, ShouldAutoSize, WithHeadings, WithEvent
 
     public function view(): View
     {
-        return view('export.product-excel', [
+        return view('export.contact-us-excel', [
             'records' => $this->records->toArray()
         ]);
     }
@@ -39,14 +39,10 @@ class ProductExport implements FromView, ShouldAutoSize, WithHeadings, WithEvent
         return [
             '#',
             __('trans.name'),
-            __('trans.store.index'),
-            __('trans.city.index'),
-            __('trans.category.index'),
-            __('trans.price'),
-            __('trans.quantity'),
-            __('trans.expiry_date'),
-            __('trans.production_line_number'),
-            __('trans.activate'),
+            __('trans.email'),
+            __('trans.phone'),
+            __('trans.country.index'),
+            __('trans.text_of_message'),
             __('trans.created_at'),
         ];
     }
