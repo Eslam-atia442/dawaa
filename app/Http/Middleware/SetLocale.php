@@ -27,6 +27,7 @@ class SetLocale
             )
                 setcookie('lang', $request->header('Accept-Language'), time() + (86400 * 30), "/");
         }
+        dd($lang);
         App::setLocale($lang);
         Carbon::setLocale($lang);
 
