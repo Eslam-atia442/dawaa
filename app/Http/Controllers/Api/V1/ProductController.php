@@ -41,7 +41,7 @@ class ProductController extends BaseApiController
     public function index(): mixed
     {
         request()->merge([ 'active' => true, 'parent' => true, 'hasChildren' => true]);
-        $models = $this->service->search(request()->all(), ['store', 'category', 'brand', 'city' ,'oldestChildProduct']);
+        $models = $this->service->search(request()->all(), ['store', 'category', 'brand' ,'oldestChildProduct']);
         return $this->respondWithCollection($models);
     }
 
