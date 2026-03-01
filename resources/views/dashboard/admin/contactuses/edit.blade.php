@@ -38,7 +38,7 @@
             </div>
             <div class="col-md-9">
                 <div class="card-body p-4">
-                    <form class="form validated-form" method="POST" action="{{route('admin.contactuses.update' , ['contactUs' => $row->id])}}" novalidate enctype="multipart/form-data">
+                    <form class="form validated-form" method="POST" action="{{route('admin.contactuses.update', ['contactus' => $row->id])}}" novalidate enctype="multipart/form-data">
                         @csrf
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab" tabindex="0">

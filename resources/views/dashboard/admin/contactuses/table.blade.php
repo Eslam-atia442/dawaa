@@ -24,9 +24,9 @@
                 <td>
                     <div class="d-inline-block text-nowrap">
                         @can('update-contact-us')
-                            <a href="{{ route('admin.contactuses.edit', ['contactUs' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
+                            <a href="{{ route('admin.contactuses.edit', ['contactus' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-primary ti ti-edit"></i></a>
                         @endcan
-                        <a href="{{ route('admin.contactuses.show', ['contactUs' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
+                        <a href="{{ route('admin.contactuses.show', ['contactus' => $row->id]) }}" class="btn btn-sm btn-icon"><i class="text-info ti ti-eye-check"></i></a>
                         @can('delete-contact-us')
                             <a class="btn btn-sm btn-icon delete-row" data-url="{{ route('admin.contactuses.destroy', $row->id) }}"><i class="text-danger ti ti-trash-x"></i></a>
                         @endcan
