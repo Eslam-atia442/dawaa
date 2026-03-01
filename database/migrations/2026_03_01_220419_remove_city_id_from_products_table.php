@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasColumn('products', 'city_id')) {
+            return;
+        }
+
         Schema::table('products', function (Blueprint $table) {
             $table->dropForeign(['city_id']);
             $table->dropColumn('city_id');
