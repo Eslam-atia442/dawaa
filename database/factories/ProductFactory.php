@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\City;
 use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -31,7 +30,6 @@ class ProductFactory extends Factory
                 'ar' => $this->faker->paragraph(),
             ],
             'store_id' => Store::inRandomOrder()->first()?->id ?? Store::factory(),
-            'city_id' => City::inRandomOrder()->first()?->id ?? City::factory(),
             'category_id' => Category::inRandomOrder()->first()?->id ?? Category::factory(),
             'brand_id' => Brand::inRandomOrder()->first()?->id ?? Brand::factory(),
             'parent_id' => null,
@@ -52,7 +50,6 @@ class ProductFactory extends Factory
             'name' => null,
             'description' => null,
             'store_id' => null,
-            'city_id' => null,
             'category_id' => null,
             'brand_id' => null,
             'parent_id' => Product::whereNull('parent_id')->inRandomOrder()->first()?->id ?? Product::factory(),

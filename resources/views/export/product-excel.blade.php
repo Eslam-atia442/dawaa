@@ -7,7 +7,6 @@
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">#</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.name') }}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.store.index') }}</th>
-            <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.city.index') }}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.category.index') }}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.price') }}</th>
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.quantity') }}</th>
@@ -23,8 +22,6 @@
                 $name = is_array($name) ? ($name[$locale] ?? $name['en'] ?? head($name) ?? '') : ($name ?? '');
                 $storeName = data_get($record, 'store.name');
                 $storeName = is_array($storeName) ? ($storeName[$locale] ?? $storeName['en'] ?? head($storeName) ?? '-') : ($storeName ?? '-');
-                $cityName = data_get($record, 'city.name');
-                $cityName = is_array($cityName) ? ($cityName[$locale] ?? $cityName['en'] ?? head($cityName) ?? '-') : ($cityName ?? '-');
                 $categoryName = data_get($record, 'category.name');
                 $categoryName = is_array($categoryName) ? ($categoryName[$locale] ?? $categoryName['en'] ?? head($categoryName) ?? '-') : ($categoryName ?? '-');
             @endphp
@@ -32,7 +29,6 @@
                 <td style="text-align: center">{{ $loop->iteration }}</td>
                 <td style="text-align: center">{{ $name }}</td>
                 <td style="text-align: center">{{ $storeName }}</td>
-                <td style="text-align: center">{{ $cityName }}</td>
                 <td style="text-align: center">{{ $categoryName }}</td>
                 <td style="text-align: center">{{ number_format((float) (data_get($record, 'price') ?? 0), 2) }}</td>
                 <td style="text-align: center">{{ (int) (data_get($record, 'quantity') ?? 0) }}</td>
@@ -49,7 +45,7 @@
             </tr>
         @empty
             <tr>
-                <td style="text-align: center" colspan="11">{{ __('trans.No data available') }}</td>
+                <td style="text-align: center" colspan="10">{{ __('trans.No data available') }}</td>
             </tr>
         @endforelse
         </tbody>

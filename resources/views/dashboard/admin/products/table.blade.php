@@ -7,7 +7,6 @@
 
         <th>{{ __('trans.name') }}</th>
         <th>{{ __('trans.store.index') }}</th>
-        <th>{{ __('trans.city.index') }}</th>
         <th>{{ __('trans.category.index') }}</th>
         <th>{{ __('trans.brand.index') }}</th>
         <th>{{ __('trans.activate') }}</th>
@@ -24,9 +23,6 @@
             </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->store->name ?? '-' }}</span>
-            </td>
-            <td>
-                <span class="text-truncate d-flex align-items-center">{{ $row->city->name ?? '-' }}</span>
             </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->category->name ?? '-' }}</span>

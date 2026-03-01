@@ -44,7 +44,7 @@ class ChildProductController extends Controller
         $this->productQuantityService  = $productQuantityService;
         $this->table                   = $table;
         $this->guard                   = $guard;
-        $this->relations               = ['parent', 'parent.store', 'parent.city', 'parent.category', 'parent.brand'];
+        $this->relations               = ['parent', 'parent.store', 'parent.category', 'parent.brand'];
         
         // Apply permissions
         $this->middleware('permission:read-all-child-product')->only(['index']);

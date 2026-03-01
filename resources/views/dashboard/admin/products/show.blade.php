@@ -53,12 +53,6 @@
                     <p class="form-control-plaintext">{{ $row->store->name ?? '-' }}</p>
                 </div>
 
-                {{-- City --}}
-                <div class="col-xl-6">
-                    <label class="form-label fw-bold">@lang('trans.city.index')</label>
-                    <p class="form-control-plaintext">{{ $row->city->name ?? '-' }}</p>
-                </div>
-
                 {{-- Category --}}
                 <div class="col-xl-6">
                     <label class="form-label fw-bold">@lang('trans.category.index')</label>

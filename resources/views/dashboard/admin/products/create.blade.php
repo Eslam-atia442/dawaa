@@ -71,30 +71,6 @@
                                         :options="$stores->map(function($store) { return ['id' => $store->id, 'name' => $store->name]; })->toArray()"
                                     />
                                     <x-admin.input
-                                        name="country_id"
-                                        label="country.index"
-                                        type="select"
-                                        col="col-xl-6"
-                                        id="country_id"
-                                        :options="$countries->map(function($country) { return ['id' => $country->id, 'name' => $country->name]; })->toArray()"
-                                    />
-                                    <x-admin.input
-                                        name="region_id"
-                                        label="region.index"
-                                        type="select"
-                                        col="col-xl-6"
-                                        id="region_id"
-                                        :options="[]"
-                                    />
-                                    <x-admin.input
-                                        name="city_id"
-                                        label="city.index"
-                                        type="select"
-                                        col="col-xl-6"
-                                        id="city_id"
-                                        :options="[]"
-                                    />
-                                    <x-admin.input
                                         name="category_id"
                                         label="category.index"
                                         type="select"
@@ -174,91 +150,6 @@
 @push('js_files')
     @include('dashboard.shared.submitAddForm')
     @include('dashboard.shared.addImage')
-    <script>
-        $(document).ready(function() {
-            // Wait for select2 to be initialized
-            setTimeout(function() {
-                var countrySelect = $('#select2Primary_country_id');
-                var regionSelect = $('#select2Primary_region_id');
-                var citySelect = $('#select2Primary_city_id');
-                
-                // Handle country change - use both select2:select and change events
-                countrySelect.on('select2:select change', function() {
-                    var countryId = $(this).val();
-                    console.log('Country changed:', countryId);
-                    
-                    // Clear region and city dropdowns
-                    regionSelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.region.index')}}</option>');
-                    citySelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.city.index')}}</option>');
-                    regionSelect.val(null).trigger('change');
-                    citySelect.val(null).trigger('change');
-                    
-                    if (countryId) {
-                        console.log('Fetching regions for country:', countryId);
-                        $.ajax({
-                            url: '{{ route('admin.products.get-regions-by-country') }}',
-                            type: 'GET',
-                            data: { country_id: countryId },
-                            dataType: 'json',
-                            beforeSend: function() {
-                                console.log('Sending AJAX request...');
-                            },
-                            success: function(data) {
-                                console.log('Regions received:', data);
-                                regionSelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.region.index')}}</option>');
-                                if (data && data.length > 0) {
-                                    $.each(data, function(key, value) {
-                                        regionSelect.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                                regionSelect.trigger('change');
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error loading regions:', error);
-                                console.error('Status:', status);
-                                console.error('Response:', xhr.responseText);
-                                console.error('XHR:', xhr);
-                            }
-                        });
-                    }
-                });
-                
-                // Handle region change
-                regionSelect.on('select2:select change', function() {
-                    var regionId = $(this).val();
-                    console.log('Region changed:', regionId);
-                    
-                    // Clear city dropdown
-                    citySelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.city.index')}}</option>');
-                    citySelect.val(null).trigger('change');
-                    
-                    if (regionId) {
-                        console.log('Fetching cities for region:', regionId);
-                        $.ajax({
-                            url: '{{ route('admin.products.get-cities-by-region') }}',
-                            type: 'GET',
-                            data: { region_id: regionId },
-                            dataType: 'json',
-                            success: function(data) {
-                                console.log('Cities received:', data);
-                                citySelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.city.index')}}</option>');
-                                if (data && data.length > 0) {
-                                    $.each(data, function(key, value) {
-                                        citySelect.append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                                citySelect.trigger('change');
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error loading cities:', error);
-                                console.error('Response:', xhr.responseText);
-                            }
-                        });
-                    }
-                });
-            }, 1000);
-        });
-    </script>
     <script>
         $(document).ready(function() {
             var hasDiscountCheckbox = $('#has_discount');

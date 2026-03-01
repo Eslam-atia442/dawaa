@@ -74,33 +74,6 @@
                                         :options="$stores->map(function($store) { return ['id' => $store->id, 'name' => $store->name]; })->toArray()"
                                     />
                                     <x-admin.input
-                                        name="country_id"
-                                        label="country.index"
-                                        type="select"
-                                        col="col-xl-6"
-                                        id="country_id"
-                                        :value="$row->city && $row->city->region ? $row->city->region->country_id : ''"
-                                        :options="$countries->map(function($country) { return ['id' => $country->id, 'name' => $country->name]; })->toArray()"
-                                    />
-                                    <x-admin.input
-                                        name="region_id"
-                                        label="region.index"
-                                        type="select"
-                                        col="col-xl-6"
-                                        id="region_id"
-                                        :value="$row->city ? $row->city->region_id : ''"
-                                        :options="$regions->map(function($region) { return ['id' => $region->id, 'name' => $region->name]; })->toArray()"
-                                    />
-                                    <x-admin.input
-                                        name="city_id"
-                                        label="city.index"
-                                        type="select"
-                                        col="col-xl-6"
-                                        id="city_id"
-                                        :value="$row->city_id"
-                                        :options="$cities->map(function($city) { return ['id' => $city->id, 'name' => $city->name]; })->toArray()"
-                                    />
-                                    <x-admin.input
                                         name="category_id"
                                         label="category.index"
                                         type="select"
@@ -190,92 +163,6 @@
     @include('dashboard.shared.addImage')
     <script>
         $(document).ready(function() {
-            var selectedCountryId = '{{ $row->city && $row->city->region ? $row->city->region->country_id : '' }}';
-            var selectedRegionId = '{{ $row->city ? $row->city->region_id : '' }}';
-            var selectedCityId = '{{ $row->city_id }}';
-            
-            // Wait for select2 to be initialized
-            setTimeout(function() {
-                // Handle country change
-                $(document).on('change', '#select2Primary_country_id', function() {
-                    var countryId = $(this).val();
-                    var regionSelect = $('#select2Primary_region_id');
-                    var citySelect = $('#select2Primary_city_id');
-                    
-                    // Clear region and city dropdowns
-                    regionSelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.region.index')}}</option>');
-                    citySelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.city.index')}}</option>');
-                    regionSelect.val(null).trigger('change');
-                    citySelect.val(null).trigger('change');
-                    
-                    if (countryId) {
-                        $.ajax({
-                            url: '{{ route('admin.products.get-regions-by-country') }}',
-                            type: 'GET',
-                            data: { country_id: countryId },
-                            success: function(data) {
-                                regionSelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.region.index')}}</option>');
-                                $.each(data, function(key, value) {
-                                    var selected = (value.id == selectedRegionId && countryId == selectedCountryId) ? 'selected' : '';
-                                    regionSelect.append('<option value="' + value.id + '" ' + selected + '>' + value.name + '</option>');
-                                });
-                                regionSelect.trigger('change');
-                                
-                                // If region was pre-selected, load cities
-                                if (selectedRegionId && countryId == selectedCountryId) {
-                                    setTimeout(function() {
-                                        loadCities(selectedRegionId);
-                                    }, 100);
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error loading regions:', error);
-                            }
-                        });
-                    }
-                });
-                
-                // Handle region change
-                $(document).on('change', '#select2Primary_region_id', function() {
-                    var regionId = $(this).val();
-                    loadCities(regionId);
-                });
-                
-                function loadCities(regionId) {
-                    var citySelect = $('#select2Primary_city_id');
-                    
-                    // Clear city dropdown
-                    citySelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.city.index')}}</option>');
-                    citySelect.val(null).trigger('change');
-                    
-                    if (regionId) {
-                        $.ajax({
-                            url: '{{ route('admin.products.get-cities-by-region') }}',
-                            type: 'GET',
-                            data: { region_id: regionId },
-                            success: function(data) {
-                                citySelect.empty().append('<option value="">{{__('trans.choose')}} {{__('trans.city.index')}}</option>');
-                                $.each(data, function(key, value) {
-                                    var selected = (value.id == selectedCityId && regionId == selectedRegionId) ? 'selected' : '';
-                                    citySelect.append('<option value="' + value.id + '" ' + selected + '>' + value.name + '</option>');
-                                });
-                                citySelect.trigger('change');
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error loading cities:', error);
-                            }
-                        });
-                    }
-                }
-                
-                // Initialize on page load if country is selected
-                if (selectedCountryId) {
-                    setTimeout(function() {
-                        $('#select2Primary_country_id').trigger('change');
-                    }, 200);
-                }
-            }, 500);
-            
             var hasDiscountCheckbox = $('#has_discount');
             var discountPercentageField = $('#discount_percentage').closest('.form-group');
             

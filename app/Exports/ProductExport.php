@@ -42,7 +42,6 @@ class ProductExport implements FromView, ShouldAutoSize, WithHeadings, WithEvent
             '#',
             __('trans.name'),
             __('trans.store.index'),
-            __('trans.city.index'),
             __('trans.category.index'),
             __('trans.price'),
             __('trans.quantity'),

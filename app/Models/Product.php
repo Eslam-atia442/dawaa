@@ -23,7 +23,7 @@ class Product extends Model implements HasMedia
         'parentId',
         'parent',
         'store',
-        'city',
+        'city', // filters by store.city_id
         'category',
         'brand',
         'hasChildren',
@@ -72,11 +72,6 @@ class Product extends Model implements HasMedia
     public function store()
     {
         return $this->belongsTo(Store::class);
-    }
-
-    public function city()
-    {
-        return $this->belongsTo(City::class);
     }
 
     public function category()

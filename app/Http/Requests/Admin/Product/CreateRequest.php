@@ -22,7 +22,6 @@ class CreateRequest extends BaseRequest
             'description.ar' => ['required', 'string'],
             'description.en' => ['required', 'string'],
             'store_id' => ['required', 'exists:stores,id'],
-            'city_id' => ['required', 'exists:cities,id'],
             'category_id' => ['required', 'exists:categories,id'],
             'brand_id' => ['required', 'exists:brands,id'],
             'is_active' => ['required', 'boolean'],

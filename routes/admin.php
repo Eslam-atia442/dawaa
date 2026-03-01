@@ -176,8 +176,6 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('stores/export', [StoreController::class, 'export'])->name('store-export');
 
         // products
-        Route::get('products/get-regions-by-country', [ProductController::class, 'getRegionsByCountry'])->name('products.get-regions-by-country');
-        Route::get('products/get-cities-by-region', [ProductController::class, 'getCitiesByRegion'])->name('products.get-cities-by-region');
         Route::resource('products', ProductController::class);
         Route::post('products/multiple', [ProductController::class, 'destroyMultiple'])->name('products.destroy-multiple');
         Route::post('products/toggle-status/{product}/{key}', [ProductController::class, 'toggleField'])->name('product-toggle');

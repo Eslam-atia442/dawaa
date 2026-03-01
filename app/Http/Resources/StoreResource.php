@@ -32,6 +32,7 @@ class StoreResource extends BaseResource
         ];
         //$this->relationLoaded()
         $this->relations = [
+            'city' => $this->relationLoaded('city') ? new CityResource($this->city) : null,
         ];
         return $this->getResource();
     }

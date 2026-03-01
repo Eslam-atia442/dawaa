@@ -20,7 +20,7 @@ class StoreController extends BaseApiController
     public function __construct(StoreService $service)
     {
         $this->service   = $service;
-        $this->relations = [];
+        $this->relations = ['city'];
         parent::__construct($service, StoreResource::class);
     }
 

@@ -9,9 +9,6 @@ use App\Models\Product;
 use App\Exports\ProductExport;
 use App\Jobs\ExportJob;
 use App\Services\ExportService;
-use App\Services\CountryService;
-use App\Services\RegionService;
-use App\Services\CityService;
 use Exception;
 use App\Services\ProductService;
 use Illuminate\Contracts\View\View;
@@ -22,9 +19,6 @@ use Illuminate\Http\Request;
 class ProductController extends BaseWebController
 {
     public object           $service;
-    public object           $countryService;
-    public object           $regionService;
-    public object           $cityService;
     public string           $table;
     public string           $guard;
     public array            $relations;
@@ -32,22 +26,16 @@ class ProductController extends BaseWebController
 
     public function __construct(
         ProductService $service,
-        CountryService $countryService,
-        RegionService  $regionService,
-        CityService    $cityService,
         ExportService  $exportService,
-                       $table = 'products',
-                       $guard = 'admin'
+        $table = 'products',
+        $guard = 'admin'
     )
     {
         $this->service        = $service;
-        $this->countryService = $countryService;
-        $this->regionService  = $regionService;
-        $this->cityService    = $cityService;
         $this->exportService  = $exportService;
         $this->table          = $table;
         $this->guard          = $guard;
-        $this->relations      = ['store', 'city', 'category', 'brand', 'childProducts', 'parent'];
+        $this->relations      = ['store', 'category', 'brand', 'childProducts', 'parent'];
         parent::__construct($this->service, $this->table, $this->guard, $this->relations, 'product');
     }
 
@@ -62,8 +50,7 @@ class ProductController extends BaseWebController
         $stores     = app(\App\Services\StoreService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $categories = app(\App\Services\CategoryService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $brands     = app(\App\Services\BrandService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
-        $countries  = $this->countryService->search(['limit' => false, 'page' => false, 'active' => true], [], []);
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.index', compact('stores', 'categories', 'brands', 'countries'));
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.index', compact('stores', 'categories', 'brands'));
     }
 
     public function create(): View
@@ -71,50 +58,18 @@ class ProductController extends BaseWebController
         $stores     = app(\App\Services\StoreService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $categories = app(\App\Services\CategoryService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $brands     = app(\App\Services\BrandService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
-        $countries  = $this->countryService->search(['limit' => false, 'page' => false, 'active' => true], [], []);
 
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.create', compact('stores', 'categories', 'brands', 'countries'));
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.create', compact('stores', 'categories', 'brands'));
     }
 
     public function edit($id): View
     {
-        $relations = array_merge($this->relations, ['city.region', 'city.region.country']);
-        $row       = $this->service->find($id, $relations);
-        // Get stores, categories, brands for dropdowns
+        $row       = $this->service->find($id, $this->relations);
         $stores     = app(\App\Services\StoreService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $categories = app(\App\Services\CategoryService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $brands     = app(\App\Services\BrandService::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
-        $countries  = $this->countryService->search(['limit' => false, 'page' => false, 'active' => true], [], []);
 
-        // Get regions and cities based on selected city if exists
-        $regions = collect();
-        $cities  = collect();
-        if ($row->city && $row->city->region) {
-            $regions = $this->regionService->search(['country' => $row->city->region->country_id], [], ['limit' => false, 'page' => false]);
-            $cities  = $this->cityService->search(['region' => $row->city->region_id], [], ['limit' => false, 'page' => false]);
-        }
-
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.edit', compact('row', 'stores', 'categories', 'brands', 'countries', 'regions', 'cities'));
-    }
-
-    public function getRegionsByCountry(Request $request): JsonResponse
-    {
-
-        $countryId = $request->get('country_id');
-        $regions   = $this->regionService->search(['country' => $countryId], [], ['limit' => false, 'page' => false]);
-
-        return response()->json($regions->map(function ($region) {
-            return ['id' => $region->id, 'name' => $region->name];
-        }));
-    }
-
-    public function getCitiesByRegion(Request $request): JsonResponse
-    {
-        $regionId = $request->get('region_id');
-        $cities   = $this->cityService->search(['region' => $regionId], [], ['limit' => false, 'page' => false]);
-        return response()->json($cities->map(function ($city) {
-            return ['id' => $city->id, 'name' => $city->name];
-        }));
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.edit', compact('row', 'stores', 'categories', 'brands'));
     }
 
     public function store(CreateRequest $request): JsonResponse

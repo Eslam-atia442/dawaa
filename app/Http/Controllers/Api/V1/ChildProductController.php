@@ -20,7 +20,7 @@ class ChildProductController extends BaseApiController
     public function __construct(ChildProductService $service)
     {
         $this->service   = $service;
-        $this->relations = ['parent', 'parent.store', 'parent.category', 'parent.brand', 'parent.city'];
+        $this->relations = ['parent', 'parent.store', 'parent.category', 'parent.brand'];
         parent::__construct($service, ChildProductResource::class);
     }
 
