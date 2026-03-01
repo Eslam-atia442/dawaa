@@ -8,8 +8,12 @@ use App\Models\Store;
 use App\Exports\StoreExport;
 use App\Jobs\ExportJob;
 use App\Services\ExportService;
+use App\Services\CountryService;
+use App\Services\RegionService;
+use App\Services\CityService;
 use Exception;
 use App\Services\StoreService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,24 +21,69 @@ use Illuminate\Http\Request;
 class StoreController extends BaseWebController
 {
     public object $service;
+    public object $countryService;
+    public object $regionService;
+    public object $cityService;
     public string $table;
     public string $guard;
     public array $relations;
     protected ExportService $exportService;
 
     public function __construct(
-                        StoreService $service,
-                        ExportService $exportService,
-                        $table = 'stores',
-                        $guard = 'admin'
+        StoreService $service,
+        CountryService $countryService,
+        RegionService $regionService,
+        CityService $cityService,
+        ExportService $exportService,
+        $table = 'stores',
+        $guard = 'admin'
     )
     {
         $this->service = $service;
+        $this->countryService = $countryService;
+        $this->regionService = $regionService;
+        $this->cityService = $cityService;
         $this->exportService = $exportService;
         $this->table = $table;
         $this->guard = $guard;
-        $this->relations = [];
-        parent::__construct($this->service, $this->table, $this->guard, $this->relations ,'store');
+        $this->relations = ['city'];
+        parent::__construct($this->service, $this->table, $this->guard, $this->relations, 'store');
+    }
+
+    public function create(): View
+    {
+        $countries = $this->countryService->search(['limit' => false, 'page' => false, 'active' => true], [], []);
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.create', compact('countries'));
+    }
+
+    public function edit($id): View
+    {
+        $relations = array_merge($this->relations, ['city.region', 'city.region.country']);
+        $row = $this->service->find($id, $relations);
+        $countries = $this->countryService->search(['limit' => false, 'page' => false, 'active' => true], [], []);
+
+        $regions = collect();
+        $cities = collect();
+        if ($row->city && $row->city->region) {
+            $regions = $this->regionService->search(['country' => $row->city->region->country_id], [], ['limit' => false, 'page' => false]);
+            $cities = $this->cityService->search(['region' => $row->city->region_id], [], ['limit' => false, 'page' => false]);
+        }
+
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.edit', compact('row', 'countries', 'regions', 'cities'));
+    }
+
+    public function getRegionsByCountry(Request $request): JsonResponse
+    {
+        $countryId = $request->get('country_id');
+        $regions = $this->regionService->search(['country' => $countryId], [], ['limit' => false, 'page' => false]);
+        return response()->json($regions->map(fn($r) => ['id' => $r->id, 'name' => $r->name]));
+    }
+
+    public function getCitiesByRegion(Request $request): JsonResponse
+    {
+        $regionId = $request->get('region_id');
+        $cities = $this->cityService->search(['region' => $regionId], [], ['limit' => false, 'page' => false]);
+        return response()->json($cities->map(fn($c) => ['id' => $c->id, 'name' => $c->name]));
     }
     public function store(CreateRequest $request): JsonResponse
     {

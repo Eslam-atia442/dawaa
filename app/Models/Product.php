@@ -229,7 +229,9 @@ class Product extends Model implements HasMedia
     }
     public function scopeOfCity($query, $value)
     {
-        return $query->where('city_id', $value);
+        return $query->whereHas('store', function ($query) use ($value) {
+            $query->where('city_id', $value);
+        });
     }
     public function scopeOfCategory($query, $value)
     {

@@ -53,6 +53,30 @@
                                             placeholder="name_{{$lang}}"
                                         />
                                     @endforeach
+                                    <x-admin.input
+                                        name="country_id"
+                                        label="country.index"
+                                        type="select"
+                                        col="col-xl-6"
+                                        id="country_id"
+                                        :options="$countries->map(fn($c) => ['id' => $c->id, 'name' => $c->name])->toArray()"
+                                    />
+                                    <x-admin.input
+                                        name="region_id"
+                                        label="region.index"
+                                        type="select"
+                                        col="col-xl-6"
+                                        id="region_id"
+                                        :options="[]"
+                                    />
+                                    <x-admin.input
+                                        name="city_id"
+                                        label="city.index"
+                                        type="select"
+                                        col="col-xl-6"
+                                        id="city_id"
+                                        :options="[]"
+                                    />
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-media" role="tabpanel" aria-labelledby="v-pills-media-tab" tabindex="0">
@@ -83,4 +107,61 @@
 @push('js_files')
     @include('dashboard.shared.submitAddForm')
     @include('dashboard.shared.addImage')
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                var countrySelect = $('#select2Primary_country_id');
+                var regionSelect = $('#select2Primary_region_id');
+                var citySelect = $('#select2Primary_city_id');
+
+                countrySelect.on('select2:select change', function() {
+                    var countryId = $(this).val();
+                    regionSelect.empty().append('<option value="">{{ __("trans.choose") }} {{ __("trans.region.index") }}</option>');
+                    citySelect.empty().append('<option value="">{{ __("trans.choose") }} {{ __("trans.city.index") }}</option>');
+                    regionSelect.val(null).trigger('change');
+                    citySelect.val(null).trigger('change');
+                    if (countryId) {
+                        $.ajax({
+                            url: '{{ route("admin.stores.get-regions-by-country") }}',
+                            type: 'GET',
+                            data: { country_id: countryId },
+                            dataType: 'json',
+                            success: function(data) {
+                                regionSelect.empty().append('<option value="">{{ __("trans.choose") }} {{ __("trans.region.index") }}</option>');
+                                if (data && data.length > 0) {
+                                    $.each(data, function(key, value) {
+                                        regionSelect.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    });
+                                }
+                                regionSelect.trigger('change');
+                            }
+                        });
+                    }
+                });
+
+                regionSelect.on('select2:select change', function() {
+                    var regionId = $(this).val();
+                    citySelect.empty().append('<option value="">{{ __("trans.choose") }} {{ __("trans.city.index") }}</option>');
+                    citySelect.val(null).trigger('change');
+                    if (regionId) {
+                        $.ajax({
+                            url: '{{ route("admin.stores.get-cities-by-region") }}',
+                            type: 'GET',
+                            data: { region_id: regionId },
+                            dataType: 'json',
+                            success: function(data) {
+                                citySelect.empty().append('<option value="">{{ __("trans.choose") }} {{ __("trans.city.index") }}</option>');
+                                if (data && data.length > 0) {
+                                    $.each(data, function(key, value) {
+                                        citySelect.append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    });
+                                }
+                                citySelect.trigger('change');
+                            }
+                        });
+                    }
+                });
+            }, 1000);
+        });
+    </script>
 @endpush

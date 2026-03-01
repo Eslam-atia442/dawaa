@@ -6,6 +6,7 @@
         <th class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input" id="checkedAll"></th>
 
         <th>{{ __('trans.name') }}</th>
+        <th>{{ __('trans.city.index') }}</th>
         <th>{{ __('trans.activate') }}</th>
         <th>{{ __('trans.actions') }}</th>
     </tr>
@@ -17,8 +18,10 @@
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->name }}</span>
             </td>
-
-             <td>
+            <td>
+                <span class="text-truncate d-flex align-items-center">{{ $row->city?->name ?? '-' }}</span>
+            </td>
+            <td>
                 <x-admin.toggle
                     checked="{{$row->is_active}}"
                     url="{{ route('admin.store-toggle',['store' => $row->id ,'key' => 'is_active']) }}">

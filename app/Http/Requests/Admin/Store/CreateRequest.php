@@ -14,10 +14,11 @@ class CreateRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'name.*'  => ['required', 'array'],
-            'name.ar' => ['required', 'string', 'min:3', 'max:255'],
-            'name.en' => ['required', 'string', 'min:3', 'max:255'],
-            'image'   => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'name.*'   => ['required', 'array'],
+            'name.ar'  => ['required', 'string', 'min:3', 'max:255'],
+            'name.en'  => ['required', 'string', 'min:3', 'max:255'],
+            'image'    => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'city_id'  => ['nullable', 'integer', 'exists:cities,id'],
         ];
     }
     /**

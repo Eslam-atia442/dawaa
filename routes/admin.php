@@ -168,6 +168,8 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('intros/export', [IntroController::class, 'export'])->name('intro-export');
 
         // stores
+        Route::get('stores/get-regions-by-country', [StoreController::class, 'getRegionsByCountry'])->name('stores.get-regions-by-country');
+        Route::get('stores/get-cities-by-region', [StoreController::class, 'getCitiesByRegion'])->name('stores.get-cities-by-region');
         Route::resource('stores', StoreController::class);
         Route::post('stores/multiple', [StoreController::class, 'destroyMultiple'])->name('stores.destroy-multiple');
         Route::post('stores/toggle-status/{store}/{key}', [StoreController::class, 'toggleField'])->name('store-toggle');

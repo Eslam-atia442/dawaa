@@ -31,6 +31,11 @@ class Store extends Model implements HasMedia
 
     //--------------------- relations -------------------------------------
 
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
     //--------------------- functions -------------------------------------
 
     //--------------------- scopes -------------------------------------
