@@ -221,10 +221,10 @@
         </div>
         <div class="d-flex gap-2">
             @can('approve-refund-order')
-            <button type="button" class="btn btn-success" onclick="approveRefund({{ $row->id }})">
+            <button type="button" class="btn btn-success approve-refund-btn" data-order-id="{{ $row->id }}">
                 <i class="ti ti-check me-1"></i>@lang('trans.approve')
             </button>
-            <button type="button" class="btn btn-danger" onclick="rejectRefund({{ $row->id }})">
+            <button type="button" class="btn btn-danger reject-refund-btn" data-order-id="{{ $row->id }}">
                 <i class="ti ti-x me-1"></i>@lang('trans.reject')
             </button>
             @endcan
@@ -367,181 +367,107 @@
 </script>
 @endif
 <script>
-    function approveRefund(orderId) {
+$(function() {
+    $(document).on('click', '.approve-refund-btn', function() {
+        var orderId = $(this).data('order-id');
         Swal.fire({
-            title: '@lang('
-            trans.confirm_approve_refund ')',
-            text: '@lang('
-            trans.confirm_approve_refund_text ', ['
-            This action will process the refund and cannot be undone.
-            '])',
+            title: '{{ __("trans.confirm_approve_refund") }}',
+            text: '{{ __("trans.confirm_approve_refund_text", ["This action will process the refund and cannot be undone."]) }}',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#28a745',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: '@lang('
-            trans.approve ')',
-            cancelButtonText: '@lang('
-            trans.cancel ')'
+            confirmButtonText: '{{ __("trans.approve") }}',
+            cancelButtonText: '{{ __("trans.cancel") }}'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     url: '{{ route("admin.orders.approve-refund", ":id") }}'.replace(':id', orderId),
                     method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
+                    data: { _token: '{{ csrf_token() }}' },
                     success: function(response) {
                         if (response.success) {
-                            Swal.fire({
-                                title: '@lang('
-                                trans.success ')',
-                                text: response.message,
-                                icon: 'success',
-                                timer: 2000,
-                                showConfirmButton: false
-                            }).then(() => {
-                                location.reload();
-                            });
+                            Swal.fire({ title: '{{ __("trans.success") }}', text: response.message, icon: 'success', timer: 2000, showConfirmButton: false }).then(() => location.reload());
                         } else {
-                            Swal.fire({
-                                title: '@lang('
-                                trans.error ')',
-                                text: response.message,
-                                icon: 'error'
-                            });
+                            Swal.fire({ title: '{{ __("trans.error") }}', text: response.message, icon: 'error' });
                         }
                     },
-                    error: function(xhr) {
-                        Swal.fire({
-                            title: '@lang('
-                            trans.error ')',
-                            text: '@lang('
-                            trans.error_occurred ')',
-                            icon: 'error'
-                        });
+                    error: function() {
+                        Swal.fire({ title: '{{ __("trans.error") }}', text: '{{ __("trans.error_occurred") }}', icon: 'error' });
                     }
                 });
             }
         });
-    }
-
-    $(function() {
-        $('#save_order_status_btn').on('click', function() {
-            var btn = $(this);
-            var select = $('#order_status_select');
-            var badge = $('#order_status_badge');
-            var orderId = {{ $row->id }};
-            var orderStatus = select.val();
-
-            btn.prop('disabled', true);
-            btn.html('<i class="ti ti-loader me-1"></i>{{ __('trans.processing') }}...');
-
-            $.ajax({
-                url: '{{ route("admin.orders.update-order-status", ":id") }}'.replace(':id', orderId),
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    order_status: orderStatus
-                },
-                success: function(response) {
-                    if (response.success) {
-                        badge.removeClass('bg-primary bg-success bg-danger bg-secondary')
-                            .addClass('bg-' + response.order_status_color)
-                            .text(response.order_status_label);
-                        Swal.fire({
-                            title: '@lang('
-                            trans.success ')',
-                            text: response.message,
-                            icon: 'success',
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
-                    } else {
-                        Swal.fire({
-                            title: '@lang('
-                            trans.error ')',
-                            text: response.message || '@lang('
-                            trans.error_occurred ')',
-                            icon: 'error'
-                        });
-                    }
-                },
-                error: function(xhr) {
-                    Swal.fire({
-                        title: '@lang('
-                        trans.error ')',
-                        text: xhr.responseJSON?.error || '@lang('
-                        trans.error_occurred ')',
-                        icon: 'error'
-                    });
-                },
-                complete: function() {
-                    btn.prop('disabled', false);
-                    btn.html('<i class="ti ti-device-floppy me-1"></i>@lang('
-                        trans.save ')');
-                }
-            });
-        });
     });
 
-    function rejectRefund(orderId) {
+    $(document).on('click', '.reject-refund-btn', function() {
+        var orderId = $(this).data('order-id');
         Swal.fire({
-            title: '@lang('
-            trans.confirm_reject_refund ')',
-            text: '@lang('
-            trans.confirm_reject_refund_text ', ['
-            This action will reject the refund request.
-            '])',
+            title: '{{ __("trans.confirm_reject_refund") }}',
+            text: '{{ __("trans.confirm_reject_refund_text", ["This action will reject the refund request."]) }}',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: '@lang('
-            trans.reject ')',
-            cancelButtonText: '@lang('
-            trans.cancel ')'
+            confirmButtonText: '{{ __("trans.reject") }}',
+            cancelButtonText: '{{ __("trans.cancel") }}'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     url: '{{ route("admin.orders.reject-refund", ":id") }}'.replace(':id', orderId),
                     method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
+                    data: { _token: '{{ csrf_token() }}' },
                     success: function(response) {
                         if (response.success) {
-                            Swal.fire({
-                                title: '@lang('
-                                trans.success ')',
-                                text: response.message,
-                                icon: 'success',
-                                timer: 2000,
-                                showConfirmButton: false
-                            }).then(() => {
-                                location.reload();
-                            });
+                            Swal.fire({ title: '{{ __("trans.success") }}', text: response.message, icon: 'success', timer: 2000, showConfirmButton: false }).then(() => location.reload());
                         } else {
-                            Swal.fire({
-                                title: '@lang('
-                                trans.error ')',
-                                text: response.message,
-                                icon: 'error'
-                            });
+                            Swal.fire({ title: '{{ __("trans.error") }}', text: response.message, icon: 'error' });
                         }
                     },
-                    error: function(xhr) {
-                        Swal.fire({
-                            title: '@lang('
-                            trans.error ')',
-                            text: '@lang('
-                            trans.error_occurred ')',
-                            icon: 'error'
-                        });
+                    error: function() {
+                        Swal.fire({ title: '{{ __("trans.error") }}', text: '{{ __("trans.error_occurred") }}', icon: 'error' });
                     }
                 });
             }
         });
-    }
+    });
+
+    $('#save_order_status_btn').on('click', function() {
+        var btn = $(this);
+        var select = $('#order_status_select');
+        var badge = $('#order_status_badge');
+        var orderId = {{ $row->id }};
+        var orderStatus = select.val();
+
+        btn.prop('disabled', true);
+        btn.html('<i class="ti ti-loader me-1"></i>{{ __("trans.processing") }}...');
+
+        $.ajax({
+            url: '{{ route("admin.orders.update-order-status", ":id") }}'.replace(':id', orderId),
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                order_status: orderStatus
+            },
+            success: function(response) {
+                if (response.success) {
+                    badge.removeClass('bg-primary bg-success bg-danger bg-secondary')
+                        .addClass('bg-' + response.order_status_color)
+                        .text(response.order_status_label);
+                    Swal.fire({ title: '{{ __("trans.success") }}', text: response.message, icon: 'success', timer: 1500, showConfirmButton: false });
+                } else {
+                    Swal.fire({ title: '{{ __("trans.error") }}', text: response.message || '{{ __("trans.error_occurred") }}', icon: 'error' });
+                }
+            },
+            error: function(xhr) {
+                Swal.fire({ title: '{{ __("trans.error") }}', text: xhr.responseJSON?.error || '{{ __("trans.error_occurred") }}', icon: 'error' });
+            },
+            complete: function() {
+                btn.prop('disabled', false);
+                btn.html('<i class="ti ti-device-floppy me-1"></i>{{ __("trans.save") }}');
+            }
+        });
+    });
+});
 </script>
 @endpush
