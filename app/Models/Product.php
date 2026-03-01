@@ -24,6 +24,7 @@ class Product extends Model implements HasMedia
         'parent',
         'store',
         'city', // filters by store.city_id
+        'region', // filters by store.city.region_id
         'category',
         'brand',
         'hasChildren',
@@ -226,6 +227,14 @@ class Product extends Model implements HasMedia
     {
         return $query->whereHas('store', function ($query) use ($value) {
             $query->where('city_id', $value);
+        });
+    }
+    public function scopeOfRegion($query, $value)
+    {
+        return $query->whereHas('store', function ($query) use ($value) {
+            $query->whereHas('city', function ($query) use ($value) {
+                $query->where('region_id', $value);
+            });
         });
     }
     public function scopeOfCategory($query, $value)

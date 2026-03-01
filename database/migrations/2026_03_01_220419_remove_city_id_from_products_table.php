@@ -16,16 +16,17 @@ return new class extends Migration
             return;
         }
 
-        Schema::table('products', function (Blueprint $table) {
-            // Drop foreign key if it exists (name may vary)
-            $foreignKeys = DB::select("
-                SELECT CONSTRAINT_NAME
-                FROM information_schema.KEY_COLUMN_USAGE
-                WHERE TABLE_SCHEMA = DATABASE()
-                AND TABLE_NAME = 'products'
-                AND COLUMN_NAME = 'city_id'
-                AND REFERENCED_TABLE_NAME IS NOT NULL
-            ");
+        // Drop foreign key if it exists (constraint name may vary)
+        $foreignKeys = DB::select("
+            SELECT CONSTRAINT_NAME
+            FROM information_schema.KEY_COLUMN_USAGE
+            WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'products'
+            AND COLUMN_NAME = 'city_id'
+            AND REFERENCED_TABLE_NAME IS NOT NULL
+        ");
+
+        Schema::table('products', function (Blueprint $table) use ($foreignKeys) {
             foreach ($foreignKeys as $fk) {
                 $table->dropForeign($fk->CONSTRAINT_NAME);
             }
