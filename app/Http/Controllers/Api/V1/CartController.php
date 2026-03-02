@@ -186,6 +186,7 @@ class CartController extends Controller
                     'total_price_original' => $total_original_price,
                     'total_price_discounted' => $total,
                     'total_discount' => round($total_discount, 2),
+                    'delivery_fees' => globalSetting('delivery_fees') ?? 0,
                 ]
             );
         } catch (\Exception $e) {
