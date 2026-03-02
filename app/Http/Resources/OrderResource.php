@@ -22,6 +22,7 @@ class OrderResource extends BaseResource
         $this->micro = [
             'id' => $this->id,
             'total_price' => (float) $this->total_price,
+            'delivery_fees' => (float) $this->delivery_fees,
         ];
         $this->mini = [
             'id' => $this->id,
@@ -35,7 +36,7 @@ class OrderResource extends BaseResource
             'items_count' => $this->items_count ?? $this->whenLoaded('items', fn() => $this->items->count()),
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
-
+            'delivery_fees' => (float) $this->delivery_fees,
             
             'order_status' => $this->order_status?->value,
             'order_status_label' => $this->order_status?->label(),

@@ -301,6 +301,7 @@
                     <tr>
                         <th>@lang('trans.id')</th>
                         <th>@lang('trans.total_price')</th>
+                        <th>@lang('trans.delivery_fees')</th>
                         <th>@lang('trans.refund_type')</th>
                         <th>@lang('trans.note')</th>
                         <th>@lang('trans.created_at')</th>
@@ -312,6 +313,7 @@
                     <tr>
                         <td>#{{ $refund->id }}</td>
                         <td>{{ number_format($refund->total_price, 2) }}</td>
+                        <td>{{ number_format($refund->delivery_fees, 2) }}</td>
                         <td>{{ $refund->refund_type?->label() }}</td>
                         <td>{{ $refund->note ?: '-' }}</td>
                         <td>{{ $refund->created_at?->format('Y-m-d H:i:s') }}</td>

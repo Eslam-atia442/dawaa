@@ -20,7 +20,7 @@ class ProductController extends BaseApiController
     public function __construct(ProductService $service)
     {
         $this->service   = $service;
-        $this->relations = ['store', 'category', 'brand', 'city'];
+        $this->relations = ['store', 'category', 'brand'];
         parent::__construct($service, ProductResource::class);
     }
 

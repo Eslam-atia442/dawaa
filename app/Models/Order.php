@@ -127,4 +127,14 @@ class Order extends Model implements HasMedia
     {
         return $query->whereNull('parent_id');
     }
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $order->delivery_fees = globalSetting('delivery_fees') ?? 0;
+        });
+    }
 }
