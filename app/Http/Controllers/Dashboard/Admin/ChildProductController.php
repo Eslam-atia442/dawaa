@@ -143,8 +143,9 @@ class ChildProductController extends Controller
         }
     }
 
-    public function export(Request $request): JsonResponse
+    public function export(Request $request, Product $product): JsonResponse
     {
+  
         try {
             $filters = collect($request->except(['_token']))
                 ->filter(function ($value) {
@@ -163,6 +164,10 @@ class ChildProductController extends Controller
 
             // Add filter for child products only
             $filters['parentId'] = 'not_null';
+
+            if($product){
+                $filters['parentId'] = $product->id;
+            }
 
             $export = $this->exportService->createExport(
                 name      : __('trans.child-product.index') . ' ' . __('trans.export_excel') . ' - ' . now()->format('Y-m-d H:i:s'),

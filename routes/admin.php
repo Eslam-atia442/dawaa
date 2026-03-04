@@ -189,7 +189,7 @@ Route::group(['as' => 'admin.'], function () {
         Route::post('products/{product}/child-products/toggle-status/{childProduct}/{key}', [ChildProductController::class, 'toggleField'])->name('child-product-toggle');
         Route::match(['get', 'post'], 'products/{product}/child-products/{childProduct}/quantity-history', [ChildProductController::class, 'quantityHistory'])->name('products.child-products.quantity-history');
         Route::post('products/{product}/child-products/{childProduct}/quantity-history/export', [ChildProductController::class, 'quantityHistoryExport'])->name('products.child-products.quantity-history-export');
-        Route::post('products/child-products/export', [ChildProductController::class, 'export'])->name('child-product-export');
+        Route::post('products/child-products/export/{product?}', [ChildProductController::class, 'export'])->name('child-product-export');
         
     // sliders
     Route::resource('sliders', SliderController::class);

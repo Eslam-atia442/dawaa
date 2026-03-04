@@ -47,8 +47,8 @@ class ExportJob implements ShouldQueue
             $tempPath = 'temp/' . $filename;
 
             // Create export instance with appropriate parameters
-            $exportInstance = $this->createExportInstance($data);
-
+            $exportInstance = new $this->exportClass($data, $this->export->id);
+ 
             Excel::store($exportInstance, $tempPath, 'local');
 
             $permanentPath = 'exports/' . $filename;
@@ -69,95 +69,139 @@ class ExportJob implements ShouldQueue
 
     protected function getExportData(): array
     {
+        $page = false;
+        $limit = false;
+
+        // Child products are Product models with parent_id set (no separate ChildProduct model)
+        if ($this->export->model === 'ChildProduct') {
+            $service = app('App\\Services\\ProductService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            // $filters['parentId'] = 'not_null';
+            $filteredData = $service->fresh()->search(
+                $filters,
+                ['parent', 'parent.store', 'parent.category', 'parent.brand'],
+                ['page' => $page, 'limit' => $limit]
+            );
+
+            // dd($filteredData->toArray()[0]['parent']['name'][app()->getLocale()]);
+ 
+            return $filteredData->toArray();
+        }
+
         $modelClass = 'App\\Models\\' . $this->export->model;
 
         if (!class_exists($modelClass)) {
             throw new Exception(__('trans.model_not_found', ['model' => $modelClass]));
         }
 
-        // Use the appropriate service to get filtered data
-        if ($modelClass === 'App\\Models\\GoldFund') {
-            $serviceClass = 'App\\Services\\GoldFundService';
-            if (!class_exists($serviceClass)) {
-                throw new Exception(__('trans.model_not_found', ['model' => $serviceClass]));
-            }
-
-            $service = app($serviceClass);
-            
-            // Fresh the repository to ensure clean query, then search with filters
-            $filteredData = $service->fresh()->search(
-                $this->filters, 
-                ['riskLevel', 'assetManagementCompany', 'currency', 'goldFundType'], 
-                ['page' => false]
-            );
-
-            return $filteredData->toArray();
-        }
-
-        // Handle GoldFundPriceLog export
-        if ($modelClass === 'App\\Models\\GoldFundPriceLog') {
-            $goldFundId = $this->filters['gold_fund_id'] ?? null;
-            
-            if (!$goldFundId) {
-                throw new Exception(__('trans.gold_fund_id_required'));
-            }
-
-            $priceLogs = $modelClass::where('gold_fund_id', $goldFundId)
-                ->orderBy('changed_at', 'desc')
-                ->get()
-                ->toArray();
-
-            return $priceLogs;
-        }
-
-        // Handle Admin export
         if ($modelClass === 'App\\Models\\Admin') {
             $service = app('App\\Services\\AdminService');
             $filteredData = $service->fresh()->search(
                 $this->filters,
                 [],
-                ['page' => false]
+                ['page' => $page, 'limit' => $limit]
             );
             return $filteredData->toArray();
         }
 
-        // Handle User export
         if ($modelClass === 'App\\Models\\User') {
             $service = app('App\\Services\\UserService');
             $filteredData = $service->fresh()->search(
                 $this->filters,
                 ['country'],
-                ['page' => false]
+                ['page' => $page, 'limit' => $limit]
             );
             return $filteredData->toArray();
         }
 
-        // Handle Certificate export
-        if ($modelClass === 'App\\Models\\Certificate') {
-            $service = app('App\\Services\\CertificateService');
-            $filteredData = $service->fresh()->search(
-                $this->filters,
-                ['bank', 'certificationType', 'riskLevel'],
-                ['page' => false]
-            );
-            return $filteredData->toArray();
-        }
-
-        // Handle Product export (with relations for store, category, brand)
         if ($modelClass === 'App\\Models\\Product') {
             $service = app('App\\Services\\ProductService');
             $filters = $this->filters;
-            $filters['page'] = false;
-            $filters['limit'] = false;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
             $filters['parent'] = true;
             $filteredData = $service->fresh()->search($filters, ['store', 'category', 'brand']
             );
             return $filteredData->toArray();
         }
 
-        // Fallback for other models - try to use service if exists
-        $serviceClass = 'App\\Services\\' . class_basename($modelClass) . 'Service';
+        // stores
+        if ($modelClass === 'App\\Models\\Store') {
+            $service = app('App\\Services\\StoreService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            $filteredData = $service->fresh()->search($filters, ['city']);
+            return $filteredData->toArray();
+        }
+
+        // categories
+        if ($modelClass === 'App\\Models\\Category') {
+            $service = app('App\\Services\\CategoryService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            $filteredData = $service->fresh()->search($filters, []);
+            return $filteredData->toArray();
+        }
+
+        // brands
+        if ($modelClass === 'App\\Models\\Brand') {
+            $service = app('App\\Services\\BrandService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            $filteredData = $service->fresh()->search($filters, []);
+            return $filteredData->toArray();
+        }
         
+        // slider
+        if ($modelClass === 'App\\Models\\Slider') {
+            $service = app('App\\Services\\SliderService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            $filteredData = $service->fresh()->search($filters, []);
+            return $filteredData->toArray();
+        }
+
+        // intro
+        if ($modelClass === 'App\\Models\\Intro') {
+            $service = app('App\\Services\\IntroService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            $filteredData = $service->fresh()->search($filters, []);
+            return $filteredData->toArray();
+        }
+
+
+        // orders
+        if ($modelClass === 'App\\Models\\Order') {
+            $service = app('App\\Services\\OrderService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            $filteredData = $service->fresh()->search($filters, ['user', 'store']);
+            return $filteredData->toArray();
+        }
+
+
+        // contact us
+        if ($modelClass === 'App\\Models\\ContactUs') {
+            $service = app('App\\Services\\ContactUsService');
+            $filters = $this->filters;
+            $filters['page'] = $page;
+            $filters['limit'] = $limit;
+            $filteredData = $service->fresh()->search($filters, []);
+            return $filteredData->toArray();
+        }
+ 
+
+        $serviceClass = 'App\\Services\\' . class_basename($modelClass) . 'Service';
+
         if (class_exists($serviceClass)) {
             try {
                 $service = app($serviceClass);
@@ -165,7 +209,7 @@ class ExportJob implements ShouldQueue
                     $filteredData = $service->fresh()->search(
                         $this->filters,
                         [],
-                        ['page' => false]
+                        ['page' => $page, 'limit' => $limit]
                     );
                     return $filteredData->toArray();
                 }
@@ -175,7 +219,6 @@ class ExportJob implements ShouldQueue
             }
         }
 
-        // Basic fallback using query scopes
         $query = $modelClass::query();
 
         if (!empty($this->filters)) {
@@ -184,7 +227,7 @@ class ExportJob implements ShouldQueue
                 if (empty($value) && $value !== '0' && $value !== 0) {
                     continue;
                 }
-                
+
                 if (method_exists($query, 'of' . ucfirst($filter))) {
                     $query->{'of' . ucfirst($filter)}($value);
                 } elseif (method_exists($query, 'where' . ucfirst($filter))) {
@@ -194,18 +237,6 @@ class ExportJob implements ShouldQueue
         }
 
         return $query->get()->toArray();
-    }
-
-    protected function createExportInstance(array $data): object
-    {
-        // Handle GoldFundPriceLogExport which needs fund_name parameter
-        if ($this->exportClass === 'App\\Exports\\GoldFundPriceLogExport') {
-            $fundName = $this->filters['fund_name'] ?? '';
-            return new $this->exportClass($data, $fundName);
-        }
-
-        // Default: just pass data
-        return new $this->exportClass($data);
     }
 
     protected function generateFilename(): string
