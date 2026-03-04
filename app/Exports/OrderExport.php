@@ -13,9 +13,11 @@ class OrderExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
 {
     private $records;
 
-    public function __construct($records)
+    public function __construct($records, $exportId = null)
     {
-        $this->records = collect($records);
+        // Unwrap paginator if export job passed paginator->toArray()
+        $data = isset($records['data']) && is_array($records['data']) ? $records['data'] : $records;
+        $this->records = collect($data);
     }
 
     public function registerEvents(): array

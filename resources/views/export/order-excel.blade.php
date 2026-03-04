@@ -13,14 +13,24 @@
             <th style="text-align: center;background-color: #0a6ebd;color: #ffffff;">{{ __('trans.created_at') }}</th>
         </tr>
         @forelse($records as $record)
+            @php
+                $userName = data_get($record, 'user.name');
+                if (is_array($userName)) {
+                    $locale = app()->getLocale();
+                    $userName = $userName[$locale] ?? $userName['en'] ?? head($userName) ?? '-';
+                }
+                $userName = $userName ?? '-';
+                $paymentType = data_get($record, 'payment_type');
+                $paymentLabel = $paymentType !== null && $paymentType !== '' ? (\App\Enums\PaymentTypeEnum::tryFrom($paymentType)?->label() ?? $paymentType) : '';
+            @endphp
             <tr>
                 <td style="text-align: center">{{ $loop->iteration }}</td>
-                <td style="text-align: center">{{ $record['id'] ?? '' }}</td>
-                <td style="text-align: center">{{ isset($record['user']['name']) ? $record['user']['name'] : '-' }}</td>
-                <td style="text-align: center">{{ number_format($record['total_price'] ?? 0, 2) }}</td>
-                <td style="text-align: center">{{ isset($record['payment_type']) ? (\App\Enums\PaymentTypeEnum::tryFrom($record['payment_type'])?->label() ?? $record['payment_type']) : '' }}</td>
-                <td style="text-align: center">{{ !empty($record['parent_id']) ? __('trans.refund_order') : __('trans.order.index') }}</td>
-                <td style="text-align: center">{{ isset($record['created_at']) && $record['created_at'] ? \Carbon\Carbon::parse($record['created_at'])->format('Y-m-d H:i:s') : '' }}</td>
+                <td style="text-align: center">{{ data_get($record, 'id') }}</td>
+                <td style="text-align: center">{{ $userName }}</td>
+                <td style="text-align: center">{{ number_format((float) (data_get($record, 'total_price') ?? 0), 2) }}</td>
+                <td style="text-align: center">{{ $paymentLabel }}</td>
+                <td style="text-align: center">{{ data_get($record, 'parent_id') ? __('trans.refund_order') : __('trans.order.index') }}</td>
+                <td style="text-align: center">{{ data_get($record, 'created_at') ? \Carbon\Carbon::parse(data_get($record, 'created_at'))->format('Y-m-d H:i:s') : '' }}</td>
             </tr>
         @empty
             <tr>

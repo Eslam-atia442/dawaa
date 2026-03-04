@@ -41,7 +41,7 @@ class User extends Authenticatable implements HasMedia
     protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'login'];
     public array $searchable = ['name', 'email', 'phone'];
     public array $translatable = [];
-    public array $restrictedRelations = [];
+    public array $restrictedRelations = ['orders'];
     public array $cascadedRelations = [];
     public array $filesToUpload = ['license', 'tax_card', 'front_card_image', 'back_card_image'];
     public const ADDITIONAL_PERMISSIONS = ['accept-user-account'];
@@ -62,6 +62,11 @@ class User extends Authenticatable implements HasMedia
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     /**
