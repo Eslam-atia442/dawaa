@@ -95,6 +95,7 @@ Route::group(['prefix' => 'cities'], function () {
 });
 
 Route::get('settings', [SettingController::class, 'index']);
+Route::get('settings/app-review', [SettingController::class, 'appReview']);
 
 Route::group(['prefix' => 'categories'], function () {
     Route::get('/', [CategoryController::class, 'index']);

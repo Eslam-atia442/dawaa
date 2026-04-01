@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Dashboard\Admin;
 
 use App\Http\Controllers\BaseWebController;
@@ -22,6 +23,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Services\WalletService;
 use App\Traits\FCMNotificationTrait;
+
 class UserController extends BaseWebController
 {
 
@@ -41,8 +43,7 @@ class UserController extends BaseWebController
         WalletService $walletService,
         $table = 'users',
         $guard = 'admin'
-    )
-    {
+    ) {
         $this->service = $service;
         $this->table = $table;
         $this->guard = $guard;
@@ -50,13 +51,13 @@ class UserController extends BaseWebController
         $this->countryService = $countryService;
         $this->exportService = $exportService;
         $this->walletService = $walletService;
-        parent::__construct($this->service, $this->table, $this->guard, $this->relations ,'user');
+        parent::__construct($this->service, $this->table, $this->guard, $this->relations, 'user');
     }
 
-    
+
     public function create(): View
     {
-        $countries = $this->countryService->search(['limit' => false, 'page' => false , 'active' => true ], [], []);
+        $countries = $this->countryService->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $userTypes = collect(UserTypeEnum::cases())->map(function ($type) {
             return ['id' => $type->value, 'name' => $type->label()];
         })->toArray();
@@ -66,7 +67,7 @@ class UserController extends BaseWebController
     public function edit($id): View
     {
         $row = $this->service->find($id, $this->relations);
-        $countries = $this->countryService->search(['limit' => false, 'page' => false , 'active' => true ], [], []);
+        $countries = $this->countryService->search(['limit' => false, 'page' => false, 'active' => true], [], []);
         $userTypes = collect(UserTypeEnum::cases())->map(function ($type) {
             return ['id' => $type->value, 'name' => $type->label()];
         })->toArray();
@@ -79,7 +80,7 @@ class UserController extends BaseWebController
             $this->service->create($request->validated());
             return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()] , 400);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
     }
     public function update(UpdateRequest $request, User $user): JsonResponse
@@ -88,7 +89,7 @@ class UserController extends BaseWebController
             $this->service->update($user, $request->validated());
             return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()] , 400);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
     }
     public function toggleField(Request $request, $user, $key)
@@ -153,7 +154,6 @@ class UserController extends BaseWebController
                 'message' => __('trans.export_queued'),
                 'export_id' => $export->id
             ]);
-
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -178,7 +178,7 @@ class UserController extends BaseWebController
             }
 
             $password = Str::random(12);
-            
+
             $user->update([
                 'is_accepted' => true,
                 'password' => $password,
@@ -190,7 +190,6 @@ class UserController extends BaseWebController
                 'success' => true,
                 'message' => __('trans.account_accepted_successfully')
             ]);
-
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json([
@@ -260,7 +259,6 @@ class UserController extends BaseWebController
                 'message' => __('trans.export_queued'),
                 'export_id' => $export->id
             ]);
-
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -268,7 +266,7 @@ class UserController extends BaseWebController
 
     public function addBalance(User $user): JsonResponse
     {
-    
+
 
         $validated = request()->validate([
             'amount' => 'required|numeric|min:0.01',
@@ -295,12 +293,12 @@ class UserController extends BaseWebController
 
             $messageData = [
                 'title' => [
-                    'ar' => ' تم اضافة الرصيد بنجاح بواسطة ' . request()->amount,
-                    'en' => 'Balance added successfully by ' . request()->amount,
+                    'ar' => 'تم اضافة الرصيد بنجاح بمقدار ' . request()->amount . ' ج.م',
+                    'en' => 'Balance added successfully by ' . request()->amount . ' EGP',
                 ],
                 'body' => [
-                    'ar' => ' تم اضافة الرصيد بنجاح بواسطة ' . request()->amount,
-                    'en' => 'Balance added successfully by ' . request()->amount,
+                    'ar' => 'تم اضافة الرصيد بنجاح بمقدار ' . request()->amount . ' ج.م',
+                    'en' => 'Balance added successfully by ' . request()->amount . ' EGP',
                 ],
             ];
             $this->sendFCMToUser($user, $messageData, 'user', $user->id);
@@ -310,7 +308,6 @@ class UserController extends BaseWebController
                 'success' => true,
                 'message' => __('trans.balance_updated')
             ]);
-
         } catch (Exception $e) {
             DB::rollBack();
 

@@ -27,21 +27,25 @@ class RegisterRequest extends FormRequest
 
     public function rules(): array
     {
+        $isReview = (bool) globalSetting('is_review');
+        $req = $isReview ? 'nullable' : 'required';
+
         return [
-            'type'                  => ['required', 'integer', 'in:' . implode(',', UserTypeEnum::values())],
             'name'                  => ['required', 'string', 'max:255'],
-            'license'               => ['required', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
-            'tax_card'              => ['required', 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
-            'front_card_image'      => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
-            'back_card_image'       => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
             'email'                 => ['required', 'email', 'unique:users'],
-            'phone'                 => ['required', 'numeric', 'unique:users', 'digits_between:10,15'],
-            'lat'                   => ['required', 'numeric', 'between:-90,90'],
-            'long'                  => ['required', 'numeric', 'between:-180,180'],
-            'map_description'       => ['required', 'string'],
+            'password'              => ['required', 'string', 'min:6'],
+            'type'                  => [$req, 'integer', 'in:' . implode(',', UserTypeEnum::values())],
+            'license'               => [$req, 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
+            'tax_card'              => [$req, 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
+            'front_card_image'      => [$req, 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
+            'back_card_image'       => [$req, 'file', 'mimes:jpg,jpeg,png', 'max:10240'],
+            'phone'                 => [$req, 'numeric', 'unique:users', 'digits_between:10,15'],
+            'lat'                   => [$req, 'numeric', 'between:-90,90'],
+            'long'                  => [$req, 'numeric', 'between:-180,180'],
+            'map_description'       => [$req, 'string'],
             'note'                  => ['nullable', 'string'],
-            'country_id'            => ['required', Rule::exists('countries', 'id')->where('is_active', 1)],
-            'city_id'               => ['required', Rule::exists('cities', 'id')->where('is_active', 1)],
+            'country_id'            => [$req, Rule::exists('countries', 'id')->where('is_active', 1)],
+            'city_id'               => [$req, Rule::exists('cities', 'id')->where('is_active', 1)],
         ];
     }
 }

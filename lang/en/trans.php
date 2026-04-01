@@ -747,8 +747,11 @@ return [
         'privacy_policy_ar'         => 'Privacy Policy in Arabic',
         'privacy_policy_en'         => 'Privacy Policy in English',
         'switches'                  => 'Switches',
-
+        'app_review'                => 'App Review',
     ],
+    'in_review_version'               => 'In Review Version',
+    'is_review'                       => 'Is In Review',
+    'force_update'                    => 'Force Update',
     'egrates'                             => [
         'tab'                    => 'Egrates',
         'update_gold'            => 'Update Gold Cache',

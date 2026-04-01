@@ -94,6 +94,11 @@
                         <i class="ti ti-toggle-left"></i> @lang('trans.settings.switches')
                     </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="app-review-tab" data-bs-toggle="tab" data-bs-target="#app_review" type="button" role="tab" aria-controls="app_review" aria-selected="false">
+                        <i class="ti ti-device-mobile-check"></i> @lang('trans.settings.app_review')
+                    </button>
+                </li>
             </ul>
             <form class="card-body form validated-form" method="POST"
                   action="{{route('admin.settings.update')}}" novalidate enctype="multipart/form-data">
@@ -249,7 +254,35 @@
                                 col="col-xl-6"
                             />
                         </div>
-                    </div> 
+                    </div>
+
+                    <!-- App Review Tab -->
+                    <div class="tab-pane fade" id="app_review" role="tabpanel" aria-labelledby="app-review-tab">
+                        <div class="row g-4">
+                            <x-admin.input
+                                :value="globalSetting('in_review_version')"
+                                name="in_review_version"
+                                label="in_review_version"
+                                type="text"
+                                col="col-xl-6"
+                                placeholder="in_review_version"
+                            />
+                            <x-admin.toggle-switch
+                                :value="globalSetting('is_review')"
+                                name="is_review"
+                                label="is_review"
+                                class="success"
+                                col="col-xl-6"
+                            />
+                            <x-admin.toggle-switch
+                                :value="globalSetting('force_update')"
+                                name="force_update"
+                                label="force_update"
+                                class="success"
+                                col="col-xl-6"
+                            />
+                        </div>
+                    </div>
              
                 </div>
                 </div>

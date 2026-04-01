@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseApiController;
 use App\Http\Resources\SettingResource;
 use App\Services\SettingService;
 use App\Traits\BaseApiResponseTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -39,5 +40,27 @@ class SettingController extends BaseApiController
         return $this->respondWithCollection($models);
     }
 
+    /**
+     * App review check.
+     * @queryParam version string required The current app version.
+     */
+    public function appReview(): JsonResponse
+    {
+        $version = request()->query('version');
+        $inReviewVersion = globalSetting('in_review_version');
+        $isReview = (bool) globalSetting('is_review');
+        $forceUpdate = (bool) globalSetting('force_update');
 
+        $isInReview = $isReview && $version && $inReviewVersion && $version === $inReviewVersion;
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'in_review_version' => $inReviewVersion,
+                'is_review' => $isReview,
+                'is_in_review' => $isInReview,
+                'force_update' => $forceUpdate,
+            ],
+        ]);
+    }
 }
