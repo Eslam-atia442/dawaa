@@ -1538,21 +1538,21 @@ return [
     'reference' => 'مرجع',
     'minimum_quantity' => 'الكمية الأدنى',
         'order' => [
-         'index' => 'الطلابات',
+         'index' => 'الطلبات',
          'create_page' => 'صفحة اضافة الطلب',
          'create' => 'اضافة الطلب',
          'edit_page' => 'صفحة تعديل الطلب',
          'edit' => 'صفحة تعديل الطلب',
          'show' => 'صفحة عرض الطلب',
          'delete' => 'حذف الطلب',
-         'delete_all' => 'حذف العديد  من الطلابات',
+         'delete_all' => 'حذف العديد  من الطلبات',
         'update' => 'تعديل الطلب',
         'read' => 'عرض الطلب',
-        'read-all' => 'عرض كل الطلابات',
+        'read-all' => 'عرض كل الطلبات',
         'details' => 'تفاصيل الطلب',
         'items' => 'عناصر الطلب',
         ],
-        
+
         'contactUs' => [
          'index' => 'رسائل لتواصل',
          'create_page' => 'صفحة اضافة رساله تواصل',
@@ -1567,7 +1567,7 @@ return [
         'read-all' => 'عرض كل رسائل لتواصل',
         ],
         #new_comand_translations_here
-        
+
 
     // Reports
     'reports' => 'التقارير',
