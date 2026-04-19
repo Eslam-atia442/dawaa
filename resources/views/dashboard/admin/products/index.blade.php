@@ -49,6 +49,24 @@
                     'input_type' => 'text' ,
                     'input_name' => __('trans.keyword') ,
                 ] ,
+                'store' => [
+                    'input_type' => 'select' ,
+                    'input_name' => __('trans.store.index') ,
+                    'rows' => $stores,
+                    'multiple' => true
+                    ],
+                    'category' => [
+                    'input_type' => 'select' ,
+                    'input_name' => __('trans.category.index') ,
+                    'rows' => $categories,
+                    'multiple' => true 
+                    ],
+                    'brand' => [
+                    'input_type' => 'select' ,
+                    'input_name' => __('trans.brand.index') ,
+                    'rows' => $brands,
+                    'multiple' => true
+                    ]
             ]"
             />
         </div>

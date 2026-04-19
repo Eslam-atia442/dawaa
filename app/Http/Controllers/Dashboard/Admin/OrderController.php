@@ -17,6 +17,7 @@ use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Repositories\SQL\StoreRepository;
 
 
 class OrderController extends BaseWebController
@@ -54,14 +55,15 @@ class OrderController extends BaseWebController
     public function index(): View|JsonResponse
     {
 
-        $users = $this->userService->search(['limit' => false, 'page' => false], [], );
-       
+
         if (request()->ajax()) {
             $rows = $this->service->search(request()->all(), $this->relations);
             $html = view('dashboard.' . $this->guard . '.' . $this->table . '.table', compact('rows'))->render();
             return response()->json(['html' => $html  ]);
         }
-        return view('dashboard.' . $this->guard . '.' . $this->table . '.index' , compact(var_name: 'users'));
+        $users = $this->userService->search(['limit' => false, 'page' => false], [], );
+        $stores = app(StoreRepository::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
+        return view('dashboard.' . $this->guard . '.' . $this->table . '.index' , compact('users', 'stores'));
     }
     public function store(CreateRequest $request): JsonResponse
     {
