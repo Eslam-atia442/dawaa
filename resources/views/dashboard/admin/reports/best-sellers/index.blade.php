@@ -50,6 +50,19 @@
                     'input_type' => 'text' ,
                     'input_name' => __('trans.keyword') ,
                 ] ,
+                'store' => [
+                    'input_type' => 'select' ,
+                    'input_name' => __('trans.store.index') ,
+                    'rows' => $stores,
+                    'multiple' => true
+                    ],
+                'user' => [
+                    'input_type' => 'select' ,
+                    'input_name' => __('trans.user.index') ,
+                    'rows' => $users,
+                    'multiple' => true
+                    
+                ]
             ]" />
     </div>
     <div class="card-datatable table-responsive table_content_append">

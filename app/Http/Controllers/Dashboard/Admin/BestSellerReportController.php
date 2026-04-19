@@ -14,6 +14,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\StoreResource;
+use App\Repositories\SQL\StoreRepository;
+use App\Repositories\SQL\UserRepository;
 
 class BestSellerReportController extends Controller
 {
@@ -33,12 +36,16 @@ class BestSellerReportController extends Controller
             return response()->json(['html' => $html]);
         }
 
-        return view('dashboard.admin.reports.best-sellers.index');
+        $stores = app(StoreRepository::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
+        $users = app(UserRepository::class)->search(['limit' => false, 'page' => false], [], []);
+   
+        return view('dashboard.admin.reports.best-sellers.index', compact('stores', 'users'));
     }
 
     protected function getReportData(array $filters): \Illuminate\Pagination\LengthAwarePaginator
     {
         $query = OrderItem::query()
+        ->with('product.store', 'order.user')
             ->select(
                 'order_items.product_id',
                 DB::raw('SUM(order_items.quantity) as total_quantity_sold'),
@@ -53,6 +60,16 @@ class BestSellerReportController extends Controller
             ->whereNotNull('order_items.order_id')
             ->groupBy('order_items.product_id');
 
+        if (!empty($filters['store'])) {
+            $query->whereHas('product', function ($query) use ($filters) {
+                $query->whereIn('store_id', $filters['store']);
+            });
+        }
+        if (!empty($filters['user'])) {
+            $query->whereHas('order', function ($query) use ($filters) {
+                $query->whereIn('user_id', $filters['user']);
+            });
+        }
         if (!empty($filters['keyword'])) {
             $keyword = $filters['keyword'];
             $productIds = Product::where('name', 'like', "%{$keyword}%")->pluck('id');

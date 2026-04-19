@@ -4,7 +4,7 @@
     <thead class="border-top">
     <tr>
         <th class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input" id="checkedAll"></th>
-
+        <th>{{ __('trans.image') }}</th>
         <th>{{ __('trans.name') }}</th>
         <th>{{ __('trans.store.index') }}</th>
         <th>{{ __('trans.category.index') }}</th>
@@ -15,9 +15,12 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($rows as $row)
+    @foreach ($rows as $row) 
         <tr class="delete_row">
             <td class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes checkSingle form-check-input" id="{{ $row->id }}"></td>
+            <td>
+                <img src="{{ $row->getFirstMediaUrl('image') }}" alt="{{ $row->name }}" width="50" height="50">
+            </td>
             <td>
                 <span class="text-truncate d-flex align-items-center @if($row->is_low_quantity) text-danger @endif">{{ $row->name }}</span>
             </td>

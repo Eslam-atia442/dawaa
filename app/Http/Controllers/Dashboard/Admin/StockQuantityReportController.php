@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Repositories\SQL\StoreRepository;
+use App\Repositories\SQL\UserRepository;
 
 class StockQuantityReportController extends Controller
 {
@@ -30,7 +32,9 @@ class StockQuantityReportController extends Controller
             return response()->json(['html' => $html]);
         }
 
-        return view('dashboard.admin.reports.stock-quantity.index');
+        $stores = app(StoreRepository::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
+        $users = app(UserRepository::class)->search(['limit' => false, 'page' => false], [], []);
+        return view('dashboard.admin.reports.stock-quantity.index', compact('stores', 'users'));
     }
 
     protected function getReportData(array $filters)
@@ -45,7 +49,7 @@ class StockQuantityReportController extends Controller
         $query = Product::query()
             ->whereNotNull('parent_id')
             ->where('quantity', '<=', (int)$quantity)
-            ->with(['parent', 'store']);
+            ->with(['parent', 'store', 'user']);
 
         if (!empty($filters['keyword'])) {
             $keyword = $filters['keyword'];
@@ -54,6 +58,18 @@ class StockQuantityReportController extends Controller
                   ->orWhereHas('parent', function ($pq) use ($keyword) {
                       $pq->where('name', 'like', "%{$keyword}%");
                   });
+            });
+        }
+
+        if (!empty($filters['store'])) {
+            $query->whereHas('store', function ($query) use ($filters) {
+                $query->whereIn('store_id', $filters['store']);
+            });
+        }
+
+        if (!empty($filters['user'])) {
+            $query->whereHas('store', function ($query) use ($filters) {
+                $query->whereIn('user_id', $filters['user']);
             });
         }
 

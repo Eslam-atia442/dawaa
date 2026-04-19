@@ -24,3 +24,5 @@ composer.lock
 /app/Console/Commands/MakeCommands/
 /stubs/
 storage/firebase-service-account.json
+/.cursor
+/.junie
