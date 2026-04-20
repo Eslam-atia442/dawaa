@@ -31,7 +31,7 @@
                 <span class="text-truncate d-flex align-items-center">{{ number_format($row->price, 2) }}</span>
             </td>
             <td>
-                <span class="text-truncate d-flex align-items-center">{{ $row->product->store->name ?? '-' }}</span>
+                <span class="text-truncate d-flex align-items-center">{{ $row->parent->store->name ?? '-' }}</span>
             </td>
             <td>
                 <span class="text-truncate d-flex align-items-center">{{ $row->expiry_date ?? '-' }}</span>
