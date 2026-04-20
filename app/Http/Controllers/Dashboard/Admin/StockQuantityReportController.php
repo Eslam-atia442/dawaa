@@ -33,7 +33,7 @@ class StockQuantityReportController extends Controller
         }
 
         $stores = app(StoreRepository::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
-        $users = app(UserRepository::class)->search(['limit' => false, 'page' => false], [], []);
+
         return view('dashboard.admin.reports.stock-quantity.index', compact('stores', 'users'));
     }
 
@@ -49,7 +49,7 @@ class StockQuantityReportController extends Controller
         $query = Product::query()
             ->whereNotNull('parent_id')
             ->where('quantity', '<=', (int)$quantity)
-            ->with(['parent', 'store', 'user']);
+            ->with(['parent', 'store']);
 
         if (!empty($filters['keyword'])) {
             $keyword = $filters['keyword'];
