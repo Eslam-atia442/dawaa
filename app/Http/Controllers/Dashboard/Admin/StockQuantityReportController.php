@@ -62,14 +62,10 @@ class StockQuantityReportController extends Controller
         }
 
         if (!empty($filters['store'])) {
-            $query->whereHas('store', function ($query) use ($filters) {
-                $query->whereIn('store_id', $filters['store']);
-            });
-        }
-
-        if (!empty($filters['user'])) {
-            $query->whereHas('store', function ($query) use ($filters) {
-                $query->whereIn('user_id', $filters['user']);
+            $query->whereHas('parent', function ($query) use ($filters) {
+                $query->whereHas('store', function ($sq) use ($filters) {
+                    $sq->whereIn('id', $filters['store']);
+                });
             });
         }
 
