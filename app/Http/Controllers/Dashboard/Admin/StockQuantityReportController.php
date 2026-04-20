@@ -34,7 +34,7 @@ class StockQuantityReportController extends Controller
 
         $stores = app(StoreRepository::class)->search(['limit' => false, 'page' => false, 'active' => true], [], []);
 
-        return view('dashboard.admin.reports.stock-quantity.index', compact('stores', 'users'));
+        return view('dashboard.admin.reports.stock-quantity.index', compact('stores'));
     }
 
     protected function getReportData(array $filters)
