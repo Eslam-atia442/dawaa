@@ -88,6 +88,21 @@ class ReportExportJob implements ShouldQueue
                 DB::raw('COUNT(DISTINCT order_items.order_id) as orders_count'),
                 DB::raw('SUM(order_items.total_price) as total_revenue')
             )
+            ->when(!empty($this->filters['store']), function ($query) {
+                $query->ofStore($this->filters['store']);
+            })
+            ->when(!empty($this->filters['user']), function ($query) {
+                $query->ofUser($this->filters['user']);
+            })
+            ->when(!empty($this->filters['keyword']), function ($query) {
+                $query->ofKeyword($this->filters['keyword']);
+            })
+            ->when(!empty($this->filters['createdAtMin']), function ($query) {
+                $query->ofCreatedAtMin($this->filters['createdAtMin']);
+            })
+            ->when(!empty($this->filters['createdAtMax']), function ($query) {
+                $query->ofCreatedAtMax($this->filters['createdAtMax']);
+            })
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
             ->where('orders.status', OrderStatusEnum::PAID->value)
             ->whereNull('orders.parent_id')
@@ -135,7 +150,13 @@ class ReportExportJob implements ShouldQueue
         $query = Product::query()
             ->whereNotNull('parent_id')
             ->where('quantity', '<=', (int)$quantity)
-            ->with(['parent', 'store']);
+            ->with(['parent', 'store'])
+            ->when(!empty($this->filters['store']), function ($query) {
+                $query->ofStore($this->filters['store']);
+            })
+            ->when(!empty($this->filters['keyword']), function ($query) {
+                $query->ofKeyword($this->filters['keyword']);
+            });
 
         if (!empty($this->filters['keyword'])) {
             $keyword = $this->filters['keyword'];

@@ -124,6 +124,14 @@ class OrderItem extends Model implements HasMedia
         return $query;
     }
 
+    public function scopeOfStore($query, $data)
+    {
+        
+        return $query->whereHas('product', function ($query) use ($data) {
+            $query->whereIn('store_id', $data);
+        });
+    }
+
     //--------------------- scopes -------------------------------------
 
    public function scopeOfActive($query)
