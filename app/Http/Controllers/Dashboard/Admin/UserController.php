@@ -80,7 +80,6 @@ class UserController extends BaseWebController
             $data = $request->validated();
             $data['email_verified_at'] = now();
             $data['is_accepted'] = true;
-            dd($data);
             $this->service->create($data);
             return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
         } catch (Exception $e) {
