@@ -243,6 +243,8 @@ return [
         'discount_percentage'                  => 'نسبة الخصم',
         'has_discount'                         => 'هل يوجد خصم',
         'discounted_price'                     => 'السعر المخفض',
+        'minimum_quantity'                     => 'الكمية الأدنى',
+        'gallery'                              => 'المعرض',
     ],
 
 
