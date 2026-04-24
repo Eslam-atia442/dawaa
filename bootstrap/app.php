@@ -11,15 +11,15 @@ use Sentry\Laravel\Integration;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         then: function () {
-            Route::middleware('web')
+            Route::middleware(['web', \App\Http\Middleware\SetLocale::class])
                 ->prefix('admin')
                 ->group(base_path('routes/admin.php'));
 
-            Route::middleware('api')
+            Route::middleware(['api', \App\Http\Middleware\SetApiLocale::class])
                 ->prefix('api/v1')
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
+            Route::middleware(['web', \App\Http\Middleware\SetLocale::class])
                 ->group(base_path('routes/web.php'));
 
             Route::middleware('console')
@@ -28,9 +28,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->use([
-
-            // Custom Middleware
-            \App\Http\Middleware\SetLocale::class,
 
             // Vendor Middleware
             \Illuminate\Http\Middleware\TrustHosts::class,
