@@ -77,7 +77,10 @@ class UserController extends BaseWebController
     public function store(CreateRequest $request): JsonResponse
     {
         try {
-            $this->service->create($request->validated());
+            $data = $request->validated();
+            $data['email_verified_at'] = now();
+            $data['is_accepted'] = true;
+            $this->service->create($data);
             return response()->json(['url' => route($this->guard . '.' . $this->table . '.index')]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
