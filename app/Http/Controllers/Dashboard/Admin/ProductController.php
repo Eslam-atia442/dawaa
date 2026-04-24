@@ -114,6 +114,7 @@ class ProductController extends BaseWebController
 
     public function export(Request $request): JsonResponse
     {
+   
         try {
             $filters = collect($request->except(['_token']))
                 ->filter(function ($value) {
@@ -130,7 +131,6 @@ class ProductController extends BaseWebController
                 })
                 ->toArray();
 
-            // Add filter for parent products only
             $filters['parentId'] = null;
 
             $export = $this->exportService->createExport(
@@ -138,6 +138,8 @@ class ProductController extends BaseWebController
                 model     : 'Product',
                 parameters: $filters
             );
+      
+            
 
             ExportJob::dispatch(
                 export     : $export,
