@@ -1399,6 +1399,7 @@ return [
     'invalid_child_product' => 'Invalid child product',
     'please_select_child_product' => 'Please select a child product',
     'insufficient_quantity' => 'Insufficient quantity available',
+    'cant_add_from_another_store' => 'You cannot add products from a different store. Please empty your cart first.',
     'product_id_required' => 'Product ID is required',
     'product_not_found' => 'Product not found',
     'child_product_id_required' => 'Child product ID is required',

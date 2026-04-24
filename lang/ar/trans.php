@@ -1399,6 +1399,7 @@ return [
     'invalid_child_product' => 'منتج فرعي غير صالح',
     'please_select_child_product' => 'يرجى اختيار منتج فرعي',
     'insufficient_quantity' => 'الكمية المتاحة غير كافية',
+    'cant_add_from_another_store' => 'لا يمكنك إضافة منتجات من متجر مختلف. يرجى تفريغ السلة أولاً.',
     'product_id_required' => 'معرف المنتج مطلوب',
     'product_not_found' => 'المنتج غير موجود',
     'child_product_id_required' => 'معرف المنتج الفرعي مطلوب',

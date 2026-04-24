@@ -40,6 +40,19 @@ class CartController extends Controller
             $product = Product::findOrFail($productId);
             $price = $product->price;
 
+            $parentProduct = $product->parent ?? $product;
+            $newStoreId = $parentProduct->store_id;
+
+            $existingCartStoreId = OrderItem::where('user_id', $user->id)
+                ->whereNull('order_id')
+                ->join('products', 'order_items.product_id', '=', 'products.id')
+                ->value('products.store_id');
+
+            if ($existingCartStoreId && $existingCartStoreId != $newStoreId) {
+                DB::rollBack();
+                return $this->errorWrongArgs(__('trans.cant_add_from_another_store'));
+            }
+
             $cartItem = OrderItem::where('user_id', $user->id)
                 ->whereNull('order_id')
                 ->where('child_product_id', $productId)
