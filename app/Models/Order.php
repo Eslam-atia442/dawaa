@@ -27,7 +27,7 @@ class Order extends Model implements HasMedia
         'order_status',
         'refundable',
     ];
-    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user', 'refundable', 'normalOrders'];
+    protected array $filters = ['keyword', 'createdAtMin', 'createdAtMax', 'myOrders', 'user', 'refundable', 'normalOrders', 'store'];
     protected array $searchable = ['name'];
     protected array $dates = [];
     public array $translatable = ['name'];
@@ -84,6 +84,16 @@ class Order extends Model implements HasMedia
     public function scopeOfUser($query, $data)
     {
         return $query->whereIn('user_id', (array)$data);
+    }
+
+
+    public function scopeOfStore($query, $data)
+    {
+        return $query->whereHas('items', function ($query) use ($data) {
+            $query->whereHas('product', function ($query) use ($data) {
+                $query->where('store_id', $data);
+            });
+        });
     }
 
     //--------------------- accessors -------------------------------------
