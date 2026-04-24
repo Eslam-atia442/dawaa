@@ -1586,6 +1586,8 @@ return [
     'paid' => 'مدفوع',
     'price' => 'السعر',
     'production_line_number' => 'رقم خط الإنتاج',
+    'map_description' => 'وصف الخريطة',
+    'click_to_select_location' => 'اضغط لتحديد الموقع',
 
 
 

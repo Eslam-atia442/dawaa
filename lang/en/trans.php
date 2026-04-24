@@ -1566,7 +1566,8 @@ return [
     'paid' => 'Paid',
     'price' => 'Price',
     'production_line_number' => 'Production Line Number',
-
+    'map_description' => 'Map Description',
+    'click_to_select_location' => 'Click to select location',
 
     'note' => 'Note',
     'notes' => 'Notes',
