@@ -33,7 +33,6 @@ class RegisterRequest extends FormRequest
         return [
             'name'                  => ['required', 'string', 'max:255'],
             'email'                 => ['required', 'email', 'unique:users'],
-            'password'              => ['required', 'string', 'min:6'],
             'type'                  => [$req, 'integer', 'in:' . implode(',', UserTypeEnum::values())],
             'license'               => [$req, 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
             'tax_card'              => [$req, 'file', 'mimes:pdf,jpeg,png,jpg,gif', 'max:10240'],
