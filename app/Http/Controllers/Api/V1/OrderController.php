@@ -10,9 +10,9 @@ use App\Traits\BaseApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
-
 /**
  * @group Api
+ *
  * @subgroup Orders
  */
 class OrderController extends BaseApiController
@@ -23,17 +23,18 @@ class OrderController extends BaseApiController
 
     public function __construct(OrderService $service)
     {
-        $this->service   = $service;
+        $this->service = $service;
         $this->relations = ['items', 'items.product', 'items.childProduct.parent'];
         parent::__construct($service, OrderResource::class);
     }
 
     /**
      * Create order from cart
+     *
      * @authenticated
+     *
      * @bodyParam payment_type integer required Payment type (1=Online, 2=Cash, 3=Wallet)
      * @bodyParam note string optional Note
-     * @return JsonResponse
      */
     public function createOrder(CreateOrderRequest $request): JsonResponse
     {
@@ -44,6 +45,7 @@ class OrderController extends BaseApiController
 
             $result = $this->service->createOrder($user->id, $paymentType, $request->note);
             DB::commit();
+
             return $this->respondWithSuccess(
                 __('trans.order_created_successfully'),
                 [
@@ -51,42 +53,44 @@ class OrderController extends BaseApiController
                     'transaction' => $result['transaction'],
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
+
             return $this->respondWithError($e->getMessage());
         }
     }
 
     /**
      * Get user's orders
+     *
      * @authenticated
+     *
      * @queryParam page integer Page number
      * @queryParam limit integer Items per page
-     * @return JsonResponse
      */
     public function myOrders(): JsonResponse
     {
 
-        request()->merge(['myOrders' => true , 'normalOrders' => true]);
+        request()->merge(['myOrders' => true, 'normalOrders' => true]);
         $orders = $this->service->search(request()->all(), $this->relations, []);
+
         return $this->respondWithCollection($orders);
     }
 
     /**
      * Get order details
+     *
      * @authenticated
+     *
      * @urlParam order integer required Order ID
-     * @return JsonResponse
      */
-
-
     public function show($orderId): JsonResponse
     {
         $user = auth('sanctum')->user();
         $order = $this->service->find($orderId, $this->relations);
 
         // Ensure user can only view their own orders
-        if (!$order || $order->user_id !== $user->id) {
+        if (! $order || $order->user_id !== $user->id) {
             return $this->respondWithError(__('trans.unauthorized'), 403);
         }
 

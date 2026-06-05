@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentTypeEnum;
-use App\Models\Cart;
-use App\Models\ChildProduct;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
@@ -13,18 +11,19 @@ use App\Repositories\Contracts\BaseContract;
 use App\Repositories\Contracts\OrderContract;
 use App\Services\Payment\CashPaymentService;
 use App\Services\Payment\PaymobService;
-use App\Services\ProductQuantityService;
-use App\Services\WalletService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class OrderService extends BaseService
 {
-
     protected BaseContract $repository;
+
     protected WalletService $walletService;
+
     protected ProductQuantityService $productQuantityService;
+
     protected PaymobService $paymobService;
+
     protected CashPaymentService $cashPaymentService;
 
     public function __construct(
@@ -47,6 +46,7 @@ class OrderService extends BaseService
         DB::beginTransaction();
         $object = $this->repository->create($request);
         DB::commit();
+
         return $object;
     }
 
@@ -73,29 +73,29 @@ class OrderService extends BaseService
         $validatedCartItems = [];
 
         foreach ($cartItems as $cartItem) {
-            if (!$cartItem->childProduct) {
+            if (! $cartItem->childProduct) {
                 throw new Exception(__('trans.child_product_not_found'));
             }
 
             $childProduct = $cartItem->childProduct;
             $quantity = $cartItem->quantity;
             $originalPrice = $childProduct->price;
-            
+
             $parent = $childProduct->parent;
             $hasDiscount = $parent && ($parent->has_discount ?? false);
             $discountPercentage = $hasDiscount ? ($parent->discount_percentage ?? 0) : 0;
-            
+
             $discountAmount = 0;
             $discountedPrice = $originalPrice;
-            
+
             if ($hasDiscount && $discountPercentage > 0) {
                 $discountAmount = $originalPrice * ($discountPercentage / 100);
                 $discountedPrice = $originalPrice - $discountAmount;
             }
-            
+
             $itemTotalDiscount = $discountAmount * $quantity;
             $itemTotalPrice = $discountedPrice * $quantity;
-            
+
             $totalPrice += $itemTotalPrice;
             $totalDiscount += $itemTotalDiscount;
 
@@ -103,7 +103,7 @@ class OrderService extends BaseService
                 throw new Exception(__('trans.insufficient_quantity', [
                     'product' => $childProduct->parent->name ?? 'Product',
                     'available' => $childProduct->quantity,
-                    'requested' => $quantity
+                    'requested' => $quantity,
                 ]));
             }
 
@@ -116,6 +116,10 @@ class OrderService extends BaseService
                 'total_discount' => $itemTotalDiscount,
                 'total_price' => $itemTotalPrice,
             ];
+        }
+
+        if ((int) $paymentType === PaymentTypeEnum::WALLET->value) {
+            $this->validateWalletBalance($userId, $totalPrice);
         }
 
         DB::beginTransaction();
@@ -169,12 +173,36 @@ class OrderService extends BaseService
         }
     }
 
+    private function validateWalletBalance(int $userId, float $amount): void
+    {
+        $wallet = User::with('wallet')->find($userId)?->wallet;
+
+        if (! $wallet) {
+            throw new Exception(__('trans.wallet_not_found'));
+        }
+
+        if (! $wallet->status) {
+            throw new Exception(__('trans.wallet_suspended'));
+        }
+
+        if ($wallet->balance < $amount) {
+            throw new Exception(__('trans.insufficient_wallet_balance'));
+        }
+    }
+
     private function processPayment(Order $order, $paymentType)
     {
         switch ($paymentType) {
             case PaymentTypeEnum::WALLET->value:
+                $order->loadMissing('user.wallet');
+                $wallet = $order->user?->wallet;
+
+                if (! $wallet) {
+                    throw new Exception(__('trans.wallet_not_found'));
+                }
+
                 return $this->walletService->debit(
-                    $order->user->wallet,
+                    $wallet,
                     $order->total_price,
                     Order::class,
                     $order->id,
@@ -188,5 +216,4 @@ class OrderService extends BaseService
                 throw new Exception(__('trans.invalid_payment_type'));
         }
     }
-
 }
