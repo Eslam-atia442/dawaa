@@ -152,13 +152,7 @@ class ReportExportJob implements ShouldQueue
         $query = Product::query()
             ->whereNotNull('parent_id')
             ->where('quantity', '<=', (int) $quantity)
-            ->with(['parent', 'store'])
-            ->when(! empty($this->filters['store']), function ($query) {
-                $query->ofStore($this->filters['store']);
-            })
-            ->when(! empty($this->filters['keyword']), function ($query) {
-                $query->ofKeyword($this->filters['keyword']);
-            });
+            ->with(['parent.store']);
 
         if (! empty($this->filters['keyword'])) {
             $keyword = $this->filters['keyword'];
@@ -170,13 +164,33 @@ class ReportExportJob implements ShouldQueue
             });
         }
 
-        return $query->get()->map(function ($product) {
+        if (! empty($this->filters['store'])) {
+            $query->whereHas('parent', function ($q) {
+                $q->whereHas('store', function ($sq) {
+                    $sq->whereIn('id', (array) $this->filters['store']);
+                });
+            });
+        }
+
+        $orderDirection = $this->filters['order'] ?? 'ASC';
+
+        return $query->orderBy('quantity', $orderDirection)->get()->map(function ($product) {
+            $locale = app()->getLocale();
+
+            $resolveName = function ($value) use ($locale) {
+                if (is_array($value)) {
+                    return $value[$locale] ?? $value['en'] ?? head($value) ?? '-';
+                }
+
+                return $value ?? '-';
+            };
+
             return [
-                'product_name' => $product->name,
-                'parent_product_name' => $product->parent->name ?? '-',
+                'product_name' => $resolveName($product->name),
+                'parent_product_name' => $resolveName($product->parent?->name),
                 'quantity' => $product->quantity,
                 'price' => $product->price,
-                'store_name' => $product->store->name ?? '-',
+                'store_name' => $resolveName($product->parent?->store?->name),
                 'expiry_date' => $product->expiry_date?->format('Y-m-d'),
                 'production_line_number' => $product->production_line_number ?? '-',
             ];
